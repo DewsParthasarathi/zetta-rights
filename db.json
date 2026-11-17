@@ -1,0 +1,51 @@
+{
+  "buyers": [
+    {
+      "id": "1",
+      "email": "buyer@zetarights.com",
+      "fullName": "Alexander Vance",
+      "mobileNumber": "+1 415 555 2671",
+      "companyName": "Apex Cinema Productions",
+      "address": "123 Movie Lane, Suite 400",
+      "city": "Los Angeles",
+      "state": "California",
+      "country": "United States",
+      "taxId": "TAX-US-98765432",
+      "category": "Film Production",
+      "profileImage": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+      "role": "Buyer"
+    }
+  ],
+  "sellers": [
+    {
+      "id": "2",
+      "email": "seller@zetarights.com",
+      "fullName": "Meera Krishnan",
+      "mobileNumber": "+91 98765 43210",
+      "companyName": "Global Film Distribution Ltd",
+      "address": "456 Silver Screen Boulevard",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "country": "India",
+      "taxId": "TAX-IN-12345678",
+      "category": "Film Distribution",
+      "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+      "role": "Seller"
+    },
+    {
+      "id": "1794921557158",
+      "email": "dewsparthasarathi@gmail.com",
+      "fullName": "parthasarathi",
+      "mobileNumber": "8486938982",
+      "companyName": "Red Giant Movies",
+      "address": "16, Maduvaangarai",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "country": "India",
+      "taxId": "TXN-123857324",
+      "category": "Film Equipment Rental",
+      "profileImage": "",
+      "role": "Seller"
+    }
+  ]
+}
