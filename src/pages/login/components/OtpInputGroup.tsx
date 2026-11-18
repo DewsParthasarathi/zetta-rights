@@ -25,7 +25,7 @@ const OtpInputGroup = ({
   onPaste,
   length = 4,
   hasError = false,
-  className = "flex justify-start gap-4 sm:gap-5 py-3",
+  className = "flex justify-start gap-5 max-[640px]:gap-3.5 py-3",
 }: OtpInputGroupProps) => {
   return (
     <div className={className} onPaste={onPaste}>

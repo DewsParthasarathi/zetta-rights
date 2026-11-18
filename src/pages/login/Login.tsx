@@ -22,7 +22,9 @@ import Input from "../../components/common/Input";
 import Image from "../../components/common/Image";
 
 // Login-Specific Components
-import { ReusableForm, CountryCodeSelector, OtpInputGroup } from "./components";
+import ReusableForm from "./components/ReusableForm";
+import CountryCodeSelector from "./components/CountryCodeSelector";
+import OtpInputGroup from "./components/OtpInputGroup";
 
 // Validation utilities (Regex)
 import {
@@ -218,8 +220,11 @@ const Login = () => {
         const { exists, role: userRole, account } = actionResult.payload;
 
         if (exists && account) {
-          const displayName = account.companyName || account.fullName || "User";
-          toast.success(`Welcome back, ${displayName} (${userRole})!`);
+          const displayName =
+            account.companyName || account.fullName || "User";
+          toast.success(
+            `Welcome back, ${displayName} (${userRole})!`,
+          );
           navigate("/");
         } else {
           // Email verified, but not registered in either -> Navigate to Create Account
@@ -308,24 +313,24 @@ const Login = () => {
 
   return (
     <div
-      className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century"
+      className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century select-none"
       style={{ backgroundImage: `url(${BackGround_Img})` }}
     >
-      {/* Card Container with balanced translucent dark background */}
-      <div className="relative z-10 w-full max-w-[460px] sm:max-w-[490px] bg-black/60 border border-white/10 rounded-[24px] p-7 sm:p-10 overflow-hidden">
+      {/* Card Container with percentage-based width, Desktop-First responsiveness, and rounded corners */}
+      <div className="relative z-10 w-[24%] max-[1600px]:w-[28%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[52%] max-[768px]:w-[75%] max-[480px]:w-[92%] max-w-[96%] bg-black/65 border border-white/10 rounded-[16px] px-7 py-7 max-[1024px]:px-6 max-[1024px]:py-6 overflow-hidden shadow-2xl">
         {/* Cinema Pattern Overlay */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
           style={{ backgroundImage: `url(${Pattern})` }}
         />
 
         <div className="relative z-10">
           {/* Top Centered Logo */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-5">
             <Image
               src={loginLogo}
               alt="ZettaRights"
-              className="h-16 w-auto cursor-pointer"
+              className="h-12 max-[1024px]:h-11 w-auto cursor-pointer"
               onClick={() => setStep("LOGIN")}
             />
           </div>
@@ -342,8 +347,8 @@ const Login = () => {
                   name: "countryAndEmail",
                   type: "custom",
                   render: () => (
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-3.5 relative">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2.5 relative">
                         <CountryCodeSelector
                           selectedCode={countryCode}
                           onSelectCode={setCountryCode}
@@ -361,7 +366,7 @@ const Login = () => {
                         />
                       </div>
                       {emailError && (
-                        <p className="text-red-400 text-fs13 font-medium font-century">
+                        <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
                           {emailError}
                         </p>
                       )}
@@ -378,7 +383,7 @@ const Login = () => {
                     if (termsError) setTermsError("");
                   },
                   label: (
-                    <span>
+                    <span className="text-white text-fs13 max-[1024px]:text-fs12 leading-tight">
                       By creating an account, you agree to ZettaRights{" "}
                       <span className="text-[#FABE2C] hover:underline cursor-pointer">
                         Terms and Conditions
@@ -392,12 +397,12 @@ const Login = () => {
                 },
               ]}
               footer={
-                <div className="pt-4 text-center">
+                <div className="pt-3 text-center">
                   <Button
                     type="button"
                     variant="link"
                     onClick={() => setStep("CREATE_ACCOUNT")}
-                    className="text-fs16 text-[#CCCCCC] hover:text-white font-medium"
+                    className="text-fs15 max-[1024px]:text-fs14 text-white hover:underline font-medium"
                   >
                     Create a new account?
                   </Button>
@@ -411,24 +416,24 @@ const Login = () => {
             <ReusableForm
               title="OTP Verify"
               subtitle={
-                <>
+                <span className="text-white text-fs15 max-[1024px]:text-fs14 font-normal">
                   Enter the OTP sent to{" "}
                   <span className="text-white font-semibold break-all">
                     {email || "your email"}
                   </span>
-                </>
+                </span>
               }
               submitButtonText={isCheckingAccount ? "Verifying..." : "Verify"}
               isSubmitting={isCheckingAccount}
-              submitButtonClassName="mt-2"
-              className="space-y-7 sm:space-y-8"
+              submitButtonClassName="mt-3"
+              className="space-y-4"
               onSubmit={handleVerifyOtp}
               fields={[
                 {
                   name: "otp",
                   type: "custom",
                   render: () => (
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <OtpInputGroup
                         digits={otpDigits}
                         refs={otpInputRefs}
@@ -438,7 +443,7 @@ const Login = () => {
                         onPaste={handleOtpPaste}
                       />
                       {otpError && (
-                        <p className="text-red-400 text-fs13 font-medium font-century">
+                        <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
                           {otpError}
                         </p>
                       )}
@@ -447,28 +452,28 @@ const Login = () => {
                 },
               ]}
               footer={
-                <div className="text-center space-y-2.5 pt-3">
-                  <p className="text-fs14 text-[#8E8E8E]">
+                <div className="text-center space-y-2 pt-2">
+                  <p className="text-fs14 max-[1024px]:text-fs13 text-white">
                     Didn&apos;t receive the OTP?{" "}
                     <Button
                       type="button"
                       variant="link"
                       onClick={handleResendOtp}
                       disabled={timer > 0}
-                      className="text-[#FABE2C] font-semibold text-fs14 hover:underline inline-block"
+                      className="text-[#FABE2C] font-semibold text-fs14 max-[1024px]:text-fs13 hover:underline inline-block"
                     >
                       Resend
                     </Button>
                   </p>
-                  <p className="text-fs14 text-[#777777] font-medium tracking-wide">
+                  <p className="text-fs14 max-[1024px]:text-fs13 text-white font-medium tracking-wide">
                     {formatTimer(timer)}
                   </p>
-                  <div className="pt-2">
+                  <div className="pt-1">
                     <Button
                       type="button"
                       variant="link"
                       onClick={() => setStep("LOGIN")}
-                      className="text-fs14 text-gray-400 hover:text-white underline inline-block"
+                      className="text-fs14 max-[1024px]:text-fs13 text-white hover:underline inline-block"
                     >
                       Change Email
                     </Button>
@@ -491,10 +496,14 @@ const Login = () => {
                   type: "text",
                   placeholder: "Yazh Athithan",
                   required: true,
+                  maxLength: 50,
                   value: fullName,
                   error: fullNameError,
                   onChange: (e) => {
-                    setFullName(e.target.value);
+                    const lettersOnly = e.target.value
+                      .replace(/[^a-zA-Z\s'.-]/g, "")
+                      .slice(0, 50);
+                    setFullName(lettersOnly);
                     if (fullNameError) setFullNameError("");
                   },
                 },
@@ -504,10 +513,14 @@ const Login = () => {
                   type: "tel",
                   placeholder: "Enter Your Mobile NO",
                   required: true,
+                  maxLength: 10,
                   value: mobileNumber,
                   error: mobileError,
                   onChange: (e) => {
-                    setMobileNumber(e.target.value);
+                    const digitsOnly = e.target.value
+                      .replace(/\D/g, "")
+                      .slice(0, 10);
+                    setMobileNumber(digitsOnly);
                     if (mobileError) setMobileError("");
                   },
                 },

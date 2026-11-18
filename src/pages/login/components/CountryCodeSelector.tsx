@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "../../../components/common/Image";
+import Button from "../../../components/common/Button";
 import Down_Arrow from "../../../assets/images/login/Down_Arrow.png";
 
 // Flag images from assets
@@ -22,6 +23,7 @@ export interface CountryCodeItem {
 
 const DEFAULT_COUNTRY_CODES: CountryCodeItem[] = [
   { code: "+91", label: "IN", flag: flagIndia, name: "India" },
+  { code: "+65", label: "SG", flag: flagIndia, name: "Singapore" },
   { code: "+1", label: "CA", flag: flagCanada, name: "Canada" },
   { code: "+44", label: "UK", flag: flagEngland, name: "United Kingdom" },
   { code: "+61", label: "AU", flag: flagAustralia, name: "Australia" },
@@ -71,44 +73,50 @@ const CountryCodeSelector = ({
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      <button
+      <Button
+        variant="ghost"
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="h-[46px] px-3.5 bg-black/30 border border-white/15 rounded-[10px] flex items-center gap-2.5 text-white text-fs15 focus:border-[#FABE2C] focus:outline-none cursor-pointer transition select-none"
+        className="h-[42px] px-3 bg-black/30 border border-white/70 rounded-[6px] flex items-center gap-2 text-white text-fs14 focus:border-[#FABE2C] focus:outline-none cursor-pointer transition select-none shrink-0"
       >
         <Image
           src={selectedCountry.flag}
           alt={selectedCountry.label}
-          className="w-5 h-5 object-contain rounded-xs"
+          className="w-4 h-4 object-contain rounded-xs"
         />
-        <span className="font-medium text-white">{selectedCountry.code}</span>
+        <span className="font-medium text-white text-fs14">
+          {selectedCountry.code}
+        </span>
         <Image
           src={Down_Arrow}
           alt="dropdown"
-          className={`w-2.5 h-auto transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`w-2 h-auto opacity-80 transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
-      </button>
+      </Button>
 
       {isOpen && (
-        <div className="absolute left-0 top-[52px] z-20 w-44 max-h-40 overflow-y-auto custom-scrollbar bg-[#1F1F1F] border border-[#383838] rounded-lg shadow-xl py-1">
+        <div className="absolute left-0 top-full mt-1.5 z-20 w-44 max-h-40 overflow-y-auto custom-scrollbar bg-[#1F1F1F] border border-[#383838] rounded-[6px] shadow-xl py-1">
           {countries.map((item) => (
-            <button
+            <Button
+              variant="ghost"
               key={item.code}
               type="button"
               onClick={() => {
                 onSelectCode(item.code);
                 setIsOpen(false);
               }}
-              className="w-full px-3 py-2 text-left text-fs15 text-white hover:bg-[#2A2A2A] flex items-center gap-2.5 cursor-pointer transition"
+              className="w-full px-3 py-1.5 text-left text-fs14 text-white hover:bg-[#2A2A2A] flex items-center gap-2 cursor-pointer transition justify-start"
             >
               <Image
                 src={item.flag}
                 alt={item.label}
-                className="w-4 h-4 object-contain rounded-xs shrink-0"
+                className="w-3.5 h-3.5 object-contain rounded-xs shrink-0"
               />
               <span className="font-medium">{item.code}</span>
-              <span className="text-fs13 text-gray-400">({item.label})</span>
-            </button>
+              <span className="text-fs12 text-gray-400">({item.label})</span>
+            </Button>
           ))}
         </div>
       )}

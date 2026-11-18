@@ -246,25 +246,25 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-[#0B0F17] text-white font-century">
+    <div className="min-h-screen w-full flex flex-col bg-[#111826] text-white font-century">
       {/* Header with ZettaRights Logo */}
-      <header className="w-full px-6 sm:px-12 py-5 border-b border-white/10 bg-[#070A10]">
+      <header className="w-full px-12 max-[640px]:px-6 py-5 border-b border-white/10 bg-[#111826]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="inline-block">
             <Image
               src={loginLogo}
               alt="ZettaRights"
-              className="h-9 sm:h-10 w-auto"
+              className="h-10 max-[640px]:h-9 w-auto"
             />
           </Link>
         </div>
       </header>
 
       {/* Main Form Content */}
-      <main className="w-full max-w-7xl mx-auto px-6 sm:px-12 py-8 sm:py-12 flex-1">
+      <main className="w-full max-w-7xl mx-auto px-12 max-[640px]:px-6 py-12 max-[640px]:py-8 flex-1">
         {/* Title and Breadcrumb Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-white/10">
-          <h1 className="text-fs32 sm:text-fs36 font-bold text-white tracking-tight">
+        <div className="flex items-center justify-between max-[640px]:flex-col max-[640px]:items-start gap-4 pb-6 border-b border-white/10">
+          <h1 className="text-fs36 max-[640px]:text-fs32 font-bold text-white tracking-tight">
             {activeRole}
           </h1>
 
@@ -293,7 +293,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             className="relative group cursor-pointer"
             title="Click to upload logo"
           >
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-[#F7D564] flex items-center justify-center overflow-hidden shadow-lg transition group-hover:opacity-95">
+            <div className="w-28 h-28 max-[640px]:w-24 max-[640px]:h-24 rounded-2xl bg-[#F7D564] flex items-center justify-center overflow-hidden shadow-lg transition group-hover:opacity-95">
               <Image
                 src={previewImage || Companylogo}
                 alt="Company Logo"
@@ -302,15 +302,15 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             </div>
 
             {/* Camera badge overlay */}
-            <div className="absolute -bottom-1 -right-1 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#181F2C] border border-white/20 flex items-center justify-center shadow-md">
+            <div className="absolute -bottom-1 -right-1 w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full bg-[#181F2C] border border-white/20 flex items-center justify-center shadow-md">
               <Image
                 src={Camera_Icon}
                 alt="Camera"
-                className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain"
+                className="w-4 h-4 max-[640px]:w-3.5 max-[640px]:h-3.5 object-contain"
               />
             </div>
 
-            <input
+            <Input
               type="file"
               ref={fileInputRef}
               accept="image/*"
@@ -319,7 +319,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             />
           </div>
 
-          <div className="text-white font-medium text-fs14 sm:text-fs15 leading-snug">
+          <div className="text-white font-medium text-fs15 max-[640px]:text-fs14 leading-snug">
             <p>Upload Your</p>
             <p>Company Logo</p>
           </div>
@@ -327,7 +327,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
         {/* Profile Completion Form (2 Columns) */}
         <form onSubmit={handleSubmit} className="mt-10" noValidate>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7">
+          <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-10 gap-y-7">
             {/* Col 1, Row 1: Company Name */}
             <FormField
               label="Company Name"
@@ -337,6 +337,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="companyName"
                 name="companyName"
+                maxLength={100}
                 value={companyName}
                 onChange={(e) => {
                   setCompanyName(e.target.value);
@@ -358,6 +359,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="address"
                 name="address"
+                maxLength={150}
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
@@ -377,9 +379,13 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="city"
                 name="city"
+                maxLength={50}
                 value={city}
                 onChange={(e) => {
-                  setCity(e.target.value);
+                  const lettersOnly = e.target.value
+                    .replace(/[^a-zA-Z\s.-]/g, "")
+                    .slice(0, 50);
+                  setCity(lettersOnly);
                   if (cityError) setCityError("");
                 }}
                 placeholder="Chennai"
@@ -431,9 +437,14 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="taxId"
                 name="taxId"
+                maxLength={25}
                 value={taxId}
                 onChange={(e) => {
-                  setTaxId(e.target.value);
+                  const alphanumeric = e.target.value
+                    .replace(/[^a-zA-Z0-9\-/]/g, "")
+                    .toUpperCase()
+                    .slice(0, 25);
+                  setTaxId(alphanumeric);
                   if (taxIdError) setTaxIdError("");
                 }}
                 placeholder={

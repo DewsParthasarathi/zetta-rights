@@ -38,6 +38,10 @@ export interface FormFieldConfig {
   className?: string;
   error?: string;
   helperText?: string;
+  maxLength?: number;
+  inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+  pattern?: string;
+  digitsOnly?: boolean;
 }
 
 export interface ReusableFormProps {
@@ -67,26 +71,30 @@ const ReusableForm = ({
   submitButtonClassName = "mt-4",
   children,
   footer,
-  className = "space-y-6 sm:space-y-7",
+  className = "space-y-4",
 }: ReusableFormProps) => {
   return (
     <form onSubmit={onSubmit} className={className} noValidate>
       {/* Title & Subtitle Header */}
-      <div className="space-y-1.5 sm:space-y-2">
-        <h1 className="text-fs60 font-bold text-white tracking-tight">
+      <div className="space-y-0.5">
+        <h1 className="text-fs34 max-[1440px]:text-fs32 max-[1024px]:text-fs28 max-[640px]:text-fs24 font-bold text-white tracking-tight">
           {title}
         </h1>
         {subtitle && (
-          <div className="text-[#8E8E8E] text-fs16 font-normal">{subtitle}</div>
+          <div className="text-white text-fs16 max-[1024px]:text-fs14 font-normal mt-0.5">
+            {subtitle}
+          </div>
         )}
       </div>
 
       {/* Dynamic Form Content */}
-      <div className="space-y-5 sm:space-y-6">
+      <div className="space-y-4">
         {fields.map((field) => {
           if (field.type === "custom" || field.render) {
             return (
-              <div key={field.name}>{field.render ? field.render() : null}</div>
+              <div key={field.name}>
+                {field.render ? field.render() : null}
+              </div>
             );
           }
 
@@ -140,7 +148,7 @@ const ReusableForm = ({
 
           if (field.type === "radio-group") {
             return (
-              <div key={field.name} className="flex items-center gap-8 py-2">
+              <div key={field.name} className="flex items-center gap-6 py-1">
                 {field.options?.map((opt) => (
                   <Radio
                     key={opt.value}
@@ -165,6 +173,10 @@ const ReusableForm = ({
               onChange={field.onChange}
               placeholder={field.placeholder}
               className={field.className}
+              maxLength={field.maxLength}
+              digitsOnly={field.digitsOnly || field.type === "tel"}
+              inputMode={field.inputMode}
+              pattern={field.pattern}
             />
           );
 

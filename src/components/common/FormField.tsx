@@ -29,12 +29,12 @@ const FormField = ({
       )}
       {children}
       {error && (
-        <p className="text-red-400 text-fs13 mt-1.5 font-century font-medium">
+        <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 mt-1.5 font-century font-medium">
           {error}
         </p>
       )}
       {!error && helperText && (
-        <p className="text-gray-400 text-fs13 mt-1.5 font-century font-normal">
+        <p className="text-gray-400 text-fs13 max-[1024px]:text-fs12 mt-1.5 font-century font-normal">
           {helperText}
         </p>
       )}

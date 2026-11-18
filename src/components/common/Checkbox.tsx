@@ -1,4 +1,6 @@
 import { type ReactNode } from "react";
+import Image from "./Image";
+import Button from "./Button";
 import checkIcon from "../../assets/images/login/checkIcon.png";
 
 export interface CheckboxProps {
@@ -25,35 +27,36 @@ const Checkbox = ({
   };
 
   return (
-    <div className={`space-y-1.5 select-none ${className}`}>
-      <div className="flex items-start gap-3">
-        <button
+    <div className={`space-y-1 select-none ${className}`}>
+      <div className="flex items-start gap-2.5">
+        <Button
+          variant="unstyled"
           type="button"
           role="checkbox"
           aria-checked={checked}
           disabled={disabled}
           onClick={handleToggle}
-          className={`w-4 h-4 rounded-[4px] border shrink-0 mt-0.5 flex items-center justify-center transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
+          className={`w-3.5 h-3.5 rounded-[3px] border shrink-0 mt-0.5 flex items-center justify-center transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${
             checked
               ? "bg-[#FABE2C] border-[#FABE2C]"
               : error
                 ? "bg-black/30 border-red-500 hover:border-red-400"
-                : "bg-black/30 border-white/20 hover:border-white/40"
+                : "bg-black/30 border-white/60 hover:border-white"
           }`}
         >
           {checked && (
-            <img
+            <Image
               src={checkIcon}
               alt="checked"
-              className="w-2.5 h-2.5 brightness-0"
+              className="w-2 h-2 brightness-0"
             />
           )}
-        </button>
+        </Button>
 
         {label && (
           <div
             onClick={handleToggle}
-            className="text-fs14 text-[#8E8E8E] leading-relaxed cursor-pointer font-century"
+            className="text-fs13 max-[1024px]:text-fs12 text-white leading-tight cursor-pointer font-century"
           >
             {label}
           </div>
@@ -61,7 +64,7 @@ const Checkbox = ({
       </div>
 
       {error && (
-        <p className="text-red-400 text-fs13 font-medium font-century">
+        <p className="text-red-400 text-fs12 font-medium font-century pl-6">
           {error}
         </p>
       )}

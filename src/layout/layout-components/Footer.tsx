@@ -10,130 +10,153 @@ import appstore_Icon from "../../assets/images/Home/Footer/appstore_Icon.png";
 
 const Footer = () => {
   return (
-    <footer
-      className="relative w-full bg-[#07090D] border-t border-white/10 text-white font-century overflow-hidden mt-auto"
-      style={{
-        backgroundImage: `url(${footer_Pattern})`,
-        backgroundRepeat: "repeat",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Dark overlay for clean contrast */}
-      <div className="absolute inset-0 bg-black/75 pointer-events-none" />
+    <footer className="relative w-full bg-[#111826]  text-white font-century overflow-hidden mt-auto select-none">
+      {/* Background Pattern with clear, subtle contrast matching reference UI */}
+      <div
+        className="absolute inset-0 bg-center bg-repeat opacity-20 pointer-events-none"
+        style={{
+          backgroundImage: `url(${footer_Pattern})`,
+        }}
+      />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-12 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Col 1: Brand & Description */}
-          <div className="space-y-4">
+      {/* Main Container - aligned straight with body content padding (px-12 / px-6) on left and right */}
+      <div className="relative z-10 w-full mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 pt-10 pb-6">
+        {/* 2 Separate Main Containers: Logo-Description & Links Container */}
+        <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-8 w-full">
+          {/* Container 1: Logo & Description (with extra width and increased gap) */}
+          <div className="w-[32%] max-[1440px]:w-[34%] max-[1024px]:w-full flex flex-col items-start shrink-0">
             <Image
               src={footer_Logo}
               alt="ZettaRights"
-              className="h-9 w-auto"
+              className="h-9 max-[640px]:h-8 w-auto object-contain"
             />
-            <p className="text-[#8E8E8E] text-fs12 leading-relaxed">
+            {/* Tightly adjusted gap below logo, comfortably wrapped description */}
+            <p className="text-[#8E8E8E] text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-fs13 leading-relaxed mt-3 max-w-sm">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do
               Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Sem
               Viverra Aliquet Eget Sit Amet Tellus.
             </p>
           </div>
 
-          {/* Col 2: About Us */}
-          <div>
-            <h4 className="text-white text-fs15 font-semibold mb-4">
-              About Us
-            </h4>
-            <ul className="space-y-2.5 text-[#8E8E8E] text-fs13">
-              <li>
-                <a href="#about" className="hover:text-white transition">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#terms" className="hover:text-white transition">
-                  Terms Of Use
-                </a>
-              </li>
-              <li>
-                <a href="#privacy" className="hover:text-white transition">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-white transition">
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Need Help? */}
-          <div>
-            <h4 className="text-white text-fs15 font-semibold mb-4">
-              Need Help?
-            </h4>
-            <ul className="space-y-2.5 text-[#8E8E8E] text-fs13">
-              <li>
-                <a href="#help" className="hover:text-white transition">
-                  Visit Help Center
-                </a>
-              </li>
-              <li>
-                <a href="#feedback" className="hover:text-white transition">
-                  Share Feedback
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Connect With Us */}
-          <div>
-            <h4 className="text-white text-fs15 font-semibold mb-4">
-              Connect With Us
-            </h4>
-            <div className="flex items-center gap-3 mb-5">
-              <a
-                href="#facebook"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#FABE2C] flex items-center justify-center transition p-1.5"
-              >
-                <Image src={fb} alt="Facebook" className="w-full h-full object-contain" />
-              </a>
-              <a
-                href="#instagram"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#FABE2C] flex items-center justify-center transition p-1.5"
-              >
-                <Image src={insta} alt="Instagram" className="w-full h-full object-contain" />
-              </a>
-              <a
-                href="#twitter"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#FABE2C] flex items-center justify-center transition p-1.5"
-              >
-                <Image src={twitter} alt="Twitter" className="w-full h-full object-contain" />
-              </a>
-              <a
-                href="#youtube"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#FABE2C] flex items-center justify-center transition p-1.5"
-              >
-                <Image src={youtube} alt="YouTube" className="w-full h-full object-contain" />
-              </a>
+          {/* Container 2: Links Container (holding the 3 link columns on the right) */}
+          <div className="w-[58%] max-[1440px]:w-[58%] max-[1024px]:w-full flex justify-between items-start gap-8 max-[640px]:flex-wrap">
+            {/* Link Col 1: About Us Links */}
+            <div className="flex-1 min-w-[120px]">
+              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-fs14 font-medium">
+                <li>
+                  <a href="#about" className="hover:text-white/80 transition">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#terms" className="hover:text-white/80 transition">
+                    Terms Of Use
+                  </a>
+                </li>
+                <li>
+                  <a href="#privacy" className="hover:text-white/80 transition">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="hover:text-white/80 transition">
+                    FAQ
+                  </a>
+                </li>
+              </ul>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5">
-              <Image
-                src={googleplay_Icon}
-                alt="Google Play"
-                className="h-9 w-auto cursor-pointer hover:opacity-90 transition"
-              />
-              <Image
-                src={appstore_Icon}
-                alt="App Store"
-                className="h-9 w-auto cursor-pointer hover:opacity-90 transition"
-              />
+            {/* Link Col 2: Need Help? */}
+            <div className="flex-1 min-w-[140px]">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
+                Need Help?
+              </h4>
+              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-fs14 font-medium">
+                <li>
+                  <a href="#help" className="hover:text-white/80 transition">
+                    Visit Help Center
+                  </a>
+                </li>
+                <li>
+                  <a href="#feedback" className="hover:text-white/80 transition">
+                    Share Feedback
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Link Col 3: Connect With Us */}
+            <div className="flex-1 min-w-[190px] flex flex-col items-start">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
+                Connect With Us
+              </h4>
+              {/* Social icons row */}
+              <div className="flex items-center gap-4 mb-4">
+                <a
+                  href="#facebook"
+                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  title="Facebook"
+                >
+                  <Image
+                    src={fb}
+                    alt="Facebook"
+                    className="w-full h-full object-contain"
+                  />
+                </a>
+                <a
+                  href="#instagram"
+                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  title="Instagram"
+                >
+                  <Image
+                    src={insta}
+                    alt="Instagram"
+                    className="w-full h-full object-contain"
+                  />
+                </a>
+                <a
+                  href="#twitter"
+                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  title="Twitter"
+                >
+                  <Image
+                    src={twitter}
+                    alt="Twitter"
+                    className="w-full h-full object-contain"
+                  />
+                </a>
+                <a
+                  href="#youtube"
+                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  title="YouTube"
+                >
+                  <Image
+                    src={youtube}
+                    alt="YouTube"
+                    className="w-full h-full object-contain"
+                  />
+                </a>
+              </div>
+
+              {/* Store buttons */}
+              <div className="flex items-center gap-3 pt-1 w-full max-w-[240px]">
+                <Image
+                  src={googleplay_Icon}
+                  alt="Google Play"
+                  className="w-[48%] h-auto cursor-pointer hover:opacity-90 transition object-contain"
+                />
+                <Image
+                  src={appstore_Icon}
+                  alt="App Store"
+                  className="w-[48%] h-auto cursor-pointer hover:opacity-90 transition object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 mt-10 pt-6 text-center text-[#777777] text-fs12 font-medium">
+        {/* Bottom divider & copyright */}
+        <div className="border-t border-white/15 mt-10 pt-5 text-center text-[#8E8E8E] text-fs14 max-[1440px]:text-fs13 font-normal">
           Copyrights © ZettaRights 2024. All Rights Reserved.
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react";
 import Input, { type InputProps } from "./Input";
+import Button from "./Button";
 
 export interface PasswordInputProps extends Omit<InputProps, "type"> {
   showToggle?: boolean;
@@ -19,7 +20,8 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           {...props}
         />
         {showToggle && (
-          <button
+          <Button
+            variant="ghost"
             type="button"
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition cursor-pointer p-1"
@@ -62,7 +64,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 />
               </svg>
             )}
-          </button>
+          </Button>
         )}
       </div>
     );
