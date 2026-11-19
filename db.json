@@ -13,7 +13,8 @@
       "taxId": "TAX-US-98765432",
       "category": "Film Production",
       "profileImage": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-      "role": "Buyer"
+      "role": "Buyer",
+      "offers": []
     }
   ],
   "sellers": [
@@ -30,7 +31,8 @@
       "taxId": "TAX-IN-12345678",
       "category": "Film Distribution",
       "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
-      "role": "Seller"
+      "role": "Seller",
+      "offers": []
     },
     {
       "id": "1794921557158",
@@ -45,7 +47,51 @@
       "taxId": "TXN-123857324",
       "category": "Film Equipment Rental",
       "profileImage": "",
-      "role": "Seller"
+      "role": "Seller",
+      "offers": [
+        {
+          "movieId": 1058424,
+          "movieTitle": "Hope",
+          "moviePoster": "/6VY1ZKgpsc8CfGsQcCGiYEgHdH0.jpg",
+          "movieBackdrop": "/qqHFLg90IUSoTmSMpKOOW5RyqN3.jpg",
+          "movieYear": "2026",
+          "includedCountries": [
+            "India"
+          ],
+          "excludedCountries": [
+            "United States"
+          ],
+          "startDate": "2022-08-20",
+          "endDate": "2023-09-19",
+          "years": 1,
+          "months": 2,
+          "currency": "₹ - Indian Rupee",
+          "rightsType": "T-VOD (Rental)",
+          "exclusivity": "Exclusive",
+          "holdback": "1 Month",
+          "pricingModel": "flat_rate",
+          "flatRateAmount": 1000,
+          "priceListingUnit": "Price Listing",
+          "totalAmount": 100000,
+          "transactionMinPrice": 10,
+          "transactionMaxPrice": 50,
+          "revenueSharePercentage": 70,
+          "estimatedMonthlyMin": 20000,
+          "estimatedMonthlyMax": 200000,
+          "hasMinimumGuarantee": true,
+          "minimumGuaranteeAmount": 20000,
+          "minimumGuaranteePeriod": "Month",
+          "minimumGuaranteeScope": "Entire Bundle",
+          "id": "OFFER-1795075402854",
+          "userId": "1794921557158",
+          "userEmail": "dewsparthasarathi@gmail.com",
+          "userName": "parthasarathi",
+          "userRole": "Seller",
+          "companyName": "Red Giant Movies",
+          "status": "Pending",
+          "createdAt": "2026-11-19T08:03:22.854Z"
+        }
+      ]
     }
   ]
 }

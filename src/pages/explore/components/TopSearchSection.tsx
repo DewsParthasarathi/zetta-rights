@@ -23,7 +23,6 @@ const TopSearchSection = ({
 }: TopSearchSectionProps) => {
   return (
     <section className={`w-full flex flex-col gap-5 font-century select-none ${className}`}>
-      {/* Section Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-3">
           <h2 className="text-fs22 max-[1440px]:text-fs20 font-bold text-white tracking-tight">
@@ -37,7 +36,6 @@ const TopSearchSection = ({
         </div>
       </div>
 
-      {/* Grid of Movies */}
       {isLoading ? (
         <div className="grid grid-cols-5 max-[1600px]:grid-cols-4 max-[1280px]:grid-cols-3 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1 gap-5">
           {Array.from({ length: 15 }).map((_, idx) => (

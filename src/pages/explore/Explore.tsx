@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import tmdbService, {
   type TMDBMovie,
   TMDB_GENRES,
@@ -9,7 +9,6 @@ import ExploreFiltersBar from "./components/ExploreFiltersBar";
 import RecentSearchSection from "./components/RecentSearchSection";
 import TopSearchSection from "./components/TopSearchSection";
 import Pagination from "./components/Pagination";
-import MakeOfferModal from "./components/MakeOfferModal";
 import FilterModal from "./components/FilterModal";
 import {
   type FilterState,
@@ -19,9 +18,9 @@ import {
 } from "./filterConstants";
 
 const Explore = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Read initial states from URL params for deep-linking
   const initialQuery = searchParams.get("q") || "";
   const initialGenre = searchParams.get("genre")
     ? Number(searchParams.get("genre"))
@@ -32,7 +31,6 @@ const Explore = () => {
     ? Number(searchParams.get("page"))
     : 1;
 
-  // Filter States
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(
@@ -42,27 +40,18 @@ const Explore = () => {
   const [selectedYear, setSelectedYear] = useState(initialYear);
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  // Data States
   const [exploreMovies, setExploreMovies] = useState<TMDBMovie[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isExploreLoading, setIsExploreLoading] = useState(false);
 
-  // Recent Search Data States
   const [recentMovies, setRecentMovies] = useState<TMDBMovie[]>([]);
   const [isRecentLoading, setIsRecentLoading] = useState(false);
 
-  // Modal State
-  const [selectedMovieForOffer, setSelectedMovieForOffer] =
-    useState<TMDBMovie | null>(null);
-  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
-
-  // Initial genre names if deep-linked via URL
   const initialGenreNames = initialGenre && TMDB_ID_TO_GENRE_NAMES[initialGenre]
     ? [TMDB_ID_TO_GENRE_NAMES[initialGenre][0]]
     : [];
 
-  // Filter Modal State
   const [filterModalState, setFilterModalState] = useState<FilterState>({
     contentTypes: [],
     genres: initialGenreNames,
@@ -71,14 +60,12 @@ const Explore = () => {
   });
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  // Active filter badge count on "Filters By" button
   const activeFilterCount =
     filterModalState.contentTypes.length +
     filterModalState.genres.length +
     filterModalState.languages.length +
     filterModalState.formats.length;
 
-  // Synchronized active genre IDs from both Filter Modal and Genre Swiper
   const activeGenreIds = useMemo(() => {
     const modalIds = filterModalState.genres
       .map((g) => GENRE_NAME_TO_TMDB_ID[g])
@@ -92,19 +79,16 @@ const Explore = () => {
     );
   }, [selectedGenreId, filterModalState.genres]);
 
-  // Section reference for scrolling to grid on page change
   const gridSectionRef = useRef<HTMLDivElement>(null);
 
-  // Debounce search input by 400ms
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(searchQuery);
-      setCurrentPage(1); // Reset page on new query
+      setCurrentPage(1);
     }, 400);
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Sync state to URL search parameters
   useEffect(() => {
     const params: Record<string, string> = {};
     if (debouncedQuery) params.q = debouncedQuery;
@@ -125,7 +109,6 @@ const Explore = () => {
     setSearchParams,
   ]);
 
-  // Fetch Recent Search / Trending Movies on initial mount
   useEffect(() => {
     let isMounted = true;
     const loadRecentSearches = async () => {
@@ -147,7 +130,6 @@ const Explore = () => {
     };
   }, []);
 
-  // Fetch Dynamic Explore Movies whenever any filter changes
   useEffect(() => {
     let isMounted = true;
 
@@ -203,14 +185,12 @@ const Explore = () => {
     currentPage,
   ]);
 
-  // Handle genre click from Genre Swiper: synchronizes with FilterModal
   const handleSelectGenre = (genreId: number | null) => {
     if (genreId === null) return;
     const genreNames = TMDB_ID_TO_GENRE_NAMES[genreId] || [];
     const isAlreadyActive = activeGenreIds.includes(genreId);
 
     if (isAlreadyActive) {
-      // Toggle OFF: remove from selectedGenreId and modal genres
       setSelectedGenreId((prev) => (prev === genreId ? null : prev));
       setFilterModalState((prev) => ({
         ...prev,
@@ -219,7 +199,6 @@ const Explore = () => {
         ),
       }));
     } else {
-      // Toggle ON: add to selectedGenreId and modal genres
       setSelectedGenreId(genreId);
       const primaryName = genreNames[0] || TMDB_GENRES[genreId] || "Genre";
       setFilterModalState((prev) => ({
@@ -232,7 +211,6 @@ const Explore = () => {
     setCurrentPage(1);
   };
 
-  // Handle applying filters from FilterModal: synchronizes with GenreSwiper
   const handleApplyFilterModal = (newFilters: FilterState) => {
     setFilterModalState(newFilters);
     const newModalGenreIds = newFilters.genres
@@ -275,8 +253,7 @@ const Explore = () => {
   };
 
   const handleOfferClick = (movie: TMDBMovie) => {
-    setSelectedMovieForOffer(movie);
-    setIsOfferModalOpen(true);
+    navigate(`/make-offer/${movie.id}`);
   };
 
   const getSectionTitle = () => {
@@ -298,7 +275,6 @@ const Explore = () => {
   return (
     <div className="min-h-screen bg-[#111826] text-white font-century select-none pb-20">
       <div className="w-[88%] max-[1024px]:w-[92%] mx-auto pt-6 flex flex-col gap-8">
-        {/* Top Header: Title & Breadcrumbs */}
         <div className="flex items-center justify-between">
           <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-fs24 font-bold text-white tracking-tight">
             Explore
@@ -316,14 +292,12 @@ const Explore = () => {
           </nav>
         </div>
 
-        {/* 1. Genre Swiper Carousel (Fully synced with FilterModal) */}
         <GenreSwiper
           selectedGenreId={selectedGenreId}
           selectedGenreIds={activeGenreIds}
           onSelectGenre={handleSelectGenre}
         />
 
-        {/* 2. Unified Search and Filter Controls Bar */}
         <ExploreFiltersBar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -341,7 +315,6 @@ const Explore = () => {
           activeFilterCount={activeFilterCount}
         />
 
-        {/* 3. Recent Search Section (Only shown when no search keywords or filters applied) */}
         {!debouncedQuery && activeGenreIds.length === 0 && activeFilterCount === 0 && (
           <RecentSearchSection
             movies={recentMovies}
@@ -350,7 +323,6 @@ const Explore = () => {
           />
         )}
 
-        {/* 4. Top Search / Main Filtered Movie Grid */}
         <div ref={gridSectionRef} className="pt-2">
           <TopSearchSection
             title={getSectionTitle()}
@@ -362,7 +334,6 @@ const Explore = () => {
           />
         </div>
 
-        {/* 5. Pagination Bar */}
         <div className="pt-4 pb-2">
           <Pagination
             currentPage={currentPage}
@@ -372,17 +343,6 @@ const Explore = () => {
         </div>
       </div>
 
-      {/* Make an Offer Modal */}
-      <MakeOfferModal
-        movie={selectedMovieForOffer}
-        isOpen={isOfferModalOpen}
-        onClose={() => {
-          setIsOfferModalOpen(false);
-          setSelectedMovieForOffer(null);
-        }}
-      />
-
-      {/* Filter Modal (Fully synced with GenreSwiper) */}
       {isFilterModalOpen && (
         <FilterModal
           isOpen={isFilterModalOpen}

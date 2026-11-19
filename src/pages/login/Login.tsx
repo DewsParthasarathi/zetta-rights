@@ -16,17 +16,14 @@ import {
 } from "../../store/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
 
-// Common UI Components
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 import Image from "../../components/common/Image";
 
-// Login-Specific Components
 import ReusableForm from "./components/ReusableForm";
 import CountryCodeSelector from "./components/CountryCodeSelector";
 import OtpInputGroup from "./components/OtpInputGroup";
 
-// Validation utilities (Regex)
 import {
   validateEmail,
   validateFullName,
@@ -34,7 +31,6 @@ import {
   validateOtp,
 } from "../../utils/validation";
 
-// Asset imports
 import BackGround_Img from "../../assets/images/login/BackGround_Img.png";
 import loginLogo from "../../assets/images/login/loginLogo.png";
 import Pattern from "../../assets/images/login/Pattern.png";
@@ -44,21 +40,18 @@ type Step = "LOGIN" | "OTP_VERIFY" | "CREATE_ACCOUNT";
 const Login = () => {
   const [step, setStep] = useState<Step>("LOGIN");
 
-  // Screen 1: Login Form states
   const [countryCode, setCountryCode] = useState("+91");
   const [email, setEmail] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [termsError, setTermsError] = useState("");
 
-  // Screen 2: OTP states (4 digits matching the design)
   const [otpDigits, setOtpDigits] = useState<string[]>(["", "", "", ""]);
   const [generatedOtp, setGeneratedOtp] = useState("");
-  const [timer, setTimer] = useState(65); // 1:05 Mins
+  const [timer, setTimer] = useState(65);
   const [otpError, setOtpError] = useState("");
   const [isCheckingAccount, setIsCheckingAccount] = useState(false);
 
-  // Screen 3: Create account states (Full Name, Mobile, Role)
   const [fullName, setFullName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [role, setRole] = useState<"Buyer" | "Seller">("Buyer");
@@ -73,7 +66,6 @@ const Login = () => {
     (state: RootState) => state.auth.isAuthenticated,
   );
 
-  // Countdown timer effect
   useEffect(() => {
     if (timer <= 0) return;
     const interval = setInterval(() => {
@@ -86,14 +78,12 @@ const Login = () => {
     return <Navigate to="/" replace />;
   }
 
-  // Format timer as "1:05 Mins"
   const formatTimer = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs} Mins`;
   };
 
-  // Helper to generate a 4-digit OTP
   const createAndSendOtp = (targetEmail: string) => {
     const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
     setGeneratedOtp(newOtp);
@@ -106,7 +96,6 @@ const Login = () => {
     });
   };
 
-  // Step 1: Request OTP handler with Regex validation (respect form element errors only)
   const handleRequestOtp = (e: FormEvent) => {
     e.preventDefault();
 
@@ -137,7 +126,6 @@ const Login = () => {
     setStep("OTP_VERIFY");
   };
 
-  // Step 2: Handle OTP Input change
   const handleOtpDigitChange = (
     index: number,
     e: ChangeEvent<HTMLInputElement>,
@@ -193,7 +181,6 @@ const Login = () => {
     otpInputRefs.current[focusIdx]?.focus();
   };
 
-  // Step 2: Verify OTP handler with API Account Identification (Buyer vs Seller vs New)
   const handleVerifyOtp = async (e: FormEvent) => {
     e.preventDefault();
     const entered = otpDigits.join("");
@@ -227,7 +214,6 @@ const Login = () => {
           );
           navigate("/");
         } else {
-          // Email verified, but not registered in either -> Navigate to Create Account
           toast.info(
             "Email verified! Please enter your details to create an account.",
           );
@@ -247,13 +233,11 @@ const Login = () => {
     }
   };
 
-  // Step 2: Resend OTP
   const handleResendOtp = () => {
     createAndSendOtp(email.trim());
     toast.info("A new OTP has been sent via toast!");
   };
 
-  // Step 3: Create Account Submit handler (Directly handles Buyer/Seller selection and navigates to profile)
   const handleCreateAccountSubmit = (e: FormEvent) => {
     e.preventDefault();
 
@@ -281,7 +265,6 @@ const Login = () => {
       return;
     }
 
-    // Ensure email is verified
     if (!email.trim() || !generatedOtp || otpDigits.join("") !== generatedOtp) {
       if (!email.trim()) {
         toast.info("Please enter your email to verify with OTP first.");
@@ -293,7 +276,6 @@ const Login = () => {
       return;
     }
 
-    // Persist registration draft in Redux store and localStorage
     dispatch(
       setRegistrationDraft({
         email: email.trim(),
@@ -303,7 +285,6 @@ const Login = () => {
       }),
     );
 
-    // Navigate to role-specific profile page
     if (role === "Buyer") {
       navigate("/buyer-profile");
     } else {
@@ -316,16 +297,13 @@ const Login = () => {
       className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century select-none"
       style={{ backgroundImage: `url(${BackGround_Img})` }}
     >
-      {/* Card Container with percentage-based width, Desktop-First responsiveness, and rounded corners */}
       <div className="relative z-10 w-[24%] max-[1600px]:w-[28%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[52%] max-[768px]:w-[75%] max-[480px]:w-[92%] max-w-[96%] bg-black/65 border border-white/10 rounded-[16px] px-7 py-7 max-[1024px]:px-6 max-[1024px]:py-6 overflow-hidden shadow-2xl">
-        {/* Cinema Pattern Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
           style={{ backgroundImage: `url(${Pattern})` }}
         />
 
         <div className="relative z-10">
-          {/* Top Centered Logo */}
           <div className="flex justify-center mb-5">
             <Image
               src={loginLogo}
@@ -335,7 +313,6 @@ const Login = () => {
             />
           </div>
 
-          {/* ----------------- SCREEN 1: LOGIN ----------------- */}
           {step === "LOGIN" && (
             <ReusableForm
               title="Login"
@@ -411,7 +388,6 @@ const Login = () => {
             />
           )}
 
-          {/* ----------------- SCREEN 2: OTP VERIFY ----------------- */}
           {step === "OTP_VERIFY" && (
             <ReusableForm
               title="OTP Verify"
@@ -483,7 +459,6 @@ const Login = () => {
             />
           )}
 
-          {/* ----------------- SCREEN 3: CREATE NEW ACCOUNT ----------------- */}
           {step === "CREATE_ACCOUNT" && (
             <ReusableForm
               title="Create New Account"

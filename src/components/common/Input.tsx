@@ -77,7 +77,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           onKeyDown?.(e);
           return;
         }
-        // Block non-digit keys
         if (!/^\d$/.test(e.key)) {
           e.preventDefault();
           return;

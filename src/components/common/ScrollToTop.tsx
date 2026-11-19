@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Image from "./Image";
 import Button from "./Button";
 import gotoTop from "../../assets/images/Home/Header/gotoTop.png";
@@ -6,6 +7,20 @@ import gotoTop from "../../assets/images/Home/Header/gotoTop.png";
 const ScrollToTop = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+    document.documentElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, [location.pathname, location.search]);
 
   useEffect(() => {
     const handleScroll = () => {

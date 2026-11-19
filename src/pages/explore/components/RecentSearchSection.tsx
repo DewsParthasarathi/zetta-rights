@@ -6,10 +6,8 @@ import MovieCard from "../../home/components/MovieCard";
 import Image from "../../../components/common/Image";
 import Button from "../../../components/common/Button";
 
-// Import Swiper styles
 import "swiper/css";
 
-// Arrows
 import Leftarrow_Icon from "../../../assets/images/Home/LatestContent/Leftarrow_Icon.png";
 import RightArrow_Icon from "../../../assets/images/Home/LatestContent/RightArrow_Icon.png";
 
@@ -48,13 +46,11 @@ const RecentSearchSection = ({
 
   return (
     <section className={`w-full flex flex-col gap-4 font-century select-none ${className}`}>
-      {/* Header Row: Title & Arrow Controls */}
       <div className="flex items-center justify-between">
         <h2 className="text-fs22 max-[1440px]:text-fs20 font-bold text-white tracking-tight">
           Recent Search
         </h2>
 
-        {/* Carousel Prev/Next Buttons matching screenshot */}
         <div className="flex items-center gap-2">
           <Button
             variant="unstyled"
@@ -88,7 +84,6 @@ const RecentSearchSection = ({
         </div>
       </div>
 
-      {/* Movie Cards Carousel */}
       {isLoading ? (
         <div className="grid grid-cols-5 max-[1440px]:grid-cols-4 max-[1024px]:grid-cols-3 max-[768px]:grid-cols-2 max-[640px]:grid-cols-1 gap-5">
           {Array.from({ length: 5 }).map((_, idx) => (

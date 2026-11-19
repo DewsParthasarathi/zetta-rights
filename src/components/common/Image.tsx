@@ -15,13 +15,14 @@ const Image = ({
   onError,
   ...props
 }: ImageProps) => {
-  const [imgSrc, setImgSrc] = useState<string>(src);
-  const [hasError, setHasError] = useState(false);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+
+  const hasFailed = Boolean(failedSrc && failedSrc === src);
+  const displaySrc = hasFailed && fallbackSrc ? fallbackSrc : src;
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    if (!hasError && fallbackSrc) {
-      setHasError(true);
-      setImgSrc(fallbackSrc);
+    if (!hasFailed && fallbackSrc) {
+      setFailedSrc(src);
     }
     if (onError) {
       onError(e);
@@ -30,7 +31,7 @@ const Image = ({
 
   return (
     <img
-      src={imgSrc}
+      src={displaySrc}
       alt={alt}
       loading={loading}
       onError={handleError}

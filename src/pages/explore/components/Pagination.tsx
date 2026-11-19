@@ -18,7 +18,6 @@ const Pagination = ({
 }: PaginationProps) => {
   if (totalPages <= 1) return null;
 
-  // Generate page numbers to display
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const maxVisible = 5;
@@ -71,7 +70,6 @@ const Pagination = ({
       className={`flex items-center justify-start gap-2 select-none font-century ${className}`}
       aria-label="Pagination"
     >
-      {/* Previous Button */}
       <Button
         variant="unstyled"
         type="button"
@@ -91,7 +89,6 @@ const Pagination = ({
         />
       </Button>
 
-      {/* Number Buttons */}
       {getPageNumbers().map((page, index) => {
         if (typeof page === "string") {
           return (
@@ -122,7 +119,6 @@ const Pagination = ({
         );
       })}
 
-      {/* Next Button */}
       <Button
         variant="unstyled"
         type="button"

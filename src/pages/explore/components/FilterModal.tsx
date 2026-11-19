@@ -28,7 +28,6 @@ const FilterModal = ({
 
   if (!isOpen) return null;
 
-  // Toggle item in a category
   const toggleItem = (category: keyof FilterState, item: string) => {
     setDraftFilters((prev) => {
       const current = prev[category];
@@ -78,16 +77,13 @@ const FilterModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none font-century animate-fadeIn">
-      {/* Click outside to close */}
       <div
         className="fixed inset-0 -z-10"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Card */}
       <div className="relative w-full max-w-xl bg-[#131A26] border border-white/15 rounded-[16px] shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
-        {/* Header */}
         <div className="flex items-center justify-between px-7 py-5 border-b border-white/10 shrink-0">
           <h2 className="text-fs22 font-bold text-white tracking-tight">
             Filter
@@ -107,9 +103,7 @@ const FilterModal = ({
           </Button>
         </div>
 
-        {/* Scrollable Filter Categories */}
         <div className="custom-scrollbar overflow-y-auto px-7 py-6 flex flex-col gap-6">
-          {/* 1. ContentTypes */}
           <div className="flex flex-col gap-3">
             <h3 className="text-fs16 font-semibold text-white tracking-wide">
               ContentTypes
@@ -137,7 +131,6 @@ const FilterModal = ({
             <div className="w-full border-b border-white/10 mt-1" />
           </div>
 
-          {/* 2. Genres */}
           <div className="flex flex-col gap-3">
             <h3 className="text-fs16 font-semibold text-white tracking-wide">
               Genres
@@ -171,7 +164,6 @@ const FilterModal = ({
             <div className="w-full border-b border-white/10 mt-1" />
           </div>
 
-          {/* 3. Languages */}
           <div className="flex flex-col gap-3">
             <h3 className="text-fs16 font-semibold text-white tracking-wide">
               Languages
@@ -198,7 +190,6 @@ const FilterModal = ({
             </div>
           </div>
 
-          {/* 4. Formats */}
           <div className="flex flex-col gap-3">
             <h3 className="text-fs16 font-semibold text-white tracking-wide">
               Formats
@@ -226,7 +217,6 @@ const FilterModal = ({
           </div>
         </div>
 
-        {/* Footer Actions */}
         <div className="flex items-center justify-end gap-3 px-7 py-4 border-t border-white/10 bg-[#131A26] shrink-0">
           <Button
             variant="ghost"

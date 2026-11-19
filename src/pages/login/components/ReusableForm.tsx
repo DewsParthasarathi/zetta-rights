@@ -75,7 +75,6 @@ const ReusableForm = ({
 }: ReusableFormProps) => {
   return (
     <form onSubmit={onSubmit} className={className} noValidate>
-      {/* Title & Subtitle Header */}
       <div className="space-y-0.5">
         <h1 className="text-fs34 max-[1440px]:text-fs32 max-[1024px]:text-fs28 max-[640px]:text-fs24 font-bold text-white tracking-tight">
           {title}
@@ -87,7 +86,6 @@ const ReusableForm = ({
         )}
       </div>
 
-      {/* Dynamic Form Content */}
       <div className="space-y-4">
         {fields.map((field) => {
           if (field.type === "custom" || field.render) {
@@ -202,11 +200,9 @@ const ReusableForm = ({
           );
         })}
 
-        {/* Optional Children slot */}
         {children}
       </div>
 
-      {/* Action / Submit Button */}
       <Button
         type="submit"
         variant={submitButtonVariant}
@@ -218,7 +214,6 @@ const ReusableForm = ({
         {submitButtonText}
       </Button>
 
-      {/* Footer Content */}
       {footer && <div className="text-center">{footer}</div>}
     </form>
   );

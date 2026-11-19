@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import type { AppDispatch, RootState } from "../../store/store";
 import {
   fetchLatestMovies,
@@ -14,6 +14,7 @@ import type { TMDBMovie } from "../../services/tmdbService";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { latest, tamil, short, lowBudget } = useSelector(
     (state: RootState) => state.movies,
   );
@@ -26,27 +27,24 @@ const Home = () => {
   }, [dispatch]);
 
   const handleOfferClick = (movie: TMDBMovie) => {
-    toast.success(`Offer request initiated for "${movie.title}"`);
+    navigate(`/make-offer/${movie.id}`);
   };
 
   return (
     <div className="w-full min-h-screen bg-[#111826] text-white font-century pb-16">
-      {/* 1. Hero / Banner Section */}
       <BannerSection />
 
-      {/* 2. Movie Carousels */}
       <div className="space-y-6">
-        {/* Latest Content */}
         <MovieCarouselSection
           title="Latest Content"
           movies={latest.movies}
           isLoading={latest.isLoading}
           error={latest.error}
           onRetry={() => dispatch(fetchLatestMovies())}
+          onOfferClick={handleOfferClick}
           featuredIndex={0}
         />
 
-        {/* Tamil Content */}
         <MovieCarouselSection
           title="Tamil Content"
           movies={tamil.movies}
@@ -57,23 +55,23 @@ const Home = () => {
           featuredIndex={1}
         />
 
-        {/* Short Content */}
         <MovieCarouselSection
           title="Short Content"
           movies={short.movies}
           isLoading={short.isLoading}
           error={short.error}
           onRetry={() => dispatch(fetchShortMovies())}
+          onOfferClick={handleOfferClick}
           featuredIndex={2}
         />
 
-        {/* Low Budget Content */}
         <MovieCarouselSection
           title="Low Budget Content"
           movies={lowBudget.movies}
           isLoading={lowBudget.isLoading}
           error={lowBudget.error}
           onRetry={() => dispatch(fetchLowBudgetMovies())}
+          onOfferClick={handleOfferClick}
           featuredIndex={0}
         />
       </div>

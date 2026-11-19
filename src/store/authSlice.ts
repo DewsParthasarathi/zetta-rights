@@ -5,6 +5,8 @@ import {
 } from "@reduxjs/toolkit";
 import api from "../utils/api";
 
+import type { OfferRecord } from "../types/offer";
+
 export interface UserAccount {
   id?: string;
   email: string;
@@ -24,6 +26,7 @@ export interface UserAccount {
   categories?: string[];
   profileImage?: string;
   role?: "Buyer" | "Seller";
+  offers?: OfferRecord[];
 }
 
 export interface CheckAccountResult {
@@ -78,7 +81,6 @@ const initialState: AuthState = {
   registrationDraft: savedDraft ? JSON.parse(savedDraft) : null,
 };
 
-// Check if email exists in Buyer or Seller database via JSON Server API
 export const checkAccountByEmail = createAsyncThunk<
   CheckAccountResult,
   string,
@@ -87,7 +89,6 @@ export const checkAccountByEmail = createAsyncThunk<
   try {
     const trimmedEmail = email.trim().toLowerCase();
 
-    // Check buyers collection
     const buyersRes = await api.get<UserAccount[]>("/buyers");
     const matchedBuyer = (buyersRes.data || []).find(
       (b) => b.email?.trim().toLowerCase() === trimmedEmail,
@@ -102,7 +103,6 @@ export const checkAccountByEmail = createAsyncThunk<
       };
     }
 
-    // Check sellers collection
     const sellersRes = await api.get<UserAccount[]>("/sellers");
     const matchedSeller = (sellersRes.data || []).find(
       (s) => s.email?.trim().toLowerCase() === trimmedEmail,
@@ -131,7 +131,6 @@ export const checkAccountByEmail = createAsyncThunk<
   }
 });
 
-// Register new Buyer or Seller account via JSON Server API
 export const registerAccount = createAsyncThunk<
   UserAccount,
   RegisterAccountPayload,
@@ -140,7 +139,6 @@ export const registerAccount = createAsyncThunk<
   try {
     const trimmedEmail = accountData.email.trim().toLowerCase();
 
-    // Prevent duplicate email registrations across both Buyer and Seller collections
     const [buyersRes, sellersRes] = await Promise.all([
       api.get<UserAccount[]>("/buyers"),
       api.get<UserAccount[]>("/sellers"),
@@ -231,10 +229,20 @@ const authSlice = createSlice({
       state.registrationDraft = null;
       localStorage.removeItem("registrationDraft");
     },
+    addOfferToCurrentUser: (state, action: PayloadAction<OfferRecord>) => {
+      if (state.user) {
+        const currentOffers = state.user.offers || [];
+        const filtered = currentOffers.filter(
+          (o) =>
+            o.id !== action.payload.id && o.movieId !== action.payload.movieId,
+        );
+        state.user.offers = [...filtered, action.payload];
+        localStorage.setItem("user", JSON.stringify(state.user));
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Check account
       .addCase(checkAccountByEmail.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -254,7 +262,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || "Failed to check account";
       })
-      // Register account
       .addCase(registerAccount.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -282,6 +289,7 @@ export const {
   resetAccountCheck,
   setRegistrationDraft,
   clearRegistrationDraft,
+  addOfferToCurrentUser,
 } = authSlice.actions;
 
 export default authSlice.reducer;

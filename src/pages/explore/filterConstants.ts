@@ -46,7 +46,6 @@ export const FORMAT_OPTIONS = [
   "Dolby Digital",
 ];
 
-// Mapping genre names to TMDB IDs
 export const GENRE_NAME_TO_TMDB_ID: Record<string, number> = {
   Action: 28,
   Adventure: 12,
@@ -72,7 +71,6 @@ export const GENRE_NAME_TO_TMDB_ID: Record<string, number> = {
   Western: 37,
 };
 
-// Reverse mapping from TMDB ID to primary modal/swiper genre names
 export const TMDB_ID_TO_GENRE_NAMES: Record<number, string[]> = {
   28: ["Action"],
   12: ["Adventure"],
@@ -94,7 +92,6 @@ export const TMDB_ID_TO_GENRE_NAMES: Record<number, string[]> = {
   37: ["Western"],
 };
 
-// Mapping language names to TMDB ISO language codes
 export const LANGUAGE_NAME_TO_CODE: Record<string, string> = {
   Tamil: "ta",
   Kannada: "kn",

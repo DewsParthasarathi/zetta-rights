@@ -79,16 +79,13 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm select-none font-century animate-fadeIn">
-      {/* Click outside backdrop */}
       <div
         className="fixed inset-0 -z-10"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Dialog Card */}
       <div className="relative w-full max-w-xl bg-[#18202F] border border-white/20 rounded-[16px] p-6 max-[640px]:p-4 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <div className="flex items-center gap-3">
             <span className="text-[#FABE2C] text-fs20 font-bold">🎬</span>
@@ -107,12 +104,10 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
           </Button>
         </div>
 
-        {/* Modal Scrollable Body */}
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-4 overflow-y-auto custom-scrollbar py-4"
         >
-          {/* Movie Summary Card */}
           <div className="flex items-center gap-4 bg-black/30 border border-white/10 rounded-[10px] p-3">
             <div className="w-20 aspect-[16/10] rounded-[6px] overflow-hidden bg-black/50 shrink-0">
               <Image
@@ -144,7 +139,6 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
             </div>
           </div>
 
-          {/* Rights Category Selection */}
           <div className="flex flex-col gap-1.5">
             <label className="text-fs13 font-semibold text-gray-200">
               Licensing Rights Category *
@@ -157,7 +151,6 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
             />
           </div>
 
-          {/* Territory & Duration Grid */}
           <div className="grid grid-cols-2 max-[640px]:grid-cols-1 gap-3">
             <div className="flex flex-col gap-1.5">
               <label className="text-fs13 font-semibold text-gray-200">
@@ -184,7 +177,6 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
             </div>
           </div>
 
-          {/* Offer Amount Input */}
           <div className="flex flex-col gap-1.5">
             <label className="text-fs13 font-semibold text-gray-200">
               Proposed Offer Amount (USD) *
@@ -206,7 +198,6 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
             </div>
           </div>
 
-          {/* Remarks (Optional) */}
           <div className="flex flex-col gap-1.5">
             <label className="text-fs13 font-semibold text-gray-200">
               Offer Notes & Pitch (Optional)
@@ -220,7 +211,6 @@ const MakeOfferModal = ({ movie, isOpen, onClose }: MakeOfferModalProps) => {
             />
           </div>
 
-          {/* Footer Buttons */}
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10 mt-2">
             <Button
               variant="secondary"

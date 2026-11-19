@@ -29,7 +29,6 @@ const initialState: MovieState = {
   favorites: [],
 };
 
-// Async Thunks
 export const fetchLatestMovies = createAsyncThunk(
   "movies/fetchLatest",
   async (_, { rejectWithValue }) => {
@@ -102,7 +101,6 @@ const movieSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // 1. Latest Content
     builder
       .addCase(fetchLatestMovies.pending, (state) => {
         state.latest.isLoading = true;
@@ -117,7 +115,6 @@ const movieSlice = createSlice({
         state.latest.error = action.payload as string;
       });
 
-    // 2. Tamil Content
     builder
       .addCase(fetchTamilMovies.pending, (state) => {
         state.tamil.isLoading = true;
@@ -132,7 +129,6 @@ const movieSlice = createSlice({
         state.tamil.error = action.payload as string;
       });
 
-    // 3. Short Content
     builder
       .addCase(fetchShortMovies.pending, (state) => {
         state.short.isLoading = true;
@@ -147,7 +143,6 @@ const movieSlice = createSlice({
         state.short.error = action.payload as string;
       });
 
-    // 4. Low Budget Content
     builder
       .addCase(fetchLowBudgetMovies.pending, (state) => {
         state.lowBudget.isLoading = true;

@@ -271,7 +271,6 @@ body {
   background-color: #111826;
 }
 
-/* Custom WebKit & standard scrollbar styling */
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -295,3 +294,8 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
+
+.swiper-smooth-marquee .swiper-wrapper {
+  transition-timing-function: linear !important;
+}
+

@@ -8,14 +8,12 @@ import Image from "../../components/common/Image";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 
-// Header Assets
 import logo from "../../assets/images/Home/Header/logo.png";
 import search_Icon from "../../assets/images/Home/Header/search_Icon.png";
 import addcontent_Icon from "../../assets/images/Home/Header/addcontent_Icon.png";
 import lightMode_Icon from "../../assets/images/Home/Header/lightMode_Icon.png";
 import moon_Icon from "../../assets/images/Home/Header/moon.png";
 import profile_Img from "../../assets/images/Home/Header/profile_Img.png";
-import profileIcon from "../../assets/images/Home/Header/profileIcon.png";
 import logoutIcon from "../../assets/images/Home/Header/logoutIcon.png";
 import hamburger from "../../assets/images/Home/Header/hamburger.png";
 import close_Icon from "../../assets/images/Home/Header/close_Icon.png";
@@ -36,7 +34,6 @@ const Navbar = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Close profile dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -87,9 +84,8 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#111826]/95 backdrop-blur-md  font-century select-none transition-colors">
       <div className="mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 h-[72px] max-[640px]:h-[64px] flex items-center justify-between">
-        {/* Left: ZettaRights Logo */}
         <div className="flex items-center gap-12 max-[1024px]:gap-6">
-          <Link to="/" className="flex items-center shrink-0">
+          <Link to="/" className="flex items-center shrink-0 w-[30%]">
             <Image
               src={logo}
               alt="ZettaRights"
@@ -97,15 +93,14 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Navigation Links (Desktop) */}
-          <nav className="flex items-center gap-8 max-[1024px]:gap-5 max-[768px]:hidden">
+          <nav className="flex items-center gap-8 ml-auto max-[1024px]:gap-5 max-[768px]:hidden">
             <NavLink
               to="/"
               end
               className={({ isActive }) =>
-                `text-fs15 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
+                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
                   isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FABE2C]"
+                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:w-1/2 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
                     : "text-[#8E8E8E] hover:text-white"
                 }`
               }
@@ -115,9 +110,9 @@ const Navbar = () => {
             <NavLink
               to="/explore"
               className={({ isActive }) =>
-                `text-fs15 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
+                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
                   isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FABE2C]"
+                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0  after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
                     : "text-[#8E8E8E] hover:text-white"
                 }`
               }
@@ -127,9 +122,9 @@ const Navbar = () => {
             <NavLink
               to="/blog"
               className={({ isActive }) =>
-                `text-fs15 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
+                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
                   isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[#FABE2C]"
+                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0  after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
                     : "text-[#8E8E8E] hover:text-white"
                 }`
               }
@@ -139,9 +134,7 @@ const Navbar = () => {
           </nav>
         </div>
 
-        {/* Right Controls */}
         <div className="flex items-center gap-5 max-[640px]:gap-3">
-          {/* Search Icon & Popover with Tooltip */}
           <div
             className="relative group flex flex-col items-center"
             ref={searchRef}
@@ -159,7 +152,6 @@ const Navbar = () => {
               />
             </Button>
 
-            {/* Hover Tooltip (hidden when search form is open) */}
             {!isSearchOpen && (
               <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
                 <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
@@ -195,7 +187,6 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Add Content Icon with Tooltip */}
           <div className="relative group flex flex-col items-center">
             <Button
               variant="unstyled"
@@ -218,17 +209,14 @@ const Navbar = () => {
               />
             </Button>
 
-            {/* Hover Tooltip */}
             <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
               <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
-                {/* Upward Tooltip Arrow */}
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1A2230] border-l border-t border-white/15 rotate-45" />
                 Add Content
               </div>
             </div>
           </div>
 
-          {/* Theme Toggle Icon with Tooltip */}
           <div className="relative group flex flex-col items-center">
             <Button
               variant="unstyled"
@@ -243,7 +231,6 @@ const Navbar = () => {
               />
             </Button>
 
-            {/* Hover Tooltip */}
             <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
               <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1A2230] border-l border-t border-white/15 rotate-45" />
@@ -252,10 +239,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Vertical Divider */}
           <div className="h-6 w-px bg-white/20 mx-1 max-[640px]:hidden" />
 
-          {/* User Profile Avatar & Dropdown */}
           {isAuthenticated ? (
             <div className="relative" ref={profileRef}>
               <Button
@@ -288,23 +273,6 @@ const Navbar = () => {
                   </div>
 
                   <div className="py-1">
-                    <Link
-                      to={
-                        user?.role === "Seller"
-                          ? "/seller-profile"
-                          : "/buyer-profile"
-                      }
-                      onClick={() => setIsProfileOpen(false)}
-                      className="w-full px-4 py-2 text-left text-fs14 text-white hover:bg-white/10 flex items-center gap-2.5 transition"
-                    >
-                      <Image
-                        src={profileIcon}
-                        alt="Profile"
-                        className="w-4 h-4 object-contain"
-                      />
-                      <span>Profile Settings</span>
-                    </Link>
-
                     <Button
                       variant="ghost"
                       type="button"
@@ -331,7 +299,6 @@ const Navbar = () => {
             </Link>
           )}
 
-          {/* Mobile Hamburger Menu Toggle */}
           <Button
             variant="ghost"
             type="button"
@@ -347,7 +314,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Dropdown Nav Menu */}
       {isMobileMenuOpen && (
         <div className="hidden max-[768px]:block w-full bg-[#111826] border-t border-white/10 px-6 py-4 space-y-3">
           <NavLink

@@ -28,7 +28,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
-              // Eye-slash icon
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -43,7 +42,6 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 />
               </svg>
             ) : (
-              // Eye icon
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -68,7 +66,7 @@ const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 PasswordInput.displayName = "PasswordInput";

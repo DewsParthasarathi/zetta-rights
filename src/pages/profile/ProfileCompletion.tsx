@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../store/store";
 import { registerAccount } from "../../store/authSlice";
 
-// UI Components
 import Input from "../../components/common/Input";
 import Select from "../../components/common/Select";
 import Button from "../../components/common/Button";
@@ -18,7 +17,6 @@ import Image from "../../components/common/Image";
 import FormField from "../../components/common/FormField";
 import Footer from "../../layout/layout-components/Footer";
 
-// Constants & Validation
 import {
   COUNTRIES,
   STATES_BY_COUNTRY,
@@ -31,7 +29,6 @@ import {
   validateTaxId,
 } from "../../utils/validation";
 
-// Assets
 import loginLogo from "../../assets/images/Login/loginLogo.png";
 import Companylogo from "../../assets/images/Login/Companylogo.png";
 import Camera_Icon from "../../assets/images/Login/Camera_Icon.png";
@@ -48,7 +45,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Determine role: prop > draft > path
   const registrationDraft = useSelector(
     (state: RootState) => state.auth.registrationDraft,
   );
@@ -62,7 +58,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   const activeRole: "Buyer" | "Seller" =
     initialRole || registrationDraft?.role || fallbackRole;
 
-  // Form field states
   const [companyName, setCompanyName] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
@@ -72,7 +67,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   const [category, setCategory] = useState("");
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  // Field error states (inline under respective form elements)
   const [companyNameError, setCompanyNameError] = useState("");
   const [addressError, setAddressError] = useState("");
   const [cityError, setCityError] = useState("");
@@ -84,15 +78,12 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // If already authenticated, redirect to home
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 
-  // Dynamic state options based on selected country
   const currentStateOptions = STATES_BY_COUNTRY[country] || [];
 
-  // Handle country change: update country and reset state
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const newCountry = e.target.value;
     setCountry(newCountry);
@@ -101,7 +92,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
     if (stateError) setStateError("");
   };
 
-  // Image upload handler
   const handleTriggerFileInput = () => {
     fileInputRef.current?.click();
   };
@@ -122,14 +112,12 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
     reader.readAsDataURL(file);
   };
 
-  // Form submission handler
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setGeneralError("");
 
     let hasAnyError = false;
 
-    // Validate Company Name
     const companyRes = validateCompanyName(companyName);
     if (!companyRes.isValid) {
       setCompanyNameError(companyRes.error || "Company Name is required");
@@ -138,7 +126,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setCompanyNameError("");
     }
 
-    // Validate Address
     const addressRes = validateAddress(address);
     if (!addressRes.isValid) {
       setAddressError(addressRes.error || "Address is required");
@@ -147,7 +134,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setAddressError("");
     }
 
-    // Validate City
     const cityRes = validateCity(city);
     if (!cityRes.isValid) {
       setCityError(cityRes.error || "City is required");
@@ -156,7 +142,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setCityError("");
     }
 
-    // Validate Country
     if (!country.trim()) {
       setCountryError("Please select a country");
       hasAnyError = true;
@@ -164,7 +149,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setCountryError("");
     }
 
-    // Validate State
     if (!state.trim()) {
       setStateError("Please select a state");
       hasAnyError = true;
@@ -172,7 +156,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setStateError("");
     }
 
-    // Validate Tax ID
     const taxRes = validateTaxId(taxId);
     if (!taxRes.isValid) {
       setTaxIdError(taxRes.error || "TAX Identification Number is required");
@@ -181,7 +164,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setTaxIdError("");
     }
 
-    // Validate Category
     if (!category.trim()) {
       setCategoryError("Please select a category");
       hasAnyError = true;
@@ -193,7 +175,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       return;
     }
 
-    // Ensure email is available from draft or prompt
     const verifiedEmail = registrationDraft?.email?.trim();
     if (!verifiedEmail) {
       setGeneralError(
@@ -247,7 +228,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#111826] text-white font-century">
-      {/* Header with ZettaRights Logo */}
       <header className="w-full px-12 max-[640px]:px-6 py-5 border-b border-white/10 bg-[#111826]">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="inline-block">
@@ -260,9 +240,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         </div>
       </header>
 
-      {/* Main Form Content */}
       <main className="w-full max-w-7xl mx-auto px-12 max-[640px]:px-6 py-12 max-[640px]:py-8 flex-1">
-        {/* Title and Breadcrumb Row */}
         <div className="flex items-center justify-between max-[640px]:flex-col max-[640px]:items-start gap-4 pb-6 border-b border-white/10">
           <h1 className="text-fs36 max-[640px]:text-fs32 font-bold text-white tracking-tight">
             {activeRole}
@@ -284,7 +262,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
           </div>
         </div>
 
-        {/* Company Logo Upload Section */}
         <div className="mt-8 flex items-center gap-5">
           <div
             role="button"
@@ -301,7 +278,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </div>
 
-            {/* Camera badge overlay */}
             <div className="absolute -bottom-1 -right-1 w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full bg-[#181F2C] border border-white/20 flex items-center justify-center shadow-md">
               <Image
                 src={Camera_Icon}
@@ -325,10 +301,8 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
           </div>
         </div>
 
-        {/* Profile Completion Form (2 Columns) */}
         <form onSubmit={handleSubmit} className="mt-10" noValidate>
           <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-10 gap-y-7">
-            {/* Col 1, Row 1: Company Name */}
             <FormField
               label="Company Name"
               htmlFor="companyName"
@@ -354,7 +328,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 2, Row 1: Address */}
             <FormField label="Address" htmlFor="address" error={addressError}>
               <Input
                 id="address"
@@ -374,7 +347,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 1, Row 2: City */}
             <FormField label="City" htmlFor="city" error={cityError}>
               <Input
                 id="city"
@@ -395,7 +367,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 2, Row 2: State (Dynamic based on selected country) */}
             <FormField label="State" htmlFor="state" error={stateError}>
               <Select
                 id="state"
@@ -413,7 +384,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 1, Row 3: Country */}
             <FormField label="Country" htmlFor="country" error={countryError}>
               <Select
                 id="country"
@@ -428,7 +398,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 2, Row 3: TAX Identification Number */}
             <FormField
               label="TAX Identification Number"
               htmlFor="taxId"
@@ -456,7 +425,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </FormField>
 
-            {/* Col 1, Row 4: Category */}
             <FormField
               label="Category"
               htmlFor="category"
@@ -479,14 +447,12 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             </FormField>
           </div>
 
-          {/* Form-level Error Message */}
           {generalError && (
             <p className="text-red-400 text-fs14 font-medium font-century mt-6">
               {generalError}
             </p>
           )}
 
-          {/* Bottom Right Save Button */}
           <div className="flex justify-end mt-12 mb-16">
             <Button
               type="submit"
@@ -500,7 +466,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         </form>
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

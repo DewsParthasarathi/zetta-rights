@@ -6,10 +6,8 @@ import MovieCard from "./MovieCard";
 import Image from "../../../components/common/Image";
 import Button from "../../../components/common/Button";
 
-// Import Swiper styles
 import "swiper/css";
 
-// Arrows
 import Leftarrow_Icon from "../../../assets/images/Home/LatestContent/Leftarrow_Icon.png";
 import RightArrow_Icon from "../../../assets/images/Home/LatestContent/RightArrow_Icon.png";
 
@@ -53,14 +51,12 @@ const MovieCarouselSection = ({
   return (
     <section className="w-full py-5 select-none font-century">
       <div className=" mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4">
-        {/* Section Header: Title & Prev/Next Arrows */}
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-fs22 max-[1024px]:text-fs20 max-[640px]:text-fs18 font-bold text-white tracking-tight">
             {title}
           </h2>
 
           <div className="flex items-center gap-2">
-            {/* Prev Arrow Button */}
             <Button
               variant="unstyled"
               type="button"
@@ -76,7 +72,6 @@ const MovieCarouselSection = ({
               />
             </Button>
 
-            {/* Next Arrow Button */}
             <Button
               variant="unstyled"
               type="button"
@@ -94,9 +89,7 @@ const MovieCarouselSection = ({
           </div>
         </div>
 
-        {/* Content Body */}
         {isLoading ? (
-          // Loading Skeleton Grid
           <div className="grid grid-cols-5 max-[1440px]:grid-cols-4 max-[1024px]:grid-cols-3 max-[640px]:grid-cols-2 max-[480px]:grid-cols-1 gap-4">
             {[1, 2, 3, 4, 5].map((item) => (
               <div
@@ -111,7 +104,6 @@ const MovieCarouselSection = ({
             ))}
           </div>
         ) : error ? (
-          // Error State
           <div className="w-full bg-[#131926] border border-red-500/20 rounded-[14px] p-8 text-center space-y-3">
             <p className="text-red-400 text-fs14 font-medium">{error}</p>
             {onRetry && (
@@ -127,12 +119,10 @@ const MovieCarouselSection = ({
             )}
           </div>
         ) : movies.length === 0 ? (
-          // Empty State
           <div className="w-full bg-[#131926] border border-white/5 rounded-[14px] p-8 text-center text-[#8E8E8E] text-fs14">
             No content available in this section.
           </div>
         ) : (
-          // Swiper Carousel
           <Swiper
             spaceBetween={16}
             slidesPerView={5}

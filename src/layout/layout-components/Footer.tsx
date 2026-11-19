@@ -11,7 +11,6 @@ import appstore_Icon from "../../assets/images/Home/Footer/appstore_Icon.png";
 const Footer = () => {
   return (
     <footer className="relative w-full bg-[#111826]  text-white font-century overflow-hidden mt-auto select-none">
-      {/* Background Pattern with clear, subtle contrast matching reference UI */}
       <div
         className="absolute inset-0 bg-center bg-repeat opacity-20 pointer-events-none"
         style={{
@@ -19,28 +18,23 @@ const Footer = () => {
         }}
       />
 
-      {/* Main Container - aligned straight with body content padding (px-12 / px-6) on left and right */}
       <div className="relative z-10 w-full mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 pt-10 pb-6">
-        {/* 2 Separate Main Containers: Logo-Description & Links Container */}
         <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-8 w-full">
-          {/* Container 1: Logo & Description (with extra width and increased gap) */}
           <div className="w-[32%] max-[1440px]:w-[34%] max-[1024px]:w-full flex flex-col items-start shrink-0">
             <Image
               src={footer_Logo}
               alt="ZettaRights"
-              className="h-9 max-[640px]:h-8 w-auto object-contain"
+              className="h-9 max-[640px]:h-8 w-[33%] object-contain"
             />
-            {/* Tightly adjusted gap below logo, comfortably wrapped description */}
-            <p className="text-[#8E8E8E] text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-fs13 leading-relaxed mt-3 max-w-sm">
+
+            <p className="text-[#fff] w-[65%] text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-fs13 leading-relaxed mt-3 max-w-sm">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do
               Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Sem
               Viverra Aliquet Eget Sit Amet Tellus.
             </p>
           </div>
 
-          {/* Container 2: Links Container (holding the 3 link columns on the right) */}
           <div className="w-[58%] max-[1440px]:w-[58%] max-[1024px]:w-full flex justify-between items-start gap-8 max-[640px]:flex-wrap">
-            {/* Link Col 1: About Us Links */}
             <div className="flex-1 min-w-[120px]">
               <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-fs14 font-medium">
                 <li>
@@ -66,7 +60,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Link Col 2: Need Help? */}
             <div className="flex-1 min-w-[140px]">
               <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
                 Need Help?
@@ -78,19 +71,21 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#feedback" className="hover:text-white/80 transition">
+                  <a
+                    href="#feedback"
+                    className="hover:text-white/80 transition"
+                  >
                     Share Feedback
                   </a>
                 </li>
               </ul>
             </div>
 
-            {/* Link Col 3: Connect With Us */}
             <div className="flex-1 min-w-[190px] flex flex-col items-start">
               <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
                 Connect With Us
               </h4>
-              {/* Social icons row */}
+
               <div className="flex items-center gap-4 mb-4">
                 <a
                   href="#facebook"
@@ -138,7 +133,6 @@ const Footer = () => {
                 </a>
               </div>
 
-              {/* Store buttons */}
               <div className="flex items-center gap-3 pt-1 w-full max-w-[240px]">
                 <Image
                   src={googleplay_Icon}
@@ -155,7 +149,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom divider & copyright */}
         <div className="border-t border-white/15 mt-10 pt-5 text-center text-[#8E8E8E] text-fs14 max-[1440px]:text-fs13 font-normal">
           Copyrights © ZettaRights 2024. All Rights Reserved.
         </div>

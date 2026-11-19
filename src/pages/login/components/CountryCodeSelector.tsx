@@ -3,7 +3,6 @@ import Image from "../../../components/common/Image";
 import Button from "../../../components/common/Button";
 import Down_Arrow from "../../../assets/images/login/Down_Arrow.png";
 
-// Flag images from assets
 import flagIndia from "../../../assets/images/flags/icons8-india-48.png";
 import flagCanada from "../../../assets/images/flags/icons8-canada-48.png";
 import flagEngland from "../../../assets/images/flags/icons8-england-48.png";

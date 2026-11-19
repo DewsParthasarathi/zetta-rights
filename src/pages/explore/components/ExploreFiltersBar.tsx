@@ -3,7 +3,6 @@ import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
 import Select, { type SelectOption } from "../../../components/common/Select";
 
-// Assets
 import searchIcon from "../../../assets/images/Explore/search_Icon.png";
 import filterIcon from "../../../assets/images/Explore/filter_Icon.png";
 import downarrowIcon from "../../../assets/images/Explore/downarrow_Icon.png";
@@ -78,10 +77,8 @@ const ExploreFiltersBar = ({
           </div>
         </div>
 
-        {/* Vertical Divider Line */}
         <div className="w-px h-5 bg-white/15 shrink-0" />
 
-        {/* Search Input Bar */}
         <div className="relative flex-1 flex items-center min-w-0">
           <Input
             variant="ghost"
@@ -118,9 +115,7 @@ const ExploreFiltersBar = ({
         </div>
       </div>
 
-      {/* Container 2: Unified [ ☵ Filters By | Release Year ▼ ] */}
       <div className="shrink-0 flex items-center bg-[#141D2B] border border-white/10 hover:border-white/20 rounded-[8px] transition overflow-hidden">
-        {/* Filters By Button (Opens Filter Modal) */}
         <Button
           variant="ghost"
           type="button"
@@ -145,10 +140,8 @@ const ExploreFiltersBar = ({
           )}
         </Button>
 
-        {/* Vertical Divider Line */}
         <div className="w-px h-5 bg-white/15 shrink-0" />
 
-        {/* Release Year Select */}
         <div className="relative shrink-0 flex items-center">
           <Select
             variant="ghost"

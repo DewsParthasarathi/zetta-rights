@@ -4,10 +4,8 @@ import type { Swiper as SwiperClass } from "swiper";
 import Image from "../../../components/common/Image";
 import Button from "../../../components/common/Button";
 
-// Import Swiper styles
 import "swiper/css";
 
-// Genre Icons
 import actionIcon from "../../../assets/images/Explore/action.png";
 import adventureIcon from "../../../assets/images/Explore/adventure_Icon.png";
 import dramaIcon from "../../../assets/images/Explore/drama.png";
@@ -19,7 +17,6 @@ import musicalIcon from "../../../assets/images/Explore/musical_Icon.png";
 import scifiIcon from "../../../assets/images/Explore/scifi.png";
 import shortIcon from "../../../assets/images/Explore/short_Icon.png";
 
-// Arrow Icons
 import backarrowIcon from "../../../assets/images/Explore/backarrow_Icon.png";
 import nextarrowIcon from "../../../assets/images/Explore/nextarrow_Icon.png";
 
@@ -68,7 +65,6 @@ const GenreSwiper = ({
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
-  // Combine single and multiple selected genre IDs
   const activeIds = selectedGenreIds ?? (
     selectedGenreId !== null && selectedGenreId !== undefined ? [selectedGenreId] : []
   );
@@ -94,7 +90,6 @@ const GenreSwiper = ({
     <div
       className={`relative flex items-center gap-3 w-full select-none ${className}`}
     >
-      {/* Left Navigation Arrow */}
       <Button
         variant="unstyled"
         type="button"
@@ -110,7 +105,6 @@ const GenreSwiper = ({
         />
       </Button>
 
-      {/* Swiper Slider */}
       <div className="flex-1 overflow-hidden min-w-0">
         <Swiper
           onSwiper={(swiper) => {
@@ -159,7 +153,6 @@ const GenreSwiper = ({
         </Swiper>
       </div>
 
-      {/* Right Navigation Arrow */}
       <Button
         variant="unstyled"
         type="button"
