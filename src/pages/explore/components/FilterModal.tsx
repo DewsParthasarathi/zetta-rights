@@ -85,7 +85,7 @@ const FilterModal = ({
 
       <div className="relative w-full max-w-xl bg-[#131A26] border border-white/15 rounded-[16px] shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
         <div className="flex items-center justify-between px-7 py-5 border-b border-white/10 shrink-0">
-          <h2 className="text-fs22 font-bold text-white tracking-tight">
+          <h2 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white tracking-tight">
             Filter
           </h2>
           <Button
@@ -105,7 +105,7 @@ const FilterModal = ({
 
         <div className="custom-scrollbar overflow-y-auto px-7 py-6 flex flex-col gap-6">
           <div className="flex flex-col gap-3">
-            <h3 className="text-fs16 font-semibold text-white tracking-wide">
+            <h3 className="text-fs16 font-semibold text-white tracking-wide max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px]">
               ContentTypes
             </h3>
             <div className="flex flex-wrap gap-2.5">
@@ -117,7 +117,7 @@ const FilterModal = ({
                     key={type}
                     type="button"
                     onClick={() => toggleItem("contentTypes", type)}
-                    className={`px-4 py-1.5 rounded-[8px] text-fs14 font-medium transition cursor-pointer border ${
+                    className={`px-4 py-1.5 rounded-[8px] max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px] font-medium transition cursor-pointer border ${
                       isSelected
                         ? "border-[#FABE2C] bg-[#FABE2C]/15 text-[#FABE2C] font-semibold shadow-[0_0_12px_rgba(250,190,44,0.2)]"
                         : "border-white/20 bg-transparent text-white/90 hover:border-white/40 hover:bg-white/5"
@@ -132,7 +132,7 @@ const FilterModal = ({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h3 className="text-fs16 font-semibold text-white tracking-wide">
+            <h3 className="text-fs16 font-semibold text-white tracking-wide max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px]">
               Genres
             </h3>
             <div className="flex flex-wrap gap-2.5">
@@ -150,7 +150,7 @@ const FilterModal = ({
                     key={genre}
                     type="button"
                     onClick={() => toggleItem("genres", genre)}
-                    className={`px-4 py-1.5 rounded-[8px] text-fs14 font-medium transition cursor-pointer border ${
+                    className={`px-4 py-1.5 rounded-[8px] text-[15px] max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px] font-medium transition cursor-pointer border ${
                       isSelected
                         ? "border-[#FABE2C] bg-[#FABE2C]/15 text-[#FABE2C] font-semibold shadow-[0_0_12px_rgba(250,190,44,0.2)]"
                         : "border-white/20 bg-transparent text-white/90 hover:border-white/40 hover:bg-white/5"
@@ -165,7 +165,7 @@ const FilterModal = ({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h3 className="text-fs16 font-semibold text-white tracking-wide">
+            <h3 className="text-fs16 font-semibold text-white tracking-wide max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px]">
               Languages
             </h3>
             <div className="flex flex-wrap gap-2.5">
@@ -177,7 +177,7 @@ const FilterModal = ({
                     key={lang}
                     type="button"
                     onClick={() => toggleItem("languages", lang)}
-                    className={`px-4 py-1.5 rounded-[8px] text-fs14 font-medium transition cursor-pointer border ${
+                    className={`px-4 py-1.5 rounded-[8px] text-[15px] max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px] font-medium transition cursor-pointer border ${
                       isSelected
                         ? "border-[#FABE2C] bg-[#FABE2C]/15 text-[#FABE2C] font-semibold shadow-[0_0_12px_rgba(250,190,44,0.2)]"
                         : "border-white/20 bg-transparent text-white/90 hover:border-white/40 hover:bg-white/5"
@@ -191,7 +191,7 @@ const FilterModal = ({
           </div>
 
           <div className="flex flex-col gap-3">
-            <h3 className="text-fs16 font-semibold text-white tracking-wide">
+            <h3 className="text-fs16 font-semibold text-white tracking-wide max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px]">
               Formats
             </h3>
             <div className="flex flex-wrap gap-2.5">
@@ -203,7 +203,7 @@ const FilterModal = ({
                     key={format}
                     type="button"
                     onClick={() => toggleItem("formats", format)}
-                    className={`px-4 py-1.5 rounded-[8px] text-fs14 font-medium transition cursor-pointer border ${
+                    className={`px-4 py-1.5 rounded-[8px] text-[15px] max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px] font-medium transition cursor-pointer border ${
                       isSelected
                         ? "border-[#FABE2C] bg-[#FABE2C]/15 text-[#FABE2C] font-semibold shadow-[0_0_12px_rgba(250,190,44,0.2)]"
                         : "border-white/20 bg-transparent text-white/90 hover:border-white/40 hover:bg-white/5"
@@ -222,7 +222,7 @@ const FilterModal = ({
             variant="ghost"
             type="button"
             onClick={handleClearAll}
-            className="px-5 py-2.5 rounded-[8px] border border-[#FF3B30] text-[#FF3B30] hover:bg-[#FF3B30]/10 font-bold text-fs14 transition cursor-pointer"
+            className="px-5 py-2.5 rounded-[8px] border border-[#FF3B30] text-[#FF3B30] bg-[#ff3b30]! hover:bg-[#FF3B30]/10 font-bold text-[15px] max-[1440px]:text-[14px] max-[1024px]:text-[13px] max-[768px]:text-[12px] transition cursor-pointer"
           >
             Clear All
           </Button>
@@ -230,7 +230,7 @@ const FilterModal = ({
             variant="primary"
             type="button"
             onClick={handleApply}
-            className="px-6 py-2.5 rounded-[8px] !bg-[#FABE2C] hover:!bg-[#e0a824] active:scale-95 text-black font-bold text-fs14 shadow-lg transition cursor-pointer h-auto"
+            className="px-6 py-2.5 rounded-[8px] !bg-[#FABE2C] hover:!bg-[#e0a824] active:scale-95 text-black font-bold text-[15px]! max-[1440px]:text-[14px]! max-[1024px]:text-[13px]! max-[768px]:text-[12px]! shadow-lg transition cursor-pointer h-auto"
           >
             Apply Filter
           </Button>

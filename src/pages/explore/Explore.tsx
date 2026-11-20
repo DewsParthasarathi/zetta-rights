@@ -48,9 +48,10 @@ const Explore = () => {
   const [recentMovies, setRecentMovies] = useState<TMDBMovie[]>([]);
   const [isRecentLoading, setIsRecentLoading] = useState(false);
 
-  const initialGenreNames = initialGenre && TMDB_ID_TO_GENRE_NAMES[initialGenre]
-    ? [TMDB_ID_TO_GENRE_NAMES[initialGenre][0]]
-    : [];
+  const initialGenreNames =
+    initialGenre && TMDB_ID_TO_GENRE_NAMES[initialGenre]
+      ? [TMDB_ID_TO_GENRE_NAMES[initialGenre][0]]
+      : [];
 
   const [filterModalState, setFilterModalState] = useState<FilterState>({
     contentTypes: [],
@@ -195,7 +196,8 @@ const Explore = () => {
       setFilterModalState((prev) => ({
         ...prev,
         genres: prev.genres.filter(
-          (g) => !genreNames.includes(g) && GENRE_NAME_TO_TMDB_ID[g] !== genreId,
+          (g) =>
+            !genreNames.includes(g) && GENRE_NAME_TO_TMDB_ID[g] !== genreId,
         ),
       }));
     } else {
@@ -276,11 +278,11 @@ const Explore = () => {
     <div className="min-h-screen bg-[#111826] text-white font-century select-none pb-20">
       <div className="w-[88%] max-[1024px]:w-[92%] mx-auto pt-6 flex flex-col gap-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-fs24 font-bold text-white tracking-tight">
+          <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             Explore
           </h1>
 
-          <nav className="flex items-center gap-2 text-fs14 text-[#8E8E8E]">
+          <nav className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]">
             <Link
               to="/"
               className="hover:text-white transition-colors cursor-pointer"
@@ -315,13 +317,15 @@ const Explore = () => {
           activeFilterCount={activeFilterCount}
         />
 
-        {!debouncedQuery && activeGenreIds.length === 0 && activeFilterCount === 0 && (
-          <RecentSearchSection
-            movies={recentMovies}
-            isLoading={isRecentLoading}
-            onOfferClick={handleOfferClick}
-          />
-        )}
+        {!debouncedQuery &&
+          activeGenreIds.length === 0 &&
+          activeFilterCount === 0 && (
+            <RecentSearchSection
+              movies={recentMovies}
+              isLoading={isRecentLoading}
+              onOfferClick={handleOfferClick}
+            />
+          )}
 
         <div ref={gridSectionRef} className="pt-2">
           <TopSearchSection

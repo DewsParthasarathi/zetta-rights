@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
-import tmdbService, { type TMDBMovie } from "../services/tmdbService";
+import tmdbService, { type TMDBMovie } from "../../services/tmdbService";
 
 export interface MovieSectionState {
   movies: TMDBMovie[];

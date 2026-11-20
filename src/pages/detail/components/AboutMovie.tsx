@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../../store/store";
-import { toggleFavorite } from "../../../store/movieSlice";
+import { toggleFavorite } from "../../../store/slices/movieSlice";
 import type {
   TMDBMovieDetail,
   TMDBCastMember,
@@ -100,11 +100,11 @@ const AboutMovie = ({
       className={`w-full flex flex-col justify-between font-century select-none text-white ${className}`}
     >
       <div>
-        <h2 className="text-fs26 max-[1440px]:text-fs22 max-[1024px]:text-fs20 font-bold text-white tracking-tight mb-3">
+        <h2 className="text-fs26 max-[1440px]:text-fs22 max-[1024px]:text-[20px] max-[640px]:text-[16px] font-bold text-white tracking-tight mb-3">
           About {movie.title}
         </h2>
 
-        <div className="text-fs14 max-[1440px]:text-fs13 text-[#A0AEC0] leading-relaxed mb-4">
+        <div className="text-[14px]  max-[640px]:text-[12px] text-[#A0AEC0] leading-relaxed mb-4">
           <p className="inline">
             {isExpanded
               ? movie.overview
@@ -117,7 +117,7 @@ const AboutMovie = ({
               variant="unstyled"
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline text-[#FABE2C] hover:text-[#E5AD25] font-semibold text-fs14 max-[1440px]:text-fs13 cursor-pointer ml-1 transition"
+              className="inline text-[#FABE2C] hover:text-[#E5AD25] font-semibold text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] cursor-pointer ml-1 transition"
             >
               {isExpanded ? "Read Less" : "Read More"}
             </Button>
@@ -126,7 +126,7 @@ const AboutMovie = ({
 
         <div className="flex flex-wrap items-center justify-between gap-3 py-3 border-y border-white/10 mb-5">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[6px] border border-white/15 bg-white/5 text-fs12 max-[1440px]:text-fs11 text-gray-300">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[6px] border border-white/15 bg-white/5 text-[12px]  text-gray-300">
               <Image
                 src={Time_Icon}
                 alt="Time"
@@ -138,14 +138,14 @@ const AboutMovie = ({
             {genreNames.slice(0, 6).map((name, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-center px-3 py-1 rounded-[6px] border border-white/15 bg-white/5 text-fs12 max-[1440px]:text-fs11 text-gray-300"
+                className="inline-flex items-center px-3 py-1 rounded-[6px] border border-white/15 bg-white/5 text-[12px]  text-gray-300"
               >
                 {name}
               </span>
             ))}
           </div>
 
-          <div className="flex items-center gap-5 max-[640px]:gap-3">
+          <div className="flex items-center gap-5 max-[640px]:gap-3 max-[640px]:justify-between max-[640px]:w-[97%]">
             <div className="flex items-center gap-1.5">
               <div className="flex items-center gap-0.5">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -159,12 +159,12 @@ const AboutMovie = ({
                   />
                 ))}
               </div>
-              <span className="text-fs12 max-[1440px]:text-fs11 text-gray-300 font-medium">
+              <span className="text-[12px] text-gray-300 font-medium">
                 ({normalizedRating.toFixed(1)}) {reviewsCount} Reviews
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-fs12 max-[1440px]:text-fs11 text-gray-300 font-medium">
+            <div className="flex items-center gap-1.5 text-[12px]  text-gray-300 font-medium">
               <Image
                 src={Comment_Icon}
                 alt="Comments"
@@ -180,7 +180,7 @@ const AboutMovie = ({
             variant="primary"
             type="button"
             onClick={onOpenOffer}
-            className="px-8 py-2.5 rounded-[8px] font-bold text-black text-fs15 max-[1440px]:text-fs14 bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 shadow-md transition"
+            className="px-8 py-2.5 rounded-[8px] font-bold text-black text-fs15 max-[1440px]:text-[14px] max-[1366px]:text-[14px] max-[1024px]:text-[14px]! max-[640px]:text-[12px] bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 shadow-md transition"
           >
             Make an Offer
           </Button>
@@ -201,7 +201,7 @@ const AboutMovie = ({
               alt="Like"
               className="w-4 h-4 object-contain"
             />
-            <span className="text-fs14 max-[1440px]:text-fs13 font-semibold">
+            <span className="text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] font-semibold">
               {isLiked ? `${likesDisplay} Liked` : likesDisplay}
             </span>
           </Button>
@@ -288,7 +288,7 @@ const AboutMovie = ({
                 variant="unstyled"
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 text-fs14 max-[1440px]:text-fs13 font-bold rounded-[8px] transition-all cursor-pointer text-center ${
+                className={`flex-1 py-2 text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] font-bold rounded-[8px] transition-all cursor-pointer text-center ${
                   isActive
                     ? "bg-white text-black shadow-md font-bold"
                     : "text-white/80 hover:text-white hover:bg-white/5 font-semibold"
@@ -312,7 +312,7 @@ const AboutMovie = ({
         type="button"
         onClick={onOpenOffer}
         fullWidth
-        className="py-3.5 w-[70%]! mx-auto rounded-[10px] font-bold text-black text-fs16 max-[1440px]:text-fs15 bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-[0.99] shadow-lg transition mt-6"
+        className="py-3.5 w-[70%]! mx-auto rounded-[10px] font-bold text-black text-fs16 max-[1440px]:text-[15px] max-[1366px]:text-[14px] max-[1024px]:text-[14px]! max-[640px]:text-[12px] bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-[0.99] shadow-lg transition mt-6"
       >
         Make an Offer
       </Button>

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
-import api from "../utils/api";
-import type { RootState } from "./store";
+import api from "../../utils/api";
+import type { RootState } from "../store";
 import { addOfferToCurrentUser } from "./authSlice";
-import type { OfferRecord } from "../types/offer";
+import type { OfferRecord } from "../../types/offer";
 
 export interface SubmitOfferPayload {
   movieId: number;

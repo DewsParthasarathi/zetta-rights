@@ -13,11 +13,11 @@ const Label = ({
 }: LabelProps) => {
   return (
     <label
-      className={`text-[#8E8E8E] text-fs15 max-[1024px]:text-fs14 font-medium mb-2 block font-century ${className}`}
+      className={`text-[#8A94A6] text-fs14 font-medium mb-2.5 block font-century ${className}`}
       {...props}
     >
       {children}
-      {required && <span className="text-red-500 ml-1">*</span>}
+      {required}
     </label>
   );
 };

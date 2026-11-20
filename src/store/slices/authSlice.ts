@@ -3,9 +3,9 @@ import {
   createAsyncThunk,
   type PayloadAction,
 } from "@reduxjs/toolkit";
-import api from "../utils/api";
+import api from "../../utils/api";
 
-import type { OfferRecord } from "../types/offer";
+import type { OfferRecord } from "../../types/offer";
 
 export interface UserAccount {
   id?: string;
@@ -39,6 +39,7 @@ export interface CheckAccountResult {
 export interface RegisterAccountPayload {
   email: string;
   fullName: string;
+  name?: string;
   mobileNumber: string;
   role: "Buyer" | "Seller";
   companyName?: string;
@@ -54,6 +55,7 @@ export interface RegisterAccountPayload {
 export interface RegistrationDraft {
   email: string;
   fullName: string;
+  name?: string;
   mobileNumber: string;
   role?: "Buyer" | "Seller";
 }
@@ -157,13 +159,17 @@ export const registerAccount = createAsyncThunk<
       );
     }
 
+    const userFullName =
+      accountData.fullName?.trim() || accountData.name?.trim() || "";
+
     const newRecord: UserAccount = {
       id: Date.now().toString(),
       email: accountData.email.trim(),
-      fullName: accountData.fullName.trim(),
+      fullName: userFullName,
+      name: userFullName,
       mobileNumber: accountData.mobileNumber.trim(),
       companyName:
-        accountData.companyName?.trim() || accountData.fullName.trim(),
+        accountData.companyName?.trim() || userFullName,
       address: accountData.address?.trim() || "",
       city: accountData.city?.trim() || "",
       state: accountData.state?.trim() || "",
@@ -240,6 +246,12 @@ const authSlice = createSlice({
         localStorage.setItem("user", JSON.stringify(state.user));
       }
     },
+    updateUserProfile: (state, action: PayloadAction<Partial<UserAccount>>) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+        localStorage.setItem("user", JSON.stringify(state.user));
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -251,12 +263,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.lastCheckedEmail = action.payload.email;
         state.accountExists = action.payload.exists;
-        if (action.payload.exists && action.payload.account) {
-          state.isAuthenticated = true;
-          state.user = action.payload.account;
-          state.error = null;
-          localStorage.setItem("user", JSON.stringify(action.payload.account));
-        }
+        state.error = null;
       })
       .addCase(checkAccountByEmail.rejected, (state, action) => {
         state.isLoading = false;
@@ -290,6 +297,7 @@ export const {
   setRegistrationDraft,
   clearRegistrationDraft,
   addOfferToCurrentUser,
+  updateUserProfile,
 } = authSlice.actions;
 
 export default authSlice.reducer;

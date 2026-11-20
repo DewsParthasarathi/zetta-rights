@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { logout } from "../../store/authSlice";
+import { logout } from "../../store/slices/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
 import Image from "../../components/common/Image";
 import Button from "../../components/common/Button";
@@ -17,6 +17,7 @@ import profile_Img from "../../assets/images/Home/Header/profile_Img.png";
 import logoutIcon from "../../assets/images/Home/Header/logoutIcon.png";
 import hamburger from "../../assets/images/Home/Header/hamburger.png";
 import close_Icon from "../../assets/images/Home/Header/close_Icon.png";
+import Companylogo from "../../assets/images/Login/Companylogo.png";
 
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -33,6 +34,7 @@ const Navbar = () => {
 
   const profileRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,6 +49,12 @@ const Navbar = () => {
         !searchRef.current.contains(event.target as Node)
       ) {
         setIsSearchOpen(false);
+      }
+      if (
+        headerRef.current &&
+        !headerRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -81,11 +89,19 @@ const Navbar = () => {
     user?.email?.split("@")[0] ||
     "User";
 
+  const profileAvatar = user?.profileImage || Companylogo || profile_Img;
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#111826]/95 backdrop-blur-md  font-century select-none transition-colors">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 w-full bg-[#111826]/95 backdrop-blur-md font-century select-none transition-colors"
+    >
       <div className="mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 h-[72px] max-[640px]:h-[64px] flex items-center justify-between">
-        <div className="flex items-center gap-12 max-[1024px]:gap-6">
-          <Link to="/" className="flex items-center shrink-0 w-[30%]">
+        <div className="flex items-center gap-12 max-[1024px]:w-[60%] max-[1024px]:gap-6">
+          <Link
+            to="/"
+            className="flex items-center shrink-0 w-[30%] max-[1024px]:w-[50%] max-[640px]:w-[80%]"
+          >
             <Image
               src={logo}
               alt="ZettaRights"
@@ -98,7 +114,7 @@ const Navbar = () => {
               to="/"
               end
               className={({ isActive }) =>
-                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
+                `text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
                   isActive
                     ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:w-1/2 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
                     : "text-[#8E8E8E] hover:text-white"
@@ -110,7 +126,7 @@ const Navbar = () => {
             <NavLink
               to="/explore"
               className={({ isActive }) =>
-                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
+                `text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
                   isActive
                     ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0  after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
                     : "text-[#8E8E8E] hover:text-white"
@@ -119,18 +135,16 @@ const Navbar = () => {
             >
               Explore
             </NavLink>
-            <NavLink
-              to="/blog"
-              className={({ isActive }) =>
-                `text-fs20 max-[1024px]:text-fs14 font-medium transition relative py-1 ${
-                  isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0  after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
-                    : "text-[#8E8E8E] hover:text-white"
-                }`
-              }
+            <span
+              role="link"
+              tabIndex={0}
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              className="text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 text-[#8E8E8E] hover:text-white cursor-pointer select-none"
             >
               Blog
-            </NavLink>
+            </span>
           </nav>
         </div>
 
@@ -154,7 +168,7 @@ const Navbar = () => {
 
             {!isSearchOpen && (
               <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
-                <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
+                <div className="relative bg-[#1A2230] text-white text-[12px] font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1A2230] border-l border-t border-white/15 rotate-45" />
                   Search
                 </div>
@@ -179,7 +193,7 @@ const Navbar = () => {
                   variant="primary"
                   size="sm"
                   type="submit"
-                  className="px-3 py-1.5 font-semibold text-fs13 rounded-[6px] cursor-pointer h-auto"
+                  className="px-3 py-1.5 font-semibold text-[12px] rounded-[6px] cursor-pointer h-auto"
                 >
                   Go
                 </Button>
@@ -210,7 +224,7 @@ const Navbar = () => {
             </Button>
 
             <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
-              <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
+              <div className="relative bg-[#1A2230] text-white text-[12px] font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1A2230] border-l border-t border-white/15 rotate-45" />
                 Add Content
               </div>
@@ -232,7 +246,7 @@ const Navbar = () => {
             </Button>
 
             <div className="absolute top-full mt-2 z-40 pointer-events-none transition-all duration-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible -translate-y-1 group-hover:translate-y-0">
-              <div className="relative bg-[#1A2230] text-white text-fs12 font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
+              <div className="relative bg-[#1A2230] text-white text-[12px] font-medium px-2.5 py-1 rounded-[4px] border border-white/15 shadow-xl whitespace-nowrap">
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[#1A2230] border-l border-t border-white/15 rotate-45" />
                 Theme
               </div>
@@ -249,9 +263,9 @@ const Navbar = () => {
                 onClick={() => setIsProfileOpen((prev) => !prev)}
                 className="flex items-center gap-2 cursor-pointer focus:outline-none"
               >
-                <div className="w-9 h-9 rounded-full overflow-hidden border border-white/30 hover:border-[#FABE2C] transition">
+                <div className="w-9 h-9 rounded-full overflow-hidden border border-white/30 hover:border-[#FABE2C] transition bg-[#F7D564]">
                   <Image
-                    src={profile_Img}
+                    src={profileAvatar}
                     alt={displayName}
                     className="w-full h-full object-cover"
                   />
@@ -260,16 +274,25 @@ const Navbar = () => {
 
               {isProfileOpen && (
                 <div className="absolute right-0 top-12 z-50 w-56 bg-[#161D2A] border border-white/20 rounded-[8px] py-2 shadow-2xl">
-                  <div className="px-4 py-2 border-b border-white/10">
-                    <p className="text-fs14 font-semibold text-white truncate">
-                      {displayName}
-                    </p>
-                    <p className="text-fs12 text-[#FABE2C] font-medium">
-                      {user?.role || "Member"}
-                    </p>
-                    <p className="text-fs12 text-gray-400 truncate">
-                      {user?.email}
-                    </p>
+                  <div className="px-4 py-2 border-b border-white/10 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden border border-white/20 bg-[#F7D564] shrink-0">
+                      <Image
+                        src={profileAvatar}
+                        alt={displayName}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="overflow-hidden">
+                      <p className="text-[14px] max-[1366px]:text-[12px] font-semibold text-white truncate">
+                        {displayName}
+                      </p>
+                      <p className="text-[12px] text-[#FABE2C] font-medium">
+                        {user?.role || "Member"}
+                      </p>
+                      <p className="text-[12px] text-gray-400 truncate">
+                        {user?.email}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="py-1">
@@ -277,7 +300,7 @@ const Navbar = () => {
                       variant="ghost"
                       type="button"
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 text-left text-fs14 text-red-400 hover:bg-white/10 flex items-center gap-2.5 transition cursor-pointer justify-start"
+                      className="w-full px-4 py-2 text-left text-[14px] max-[1366px]:text-[12px] text-red-400 hover:bg-white/10 flex items-center gap-2.5 transition cursor-pointer justify-start"
                     >
                       <Image
                         src={logoutIcon}
@@ -314,44 +337,56 @@ const Navbar = () => {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="hidden max-[768px]:block w-full bg-[#111826] border-t border-white/10 px-6 py-4 space-y-3">
-          <NavLink
-            to="/"
-            end
-            onClick={() => setIsMobileMenuOpen(false)}
-            className={({ isActive }) =>
-              `block text-fs15 py-1 ${
-                isActive ? "text-[#FABE2C] font-semibold" : "text-[#8E8E8E]"
-              }`
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/explore"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className={({ isActive }) =>
-              `block text-fs15 py-1 ${
-                isActive ? "text-[#FABE2C] font-semibold" : "text-[#8E8E8E]"
-              }`
-            }
-          >
-            Explore
-          </NavLink>
-          <NavLink
-            to="/blog"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className={({ isActive }) =>
-              `block text-fs15 py-1 ${
-                isActive ? "text-[#FABE2C] font-semibold" : "text-[#8E8E8E]"
-              }`
-            }
-          >
-            Blog
-          </NavLink>
+      <div
+        className={`hidden max-[768px]:grid absolute top-full left-0 w-full transition-[grid-template-rows,opacity] duration-300 ease-in-out z-50 ${
+          isMobileMenuOpen
+            ? "grid-rows-[1fr] opacity-100 shadow-2xl"
+            : "grid-rows-[0fr] opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="w-full bg-[#111826] border-t border-white/10 px-6 py-4 space-y-3 shadow-2xl">
+            <NavLink
+              to="/"
+              end
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
+                  isActive
+                    ? "text-[#FABE2C] font-semibold"
+                    : "text-[#8E8E8E] hover:text-white"
+                }`
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/explore"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={({ isActive }) =>
+                `block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
+                  isActive
+                    ? "text-[#FABE2C] font-semibold"
+                    : "text-[#8E8E8E] hover:text-white"
+                }`
+              }
+            >
+              Explore
+            </NavLink>
+            <span
+              role="link"
+              tabIndex={0}
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMobileMenuOpen(false);
+              }}
+              className="block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors text-[#8E8E8E] hover:text-white cursor-pointer select-none"
+            >
+              Blog
+            </span>
+          </div>
         </div>
-      )}
+      </div>
     </header>
   );
 };

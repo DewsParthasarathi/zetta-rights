@@ -19,61 +19,61 @@ const Footer = () => {
       />
 
       <div className="relative z-10 w-full mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 pt-10 pb-6">
-        <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-8 w-full">
-          <div className="w-[32%] max-[1440px]:w-[34%] max-[1024px]:w-full flex flex-col items-start shrink-0">
+        <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-12 max-[640px]:gap-8 w-full">
+          <div className="w-[32%] max-[1440px]:w-[34%] max-[1024px]:w-full max-[640px]:w-full flex flex-col items-start shrink-0">
             <Image
               src={footer_Logo}
               alt="ZettaRights"
-              className="h-9 max-[640px]:h-8 w-[33%] object-contain"
+              className="h-9 max-[640px]:h-8 w-[33%] max-[1024px]:w-[28%] max-[640px]:w-auto object-contain"
             />
 
-            <p className="text-[#fff] w-[65%] text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-fs13 leading-relaxed mt-3 max-w-sm">
+            <p className="text-[#fff] w-[65%] max-[640px]:w-full text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-[13px] max-[640px]:text-[12px] max-[1024px]:max-w-2xl max-[640px]:max-w-full leading-relaxed mt-3 max-w-sm">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do
               Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Sem
               Viverra Aliquet Eget Sit Amet Tellus.
             </p>
           </div>
 
-          <div className="w-[58%] max-[1440px]:w-[58%] max-[1024px]:w-full flex justify-between items-start gap-8 max-[640px]:flex-wrap">
-            <div className="flex-1 min-w-[120px]">
-              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-fs14 font-medium">
+          <div className="w-[58%] max-[1440px]:w-[58%] max-[1024px]:w-full max-[640px]:w-full flex max-[640px]:flex-col justify-between items-start gap-8 max-[640px]:gap-6">
+            <div className="flex-1 min-w-[120px] max-[640px]:w-full">
+              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-[16px] max-[640px]:w-full font-medium">
                 <li>
-                  <a href="#about" className="hover:text-white/80 transition">
+                  <a href="#about" className="hover:text-white/80 transition block w-full">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#terms" className="hover:text-white/80 transition">
+                  <a href="#terms" className="hover:text-white/80 transition block w-full">
                     Terms Of Use
                   </a>
                 </li>
                 <li>
-                  <a href="#privacy" className="hover:text-white/80 transition">
+                  <a href="#privacy" className="hover:text-white/80 transition block w-full">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#faq" className="hover:text-white/80 transition">
+                  <a href="#faq" className="hover:text-white/80 transition block w-full">
                     FAQ
                   </a>
                 </li>
               </ul>
             </div>
 
-            <div className="flex-1 min-w-[140px]">
-              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
+            <div className="flex-1 min-w-[140px] max-[640px]:w-full">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-[16px] font-semibold mb-4">
                 Need Help?
               </h4>
-              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-fs14 font-medium">
+              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-[16px] max-[640px]:w-full font-medium">
                 <li>
-                  <a href="#help" className="hover:text-white/80 transition">
+                  <a href="#help" className="hover:text-white/80 transition block w-full">
                     Visit Help Center
                   </a>
                 </li>
                 <li>
                   <a
                     href="#feedback"
-                    className="hover:text-white/80 transition"
+                    className="hover:text-white/80 transition block w-full"
                   >
                     Share Feedback
                   </a>
@@ -81,8 +81,8 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div className="flex-1 min-w-[190px] flex flex-col items-start">
-              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-fs16 font-semibold mb-4">
+            <div className="flex-1 min-w-[190px] max-[640px]:w-full flex flex-col items-start">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-[16px] font-semibold mb-4">
                 Connect With Us
               </h4>
 
@@ -149,7 +149,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/15 mt-10 pt-5 text-center text-[#8E8E8E] text-fs14 max-[1440px]:text-fs13 font-normal">
+        <div className="border-t border-white/15 mt-10 pt-5 text-center text-[#8E8E8E] text-[14px] max-[1024px]:text-[12px] font-normal">
           Copyrights © ZettaRights 2024. All Rights Reserved.
         </div>
       </div>

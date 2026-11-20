@@ -22,14 +22,16 @@ const TopSearchSection = ({
   className = "",
 }: TopSearchSectionProps) => {
   return (
-    <section className={`w-full flex flex-col gap-5 font-century select-none ${className}`}>
+    <section
+      className={`w-full flex flex-col gap-5 font-century select-none ${className}`}
+    >
       <div className="flex items-center justify-between">
         <div className="flex items-baseline gap-3">
-          <h2 className="text-fs22 max-[1440px]:text-fs20 font-bold text-white tracking-tight">
+          <h2 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white tracking-tight">
             {title}
           </h2>
           {totalResults !== undefined && totalResults > 0 && (
-            <span className="text-fs13 text-gray-400 font-normal">
+            <span className="text-13px text-gray-400 font-normal">
               ({totalResults} available)
             </span>
           )}
@@ -57,8 +59,9 @@ const TopSearchSection = ({
             No Movies Found
           </h3>
           <p className="text-fs14 text-gray-400 max-w-md mb-6">
-            We couldn't find any content matching your search query or selected filters.
-            Try adjusting your search keywords or clearing your filters.
+            We couldn't find any content matching your search query or selected
+            filters. Try adjusting your search keywords or clearing your
+            filters.
           </p>
           {onResetFilters && (
             <Button
@@ -77,7 +80,7 @@ const TopSearchSection = ({
           {movies.map((movie, index) => (
             <div
               key={`grid-${movie.id}-${index}`}
-              className="h-full relative hover:z-20 transition-all pb-3"
+              className="h-full relative lg:hover:z-20 transition-all pb-3"
             >
               <MovieCard
                 movie={movie}

@@ -45,9 +45,11 @@ const RecentSearchSection = ({
   }
 
   return (
-    <section className={`w-full flex flex-col gap-4 font-century select-none ${className}`}>
+    <section
+      className={`w-full flex flex-col gap-4 font-century select-none ${className}`}
+    >
       <div className="flex items-center justify-between">
-        <h2 className="text-fs22 max-[1440px]:text-fs20 font-bold text-white tracking-tight">
+        <h2 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white tracking-tight">
           Recent Search
         </h2>
 
@@ -123,7 +125,7 @@ const RecentSearchSection = ({
             {movies.map((movie, index) => (
               <SwiperSlide
                 key={`recent-${movie.id}-${index}`}
-                className="!h-auto flex pt-2 px-2 pb-6 hover:z-30 transition-all"
+                className="!h-auto flex pt-2 px-2 pb-6 lg:hover:z-30 transition-all"
               >
                 <MovieCard
                   movie={movie}

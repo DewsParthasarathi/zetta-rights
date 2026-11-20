@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store/store";
-import { toggleFavorite } from "../../../store/movieSlice";
+import { toggleFavorite } from "../../../store/slices/movieSlice";
 import {
   type TMDBMovie,
   TMDB_GENRES,
@@ -59,10 +59,10 @@ const MovieCard = ({
   return (
     <div
       onClick={handleCardClick}
-      className={`group relative select-none font-century w-full h-full hover:z-20 cursor-pointer ${className}`}
+      className={`group relative select-none font-century w-full h-full lg:hover:z-20 cursor-pointer ${className}`}
     >
       <div
-        className="absolute top-[44%] -left-[6%] right-0 -bottom-[3%] z-0 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
+        className="absolute top-[44%] -left-[6%] right-0 -bottom-[3%] z-0 opacity-0 lg:group-hover:opacity-100 transition-all duration-300 pointer-events-none"
         aria-hidden="true"
       >
         <svg
@@ -91,13 +91,13 @@ const MovieCard = ({
         </svg>
       </div>
 
-      <div className="relative z-10 flex flex-col justify-between h-full bg-[#18202F] border border-white/10 group-hover:border-white/20 rounded-[10px] p-2 transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] group-hover:-translate-y-1">
+      <div className="relative z-10 flex flex-col justify-between h-full bg-[#18202F] border border-white/10 lg:group-hover:border-white/20 rounded-[10px] p-2 transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] lg:group-hover:-translate-y-1">
         <div className="relative aspect-[16/10] rounded-[6px] overflow-hidden bg-black/60">
           <Image
             src={imageUrl}
             alt={movie.title}
             fallbackSrc={Default_Img}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 lg:group-hover:scale-105"
           />
 
           {isFeatured && (
@@ -144,7 +144,7 @@ const MovieCard = ({
             )}
           </Button>
 
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] opacity-0 lg:group-hover:opacity-100 pointer-events-none lg:group-hover:pointer-events-auto transition-opacity duration-300 flex items-center justify-center z-20">
             <Button
               variant="primary"
               type="button"
@@ -156,7 +156,7 @@ const MovieCard = ({
                   navigate(`/make-offer/${movie.id}`);
                 }
               }}
-              className="bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 text-black font-bold text-fs16 max-[1024px]:text-fs14 px-7 py-2.5 rounded-[8px] shadow-[0_6px_20px_rgba(0,0,0,0.5)] cursor-pointer transition transform scale-95 group-hover:scale-100 select-none h-auto"
+              className="bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 text-black font-bold text-fs16 max-[1024px]:text-[14px] px-7 py-2.5 rounded-[8px] shadow-[0_6px_20px_rgba(0,0,0,0.5)] cursor-pointer transition transform scale-95 lg:group-hover:scale-100 select-none h-auto"
             >
               Make an Offer
             </Button>
@@ -165,13 +165,13 @@ const MovieCard = ({
 
         <div className="flex flex-col flex-1 mt-3.5">
           <h3
-            className="text-fs18 max-[1024px]:text-fs16 font-bold text-white truncate tracking-tight"
+            className="text-fs18 max-[1024px]:text-[16px] max-[640px]:text-[14px] font-bold text-white truncate tracking-tight"
             title={movie.title}
           >
             {movie.title}
           </h3>
 
-          <p className="text-[#8E8E8E] text-fs12 leading-relaxed line-clamp-3 mt-1.5 min-h-[3.8em]">
+          <p className="text-[#8E8E8E] text-[12px] leading-relaxed line-clamp-3 mt-1.5 min-h-[3.8em]">
             {movie.overview || "No description available for this content."}
           </p>
 
@@ -182,14 +182,14 @@ const MovieCard = ({
                 alt="Duration"
                 className="w-3.5 h-3.5 object-contain opacity-90"
               />
-              <span className="text-fs12 font-semibold">{durationText}</span>
+              <span className="text-[12px] font-semibold">{durationText}</span>
             </div>
 
             <div className="flex items-center gap-1 overflow-hidden truncate">
               {genreNames.map((genre, idx) => (
                 <span
                   key={idx}
-                  className="px-2 py-0.5 rounded-[6px] border border-white/20 text-fs11 text-gray-200 font-medium whitespace-nowrap shrink-0"
+                  className="px-2 py-0.5 rounded-[6px] border border-white/20 text-[11px] text-gray-200 font-medium whitespace-nowrap shrink-0"
                 >
                   {genre}
                 </span>
@@ -211,12 +211,12 @@ const MovieCard = ({
                   />
                 ))}
               </div>
-              <span className="text-white/90 font-semibold text-fs12">
+              <span className="text-white/90 font-semibold text-[12px]">
                 ({normalizedRating.toFixed(1)})
               </span>
             </div>
 
-            <span className="text-white font-bold text-fs12 truncate">
+            <span className="text-white font-bold text-[12px] truncate">
               {movie.vote_count || 10} Reviews
             </span>
           </div>

@@ -12,8 +12,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   checkAccountByEmail,
+  login,
   setRegistrationDraft,
-} from "../../store/authSlice";
+  type UserAccount,
+} from "../../store/slices/authSlice";
 import type { AppDispatch, RootState } from "../../store/store";
 
 import Button from "../../components/common/Button";
@@ -50,7 +52,8 @@ const Login = () => {
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [timer, setTimer] = useState(65);
   const [otpError, setOtpError] = useState("");
-  const [isCheckingAccount, setIsCheckingAccount] = useState(false);
+  const [matchedAccount, setMatchedAccount] = useState<UserAccount | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
@@ -96,7 +99,7 @@ const Login = () => {
     });
   };
 
-  const handleRequestOtp = (e: FormEvent) => {
+  const handleRequestOtp = async (e: FormEvent) => {
     e.preventDefault();
 
     let hasAnyError = false;
@@ -122,8 +125,38 @@ const Login = () => {
       return;
     }
 
-    createAndSendOtp(email.trim());
-    setStep("OTP_VERIFY");
+    setIsProcessing(true);
+
+    try {
+      const actionResult = await dispatch(checkAccountByEmail(email.trim()));
+      setIsProcessing(false);
+
+      if (checkAccountByEmail.fulfilled.match(actionResult)) {
+        const { exists, account } = actionResult.payload;
+
+        if (exists && account) {
+          setMatchedAccount(account);
+          createAndSendOtp(email.trim());
+          setStep("OTP_VERIFY");
+        } else {
+          setMatchedAccount(null);
+          toast.info(
+            "Account not found with this email. Please enter your details to create an account.",
+          );
+          setStep("CREATE_ACCOUNT");
+        }
+      } else {
+        const errorMsg =
+          (actionResult.payload as string) ||
+          "Could not verify account. Please make sure JSON server is running (npm run db).";
+        setEmailError(errorMsg);
+      }
+    } catch {
+      setIsProcessing(false);
+      setEmailError(
+        "Could not connect to JSON Server at http://localhost:3001. Please run `npm run db`.",
+      );
+    }
   };
 
   const handleOtpDigitChange = (
@@ -197,39 +230,37 @@ const Login = () => {
     }
 
     setOtpError("");
-    setIsCheckingAccount(true);
 
-    try {
-      const actionResult = await dispatch(checkAccountByEmail(email.trim()));
-      setIsCheckingAccount(false);
+    let accountToLogin = matchedAccount;
 
-      if (checkAccountByEmail.fulfilled.match(actionResult)) {
-        const { exists, role: userRole, account } = actionResult.payload;
-
-        if (exists && account) {
-          const displayName =
-            account.companyName || account.fullName || "User";
-          toast.success(
-            `Welcome back, ${displayName} (${userRole})!`,
-          );
-          navigate("/");
-        } else {
-          toast.info(
-            "Email verified! Please enter your details to create an account.",
-          );
-          setStep("CREATE_ACCOUNT");
+    if (!accountToLogin) {
+      setIsProcessing(true);
+      try {
+        const actionResult = await dispatch(checkAccountByEmail(email.trim()));
+        setIsProcessing(false);
+        if (
+          checkAccountByEmail.fulfilled.match(actionResult) &&
+          actionResult.payload.exists &&
+          actionResult.payload.account
+        ) {
+          accountToLogin = actionResult.payload.account;
         }
-      } else {
-        const errorMsg =
-          (actionResult.payload as string) ||
-          "Could not verify account. Please make sure JSON server is running (npm run db).";
-        setOtpError(errorMsg);
+      } catch {
+        setIsProcessing(false);
       }
-    } catch {
-      setIsCheckingAccount(false);
-      setOtpError(
-        "Could not connect to JSON Server at http://localhost:3001. Please run `npm run db`.",
+    }
+
+    if (accountToLogin) {
+      dispatch(login(accountToLogin));
+      const displayName =
+        accountToLogin.companyName || accountToLogin.fullName || "User";
+      toast.success(`Welcome back, ${displayName}!`);
+      navigate("/");
+    } else {
+      toast.info(
+        "Email verified! Please enter your details to create an account.",
       );
+      setStep("CREATE_ACCOUNT");
     }
   };
 
@@ -265,21 +296,19 @@ const Login = () => {
       return;
     }
 
-    if (!email.trim() || !generatedOtp || otpDigits.join("") !== generatedOtp) {
-      if (!email.trim()) {
-        toast.info("Please enter your email to verify with OTP first.");
-        setStep("LOGIN");
-      } else {
-        createAndSendOtp(email.trim());
-        setStep("OTP_VERIFY");
-      }
-      return;
-    }
+    const randomEmail = `user${Math.floor(10000 + Math.random() * 90000)}@zetarights.com`;
+    const accountEmail =
+      email.trim() && validateEmail(email).isValid
+        ? email.trim()
+        : randomEmail;
+
+    const trimmedName = fullName.trim();
 
     dispatch(
       setRegistrationDraft({
-        email: email.trim(),
-        fullName: fullName.trim(),
+        email: accountEmail,
+        fullName: trimmedName,
+        name: trimmedName,
         mobileNumber: mobileNumber.trim(),
         role,
       }),
@@ -293,226 +322,260 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century select-none"
-      style={{ backgroundImage: `url(${BackGround_Img})` }}
-    >
-      <div className="relative z-10 w-[24%] max-[1600px]:w-[28%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[52%] max-[768px]:w-[75%] max-[480px]:w-[92%] max-w-[96%] bg-black/65 border border-white/10 rounded-[16px] px-7 py-7 max-[1024px]:px-6 max-[1024px]:py-6 overflow-hidden shadow-2xl">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
-          style={{ backgroundImage: `url(${Pattern})` }}
-        />
+    <div className="bg-white">
+      <div
+        className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century select-none"
+        style={{ backgroundImage: `url(${BackGround_Img})` }}
+      >
+        <div className="relative z-10 w-[34%] max-[1600px]:w-[32%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[52%] max-[768px]:w-[75%] max-[480px]:w-[92%] max-w-[96%] bg-black/50 border border-white/10 rounded-[20px] py-[3%] px-[3.5%]  max-[1024px]:px-6 max-[1024px]:py-6 overflow-hidden shadow-2xl">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
+            style={{ backgroundImage: `url(${Pattern})` }}
+          />
 
-        <div className="relative z-10">
-          <div className="flex justify-center mb-5">
-            <Image
-              src={loginLogo}
-              alt="ZettaRights"
-              className="h-12 max-[1024px]:h-11 w-auto cursor-pointer"
-              onClick={() => setStep("LOGIN")}
-            />
-          </div>
+          <div className="relative z-10">
+            <div className="flex w-[49%] mx-auto justify-center mb-5">
+              <Image
+                src={loginLogo}
+                alt="ZettaRights"
+                className="h-auto max-[1024px]:h-11 w-full cursor-pointer"
+                onClick={() => {
+                  setEmailError("");
+                  setTermsError("");
+                  setOtpError("");
+                  setStep("LOGIN");
+                }}
+              />
+            </div>
 
-          {step === "LOGIN" && (
-            <ReusableForm
-              title="Login"
-              subtitle="Join Us Now!"
-              submitButtonText="Request OTP"
-              onSubmit={handleRequestOtp}
-              fields={[
-                {
-                  name: "countryAndEmail",
-                  type: "custom",
-                  render: () => (
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2.5 relative">
-                        <CountryCodeSelector
-                          selectedCode={countryCode}
-                          onSelectCode={setCountryCode}
-                        />
-                        <Input
-                          type="text"
-                          value={email}
-                          hasError={Boolean(emailError)}
-                          onChange={(e) => {
-                            setEmail(e.target.value);
-                            if (emailError) setEmailError("");
-                          }}
-                          placeholder="Enter Your Email"
-                          className="flex-1"
-                        />
+            {step === "LOGIN" && (
+              <ReusableForm
+                title="Login"
+                subtitle="Join Us Now!"
+                submitButtonText={isProcessing ? "Checking..." : "Request OTP"}
+                isSubmitting={isProcessing}
+                onSubmit={handleRequestOtp}
+                fields={[
+                  {
+                    name: "countryAndEmail",
+                    type: "custom",
+                    render: () => (
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2.5 relative">
+                          <CountryCodeSelector
+                            selectedCode={countryCode}
+                            onSelectCode={setCountryCode}
+                          />
+                          <Input
+                            type="text"
+                            value={email}
+                            hasError={Boolean(emailError)}
+                            onChange={(e) => {
+                              setEmail(e.target.value);
+                              if (emailError) setEmailError("");
+                            }}
+                            placeholder="Enter Your Email"
+                            className="flex-1 text-fs20! max-[1024px]:text-fs18!"
+                          />
+                        </div>
+                        {emailError && (
+                          <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
+                            {emailError}
+                          </p>
+                        )}
                       </div>
-                      {emailError && (
-                        <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
-                          {emailError}
-                        </p>
-                      )}
-                    </div>
-                  ),
-                },
-                {
-                  name: "terms",
-                  type: "checkbox",
-                  checked: agreedToTerms,
-                  error: termsError,
-                  onCheckboxChange: (checked) => {
-                    setAgreedToTerms(checked);
-                    if (termsError) setTermsError("");
+                    ),
                   },
-                  label: (
-                    <span className="text-white text-fs13 max-[1024px]:text-fs12 leading-tight">
-                      By creating an account, you agree to ZettaRights{" "}
-                      <span className="text-[#FABE2C] hover:underline cursor-pointer">
-                        Terms and Conditions
-                      </span>{" "}
-                      and{" "}
-                      <span className="text-[#FABE2C] hover:underline cursor-pointer">
-                        Privacy Notice
+                  {
+                    name: "terms",
+                    type: "checkbox",
+                    checked: agreedToTerms,
+                    error: termsError,
+                    onCheckboxChange: (checked) => {
+                      setAgreedToTerms(checked);
+                      if (termsError) setTermsError("");
+                    },
+                    label: (
+                      <span className="text-white py-[6%] text-fs15 max-[1024px]:text-fs14 leading-tight">
+                        By creating an account, you agree to ZettaRights{" "}
+                        <span className="text-[#FABE2C] font-bold hover:underline cursor-pointer">
+                          Terms and Conditions
+                        </span>{" "}
+                        and{" "}
+                        <span className="text-[#FABE2C] font-bold hover:underline cursor-pointer">
+                          Privacy Notice
+                        </span>
                       </span>
-                    </span>
-                  ),
-                },
-              ]}
-              footer={
-                <div className="pt-3 text-center">
-                  <Button
-                    type="button"
-                    variant="link"
-                    onClick={() => setStep("CREATE_ACCOUNT")}
-                    className="text-fs15 max-[1024px]:text-fs14 text-white hover:underline font-medium"
-                  >
-                    Create a new account?
-                  </Button>
-                </div>
-              }
-            />
-          )}
-
-          {step === "OTP_VERIFY" && (
-            <ReusableForm
-              title="OTP Verify"
-              subtitle={
-                <span className="text-white text-fs15 max-[1024px]:text-fs14 font-normal">
-                  Enter the OTP sent to{" "}
-                  <span className="text-white font-semibold break-all">
-                    {email || "your email"}
-                  </span>
-                </span>
-              }
-              submitButtonText={isCheckingAccount ? "Verifying..." : "Verify"}
-              isSubmitting={isCheckingAccount}
-              submitButtonClassName="mt-3"
-              className="space-y-4"
-              onSubmit={handleVerifyOtp}
-              fields={[
-                {
-                  name: "otp",
-                  type: "custom",
-                  render: () => (
-                    <div className="space-y-1.5">
-                      <OtpInputGroup
-                        digits={otpDigits}
-                        refs={otpInputRefs}
-                        hasError={Boolean(otpError)}
-                        onChange={handleOtpDigitChange}
-                        onKeyDown={handleOtpKeyDown}
-                        onPaste={handleOtpPaste}
-                      />
-                      {otpError && (
-                        <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
-                          {otpError}
-                        </p>
-                      )}
-                    </div>
-                  ),
-                },
-              ]}
-              footer={
-                <div className="text-center space-y-2 pt-2">
-                  <p className="text-fs14 max-[1024px]:text-fs13 text-white">
-                    Didn&apos;t receive the OTP?{" "}
+                    ),
+                  },
+                ]}
+                footer={
+                  <div className="pt-3 text-center ">
                     <Button
                       type="button"
                       variant="link"
-                      onClick={handleResendOtp}
-                      disabled={timer > 0}
-                      className="text-[#FABE2C] font-semibold text-fs14 max-[1024px]:text-fs13 hover:underline inline-block"
+                      onClick={() => {
+                        setEmail("");
+                        setEmailError("");
+                        setTermsError("");
+                        setStep("CREATE_ACCOUNT");
+                      }}
+                      className="text-fs20 mx-auto max-[1024px]:text-fs14 text-white hover:underline font-medium"
                     >
-                      Resend
-                    </Button>
-                  </p>
-                  <p className="text-fs14 max-[1024px]:text-fs13 text-white font-medium tracking-wide">
-                    {formatTimer(timer)}
-                  </p>
-                  <div className="pt-1">
-                    <Button
-                      type="button"
-                      variant="link"
-                      onClick={() => setStep("LOGIN")}
-                      className="text-fs14 max-[1024px]:text-fs13 text-white hover:underline inline-block"
-                    >
-                      Change Email
+                      Create a new account?
                     </Button>
                   </div>
-                </div>
-              }
-            />
-          )}
+                }
+              />
+            )}
 
-          {step === "CREATE_ACCOUNT" && (
-            <ReusableForm
-              title="Create New Account"
-              submitButtonText="Next"
-              onSubmit={handleCreateAccountSubmit}
-              fields={[
-                {
-                  name: "fullName",
-                  label: "Full Name",
-                  type: "text",
-                  placeholder: "Yazh Athithan",
-                  required: true,
-                  maxLength: 50,
-                  value: fullName,
-                  error: fullNameError,
-                  onChange: (e) => {
-                    const lettersOnly = e.target.value
-                      .replace(/[^a-zA-Z\s'.-]/g, "")
-                      .slice(0, 50);
-                    setFullName(lettersOnly);
-                    if (fullNameError) setFullNameError("");
+            {step === "OTP_VERIFY" && (
+              <ReusableForm
+                title="OTP Verify"
+                subtitle={
+                  <span className="text-white text-fs18 max-[1024px]:text-fs16 font-normal">
+                    Enter the OTP sent to{" "}
+                    <span className="text-white font-semibold break-all">
+                      {email || "your email"}
+                    </span>
+                  </span>
+                }
+                submitButtonText={isProcessing ? "Verifying..." : "Verify"}
+                isSubmitting={isProcessing}
+                submitButtonClassName="mt-3 text-fs23 font-extrabold! text-[#0f3051]! tracking-tight"
+                className="space-y-4"
+                onSubmit={handleVerifyOtp}
+                fields={[
+                  {
+                    name: "otp",
+                    type: "custom",
+                    render: () => (
+                      <div className="space-y-1.5">
+                        <OtpInputGroup
+                          digits={otpDigits}
+                          refs={otpInputRefs}
+                          hasError={Boolean(otpError)}
+                          onChange={handleOtpDigitChange}
+                          onKeyDown={handleOtpKeyDown}
+                          onPaste={handleOtpPaste}
+                        />
+                        {otpError && (
+                          <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
+                            {otpError}
+                          </p>
+                        )}
+                      </div>
+                    ),
                   },
-                },
-                {
-                  name: "mobileNumber",
-                  label: "Mobile Number",
-                  type: "tel",
-                  placeholder: "Enter Your Mobile NO",
-                  required: true,
-                  maxLength: 10,
-                  value: mobileNumber,
-                  error: mobileError,
-                  onChange: (e) => {
-                    const digitsOnly = e.target.value
-                      .replace(/\D/g, "")
-                      .slice(0, 10);
-                    setMobileNumber(digitsOnly);
-                    if (mobileError) setMobileError("");
+                ]}
+                footer={
+                  <div className="text-center space-y-2 pt-2">
+                    <p className="text-fs18 max-[1024px]:text-fs16 text-white">
+                      Didn&apos;t receive the OTP?{" "}
+                      <Button
+                        type="button"
+                        variant="link"
+                        onClick={handleResendOtp}
+                        disabled={timer > 0}
+                        className="text-[#FABE2C] font-semibold text-fs14 max-[1024px]:text-fs13 hover:underline inline-block"
+                      >
+                        Resend
+                      </Button>
+                    </p>
+                    <p className="text-fs18 max-[1024px]:text-fs16 text-white font-medium tracking-wide">
+                      {formatTimer(timer)}
+                    </p>
+                    <div className="pt-1">
+                      <Button
+                        type="button"
+                        variant="link"
+                        onClick={() => {
+                          setStep("LOGIN");
+                          setOtpError("");
+                        }}
+                        className="text-fs18 max-[1024px]:text-fs16 text-white hover:underline inline-block"
+                      >
+                        Change Email
+                      </Button>
+                    </div>
+                  </div>
+                }
+              />
+            )}
+
+            {step === "CREATE_ACCOUNT" && (
+              <ReusableForm
+                title="Create New Account"
+                titleClassName="text-fs35 max-[1440px]:text-fs30 max-[1024px]:text-fs26 max-[640px]:text-fs20"
+                submitButtonText="Next"
+                onSubmit={handleCreateAccountSubmit}
+                fields={[
+                  {
+                    name: "fullName",
+                    label: "Full Name",
+                    type: "text",
+                    placeholder: "Enter Your Full Name",
+                    required: true,
+                    maxLength: 50,
+                    value: fullName,
+                    className: "text-fs20! max-[1024px]:text-fs18!",
+                    error: fullNameError,
+                    onChange: (e) => {
+                      const lettersOnly = e.target.value
+                        .replace(/[^a-zA-Z\s'.-]/g, "")
+                        .slice(0, 50);
+                      setFullName(lettersOnly);
+                      if (fullNameError) setFullNameError("");
+                    },
                   },
-                },
-                {
-                  name: "role",
-                  type: "radio-group",
-                  value: role,
-                  options: [
-                    { label: "Buyer", value: "Buyer" },
-                    { label: "Seller", value: "Seller" },
-                  ],
-                  onRadioChange: (value) =>
-                    setRole(value as "Buyer" | "Seller"),
-                },
-              ]}
-            />
-          )}
+                  {
+                    name: "mobileNumber",
+                    label: "Mobile Number",
+                    type: "tel",
+                    placeholder: "Enter Your Mobile NO",
+                    required: true,
+                    maxLength: 10,
+                    value: mobileNumber,
+                    className: "text-fs20! max-[1024px]:text-fs18!",
+                    error: mobileError,
+                    onChange: (e) => {
+                      const digitsOnly = e.target.value
+                        .replace(/\D/g, "")
+                        .slice(0, 10);
+                      setMobileNumber(digitsOnly);
+                      if (mobileError) setMobileError("");
+                    },
+                  },
+                  {
+                    name: "role",
+                    type: "radio-group",
+                    value: role,
+                    options: [
+                      { label: "Buyer", value: "Buyer" },
+                      { label: "Seller", value: "Seller" },
+                    ],
+                    onRadioChange: (value) =>
+                      setRole(value as "Buyer" | "Seller"),
+                  },
+                ]}
+                footer={
+                  <div className="pt-3 text-center">
+                    <Button
+                      type="button"
+                      variant="link"
+                      onClick={() => {
+                        setEmailError("");
+                        setStep("LOGIN");
+                      }}
+                      className="text-fs18 max-[1024px]:text-fs14 text-white hover:underline font-medium"
+                    >
+                      Already have an account? Login
+                    </Button>
+                  </div>
+                }
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

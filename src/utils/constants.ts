@@ -32,6 +32,7 @@ export const STATES_BY_COUNTRY: Record<
     { label: "Illinois", value: "Illinois" },
   ],
   India: [
+    { label: "Tamilnadu", value: "Tamilnadu" },
     { label: "Tamil Nadu", value: "Tamil Nadu" },
     { label: "Maharashtra", value: "Maharashtra" },
     { label: "Karnataka", value: "Karnataka" },

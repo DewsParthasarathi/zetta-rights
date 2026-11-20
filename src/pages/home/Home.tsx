@@ -7,7 +7,7 @@ import {
   fetchTamilMovies,
   fetchShortMovies,
   fetchLowBudgetMovies,
-} from "../../store/movieSlice";
+} from "../../store/slices/movieSlice";
 import BannerSection from "./components/BannerSection";
 import MovieCarouselSection from "./components/MovieCarouselSection";
 import type { TMDBMovie } from "../../services/tmdbService";

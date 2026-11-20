@@ -115,14 +115,14 @@ const MediaGallery = ({
               className={`relative aspect-[4/3] w-full rounded-[10px] overflow-hidden bg-black/60 border-2 transition-all duration-200 cursor-pointer group ${
                 isSelected
                   ? "border-[#FABE2C] shadow-[0_0_15px_rgba(250,190,44,0.4)] scale-[1.02]"
-                  : "border-white/10 hover:border-white/40 opacity-75 hover:opacity-100"
+                  : "border-white/10 lg:hover:border-white/40 opacity-75 lg:hover:opacity-100"
               }`}
             >
               <Image
                 src={item.src}
                 alt={item.label}
                 fallbackSrc={Default_Img}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 pointer-events-none"
+                className="w-full h-full object-cover transition-transform duration-300 lg:group-hover:scale-105 pointer-events-none"
               />
 
               {item.type === "video" && (
@@ -149,7 +149,7 @@ const MediaGallery = ({
           src={activeMedia.src}
           alt={movie.title}
           fallbackSrc={Default_Img}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          className="w-full h-full object-cover transition-transform duration-500 lg:group-hover:scale-[1.02]"
         />
 
         {activeMedia.type === "video" && (

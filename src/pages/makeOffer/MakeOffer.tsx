@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../store/store";
-import { submitOffer, resetOfferState } from "../../store/offerSlice";
+import { submitOffer, resetOfferState } from "../../store/slices/offerSlice";
 import tmdbService, { type TMDBMovieDetail } from "../../services/tmdbService";
 
 import OfferStepper from "./components/OfferStepper";

@@ -1,7 +1,8 @@
+import { useState, useRef, useEffect } from "react";
 import Image from "../../../components/common/Image";
 import Button from "../../../components/common/Button";
 import Input from "../../../components/common/Input";
-import Select, { type SelectOption } from "../../../components/common/Select";
+import type { SelectOption } from "../../../components/common/Select";
 
 import searchIcon from "../../../assets/images/Explore/search_Icon.png";
 import filterIcon from "../../../assets/images/Explore/filter_Icon.png";
@@ -54,27 +55,83 @@ const ExploreFiltersBar = ({
   activeFilterCount = 0,
   className = "",
 }: ExploreFiltersBarProps) => {
+  const [isContentTypeOpen, setIsContentTypeOpen] = useState(false);
+  const [isYearOpen, setIsYearOpen] = useState(false);
+  const contentTypeRef = useRef<HTMLDivElement>(null);
+  const yearRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        contentTypeRef.current &&
+        !contentTypeRef.current.contains(e.target as Node)
+      ) {
+        setIsContentTypeOpen(false);
+      }
+      if (yearRef.current && !yearRef.current.contains(e.target as Node)) {
+        setIsYearOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
   return (
     <div
       className={`flex flex-wrap items-center gap-3 w-full select-none ${className}`}
     >
-      <div className="flex-1 min-w-[320px] max-[640px]:min-w-full flex items-center bg-[#141D2B] border border-white/10 hover:border-white/20 rounded-[8px] transition overflow-hidden">
-        <div className="relative shrink-0 flex items-center">
-          <Select
+      <div className="flex-1 min-w-[280px] max-[640px]:w-full flex items-center bg-[#141D2B] border border-white/10 hover:border-white/20 rounded-[8px] transition relative z-20">
+        <div
+          className="relative shrink-0 flex items-center"
+          ref={contentTypeRef}
+        >
+          <Button
             variant="ghost"
-            hideArrow
-            options={CONTENT_TYPE_OPTIONS}
-            value={contentType}
-            onChange={(e) => onContentTypeChange(e.target.value)}
-            className="pl-4 pr-7 py-2.5 text-fs14 max-[1440px]:text-fs13 text-white font-medium cursor-pointer"
-          />
-          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-70">
+            type="button"
+            onClick={() => {
+              setIsContentTypeOpen((prev) => !prev);
+              setIsYearOpen(false);
+            }}
+            className="pl-4 pr-3 py-2.5 text-[14px] max-[1440px]:text-[13px] max-[1024px]:text-[12px] text-white font-medium flex items-center gap-2 cursor-pointer hover:bg-white/5 transition h-auto select-none rounded-l-[8px]"
+          >
+            <span className="whitespace-nowrap">{contentType}</span>
             <Image
               src={downarrowIcon}
               alt=""
-              className="w-2.5 h-2.5 object-contain"
+              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 ${
+                isContentTypeOpen ? "rotate-180" : ""
+              }`}
             />
-          </div>
+          </Button>
+
+          {isContentTypeOpen && (
+            <div className="absolute top-[calc(100%+6px)] left-0 z-50 min-w-[170px] bg-[#141D2B] border border-white/15 rounded-[10px] shadow-2xl py-1.5 backdrop-blur-md">
+              {CONTENT_TYPE_OPTIONS.map((opt) => {
+                const isSelected = opt.value === contentType;
+                return (
+                  <Button
+                    key={opt.value}
+                    variant="ghost"
+                    type="button"
+                    onClick={() => {
+                      onContentTypeChange(opt.value);
+                      setIsContentTypeOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-[14px] max-[1440px]:text-[13px]  transition flex items-center justify-between cursor-pointer h-auto ${
+                      isSelected
+                        ? "text-[#FABE2C] font-semibold bg-[#FABE2C]/10"
+                        : "text-white/80 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {isSelected && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FABE2C]" />
+                    )}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <div className="w-px h-5 bg-white/15 shrink-0" />
@@ -86,7 +143,7 @@ const ExploreFiltersBar = ({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search Your Favorites Movies, Short Films...."
-            className="w-full pl-4 pr-10 py-2.5 text-fs14 max-[1440px]:text-fs13 text-white placeholder:text-gray-400"
+            className="w-full pl-4 pr-10 py-2.5 text-[14px] max-[1440px]:text-[13px] max-[1024px]:text-[12px] text-white placeholder:text-gray-400"
           />
 
           {searchQuery ? (
@@ -115,12 +172,12 @@ const ExploreFiltersBar = ({
         </div>
       </div>
 
-      <div className="shrink-0 flex items-center bg-[#141D2B] border border-white/10 hover:border-white/20 rounded-[8px] transition overflow-hidden">
+      <div className="shrink-0 flex items-center bg-[#141D2B] border border-white/10 hover:border-white/20 rounded-[8px] transition relative z-10">
         <Button
           variant="ghost"
           type="button"
           onClick={onOpenFilterModal}
-          className={`flex items-center gap-2 pl-4 pr-3.5 py-2.5 text-fs14 max-[1440px]:text-fs13 font-medium transition cursor-pointer hover:bg-white/5 ${
+          className={`flex items-center gap-2 pl-4 pr-3.5 py-2.5 text-[14px] max-[1440px]:text-[13px] font-medium transition cursor-pointer hover:bg-white/5 rounded-l-[8px] ${
             activeFilterCount > 0
               ? "text-[#FABE2C]"
               : "text-white/90 hover:text-white"
@@ -142,22 +199,54 @@ const ExploreFiltersBar = ({
 
         <div className="w-px h-5 bg-white/15 shrink-0" />
 
-        <div className="relative shrink-0 flex items-center">
-          <Select
+        <div className="relative shrink-0 flex items-center" ref={yearRef}>
+          <Button
             variant="ghost"
-            hideArrow
-            options={YEAR_OPTIONS}
-            value={selectedYear}
-            onChange={(e) => onYearChange(e.target.value)}
-            className="pl-3.5 pr-7 py-2.5 text-fs14 max-[1440px]:text-fs13 text-white font-medium cursor-pointer"
-          />
-          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none opacity-70">
+            type="button"
+            onClick={() => {
+              setIsYearOpen((prev) => !prev);
+              setIsContentTypeOpen(false);
+            }}
+            className="pl-3.5 pr-3 py-2.5 text-[14px] max-[1440px]:text-[13px] max-[1024px]:text-[12px] text-white font-medium flex items-center gap-2 cursor-pointer hover:bg-white/5 transition h-auto select-none rounded-r-[8px]"
+          >
+            <span className="whitespace-nowrap">{selectedYear}</span>
             <Image
               src={downarrowIcon}
               alt=""
-              className="w-2.5 h-2.5 object-contain"
+              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 ${
+                isYearOpen ? "rotate-180" : ""
+              }`}
             />
-          </div>
+          </Button>
+
+          {isYearOpen && (
+            <div className="absolute top-[calc(100%+6px)] right-0 z-50 min-w-[150px] max-h-60 overflow-y-auto custom-scrollbar bg-[#141D2B] border border-white/15 rounded-[10px] shadow-2xl py-1.5 backdrop-blur-md">
+              {YEAR_OPTIONS.map((opt) => {
+                const isSelected = opt.value === selectedYear;
+                return (
+                  <Button
+                    key={opt.value}
+                    variant="ghost"
+                    type="button"
+                    onClick={() => {
+                      onYearChange(opt.value);
+                      setIsYearOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-[14px] max-[1440px]:text-[13px] transition flex items-center justify-between cursor-pointer h-auto ${
+                      isSelected
+                        ? "text-[#FABE2C] font-semibold bg-[#FABE2C]/10"
+                        : "text-white/80 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {isSelected && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FABE2C]" />
+                    )}
+                  </Button>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

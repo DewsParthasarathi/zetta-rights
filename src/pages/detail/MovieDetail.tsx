@@ -123,7 +123,7 @@ const MovieDetail = () => {
     <div className="w-full min-h-screen bg-[#111826] text-white font-century select-none pb-20">
       <div className="w-[88%] max-[1600px]:w-[90%] max-[1440px]:w-[92%] max-[1024px]:w-[95%] mx-auto">
         <div className="pt-8 pb-6 flex items-center justify-between border-b border-white/5 mb-8">
-          <h1 className="text-fs34 max-[1440px]:text-fs28 max-[1024px]:text-fs24 max-[640px]:text-fs20 font-bold text-white tracking-tight">
+          <h1 className="text-fs34 max-[1440px]:text-fs28 max-[1024px]:text-fs24 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             {movie.title}
           </h1>
 

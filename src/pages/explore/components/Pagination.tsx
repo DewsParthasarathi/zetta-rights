@@ -94,7 +94,7 @@ const Pagination = ({
           return (
             <span
               key={`ellipsis-${index}`}
-              className="w-9 h-9 flex items-center justify-center text-gray-400 text-fs14 font-semibold"
+              className="w-9 h-9 flex items-center justify-center text-gray-400 text-[14px] max-[1440px]:text-[13px] max-[1024px]:text-[12px]  font-semibold"
             >
               ...
             </span>
@@ -108,7 +108,7 @@ const Pagination = ({
             key={`page-${page}`}
             type="button"
             onClick={() => onPageChange(page)}
-            className={`w-9 h-9 rounded-[8px] text-fs23 font-bold transition cursor-pointer flex items-center justify-center ${
+            className={`w-9 h-9 rounded-[8px] text-fs23 max-[1440px]:text-[13px] max-[1024px]:text-[12px]  font-bold transition cursor-pointer flex items-center justify-center ${
               isActive
                 ? "bg-[#FABE2C] text-black shadow-[0_4px_12px_rgba(250,190,44,0.35)]"
                 : "bg-[#18202F] border border-white/10 text-white/85 hover:border-white/30 hover:text-white"

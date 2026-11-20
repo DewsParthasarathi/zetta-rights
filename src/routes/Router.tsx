@@ -3,7 +3,6 @@ import ScrollToTopOnNavigate from "../components/common/ScrollToTopOnNavigate";
 import RootLayout from "../layout/RootLayout";
 import Home from "../pages/home/Home";
 import Explore from "../pages/explore/Explore";
-import Blog from "../pages/blog/Blog";
 import MovieDetail from "../pages/detail/MovieDetail";
 import MakeOffer from "../pages/makeOffer/MakeOffer";
 import Login from "../pages/login/Login";
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
               {
                 path: "explore",
                 element: <Explore />,
-              },
-              {
-                path: "blog",
-                element: <Blog />,
               },
               {
                 path: "movie/:id",

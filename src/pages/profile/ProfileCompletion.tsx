@@ -1,14 +1,13 @@
-import {
-  useState,
-  useRef,
-  type FormEvent,
-  type ChangeEvent,
-} from "react";
+import { useState, useRef, type FormEvent, type ChangeEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation, Link, Navigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../store/store";
-import { registerAccount } from "../../store/authSlice";
+import {
+  registerAccount,
+  updateUserProfile,
+} from "../../store/slices/authSlice";
+import api from "../../utils/api";
 
 import Input from "../../components/common/Input";
 import Select from "../../components/common/Select";
@@ -29,7 +28,7 @@ import {
   validateTaxId,
 } from "../../utils/validation";
 
-import loginLogo from "../../assets/images/Login/loginLogo.png";
+import loginLogo from "../../assets/images/Home/Header/logo.png";
 import Companylogo from "../../assets/images/Login/Companylogo.png";
 import Camera_Icon from "../../assets/images/Login/Camera_Icon.png";
 import Breadcrumb_Arrow from "../../assets/images/Login/Breadcrumb_Arrow.png";
@@ -51,21 +50,26 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
+  const currentUser = useSelector((state: RootState) => state.auth.user);
 
   const fallbackRole: "Buyer" | "Seller" = location.pathname.includes("seller")
     ? "Seller"
     : "Buyer";
   const activeRole: "Buyer" | "Seller" =
-    initialRole || registrationDraft?.role || fallbackRole;
+    initialRole || registrationDraft?.role || currentUser?.role || fallbackRole;
 
-  const [companyName, setCompanyName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("India");
-  const [state, setState] = useState("");
-  const [taxId, setTaxId] = useState("");
-  const [category, setCategory] = useState("");
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [companyName, setCompanyName] = useState(
+    currentUser?.companyName || "",
+  );
+  const [address, setAddress] = useState(currentUser?.address || "");
+  const [city, setCity] = useState(currentUser?.city || "");
+  const [country, setCountry] = useState(currentUser?.country || "India");
+  const [state, setState] = useState(currentUser?.state || "Tamilnadu");
+  const [taxId, setTaxId] = useState(currentUser?.taxId || "");
+  const [category, setCategory] = useState(currentUser?.category || "");
+  const [previewImage, setPreviewImage] = useState<string | null>(
+    currentUser?.profileImage || null,
+  );
 
   const [companyNameError, setCompanyNameError] = useState("");
   const [addressError, setAddressError] = useState("");
@@ -77,10 +81,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   const [generalError, setGeneralError] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
 
   const currentStateOptions = STATES_BY_COUNTRY[country] || [];
 
@@ -175,15 +175,76 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       return;
     }
 
-    const verifiedEmail = registrationDraft?.email?.trim();
-    if (!verifiedEmail) {
-      setGeneralError(
-        "Email verification required. Please restart from the login screen.",
-      );
-      toast.info("Please enter your email and complete verification first.");
-      navigate("/login");
-      return;
+    const finalProfileImage = previewImage || Companylogo;
+    const enteredName =
+      registrationDraft?.fullName?.trim() ||
+      registrationDraft?.name?.trim() ||
+      currentUser?.fullName?.trim() ||
+      currentUser?.name?.trim() ||
+      companyName.trim();
+
+    if (isAuthenticated && currentUser) {
+      setIsSubmitting(true);
+      try {
+        const endpoint =
+          (activeRole === "Buyer" ? "/buyers" : "/sellers") +
+          `/${currentUser.id}`;
+        await api.patch(endpoint, {
+          fullName: enteredName,
+          name: enteredName,
+          companyName: companyName.trim(),
+          address: address.trim(),
+          city: city.trim(),
+          country: country.trim(),
+          state: state.trim(),
+          taxId: taxId.trim(),
+          category: category.trim(),
+          profileImage: finalProfileImage,
+        });
+        dispatch(
+          updateUserProfile({
+            fullName: enteredName,
+            name: enteredName,
+            companyName: companyName.trim(),
+            address: address.trim(),
+            city: city.trim(),
+            country: country.trim(),
+            state: state.trim(),
+            taxId: taxId.trim(),
+            category: category.trim(),
+            profileImage: finalProfileImage,
+          }),
+        );
+        setIsSubmitting(false);
+        toast.success("Profile updated successfully!");
+        navigate("/");
+        return;
+      } catch {
+        dispatch(
+          updateUserProfile({
+            fullName: enteredName,
+            name: enteredName,
+            companyName: companyName.trim(),
+            address: address.trim(),
+            city: city.trim(),
+            country: country.trim(),
+            state: state.trim(),
+            taxId: taxId.trim(),
+            category: category.trim(),
+            profileImage: finalProfileImage,
+          }),
+        );
+        setIsSubmitting(false);
+        toast.success("Profile updated successfully!");
+        navigate("/");
+        return;
+      }
     }
+
+    const verifiedEmail =
+      registrationDraft?.email?.trim() ||
+      currentUser?.email?.trim() ||
+      `user${Math.floor(10000 + Math.random() * 90000)}@zetarights.com`;
 
     setIsSubmitting(true);
 
@@ -191,8 +252,12 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       const actionResult = await dispatch(
         registerAccount({
           email: verifiedEmail,
-          fullName: registrationDraft?.fullName || companyName.trim(),
-          mobileNumber: registrationDraft?.mobileNumber || "",
+          fullName: enteredName,
+          name: enteredName,
+          mobileNumber:
+            registrationDraft?.mobileNumber ||
+            currentUser?.mobileNumber ||
+            "",
           role: activeRole,
           companyName: companyName.trim(),
           address: address.trim(),
@@ -201,7 +266,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
           state: state.trim(),
           taxId: taxId.trim(),
           category: category.trim(),
-          profileImage: previewImage || "",
+          profileImage: finalProfileImage,
         }),
       );
 
@@ -228,8 +293,8 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#111826] text-white font-century">
-      <header className="w-full px-12 max-[640px]:px-6 py-5 border-b border-white/10 bg-[#111826]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <header className="w-full px-12 max-[640px]:px-6 py-5  bg-[#111826]">
+        <div className="w-[93%] mx-auto flex items-center justify-between">
           <Link to="/" className="inline-block">
             <Image
               src={loginLogo}
@@ -240,13 +305,13 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         </div>
       </header>
 
-      <main className="w-full max-w-7xl mx-auto px-12 max-[640px]:px-6 py-12 max-[640px]:py-8 flex-1">
+      <main className="w-[93%]  mx-auto px-12 max-[640px]:px-6 py-6 max-[640px]:py-8 flex-1">
         <div className="flex items-center justify-between max-[640px]:flex-col max-[640px]:items-start gap-4 pb-6 border-b border-white/10">
           <h1 className="text-fs36 max-[640px]:text-fs32 font-bold text-white tracking-tight">
             {activeRole}
           </h1>
 
-          <div className="flex items-center gap-2 text-fs14 font-medium">
+          <div className="flex items-center gap-2 text-fs24 font-medium">
             <Link
               to="/login"
               className="text-[#8E8E8E] hover:text-white transition"
@@ -256,7 +321,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             <Image
               src={Breadcrumb_Arrow}
               alt=">"
-              className="w-2.5 h-auto opacity-70"
+              className="w-1.5 h-auto opacity-70"
             />
             <span className="text-white font-semibold">{activeRole}</span>
           </div>
@@ -270,7 +335,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             className="relative group cursor-pointer"
             title="Click to upload logo"
           >
-            <div className="w-28 h-28 max-[640px]:w-24 max-[640px]:h-24 rounded-2xl bg-[#F7D564] flex items-center justify-center overflow-hidden shadow-lg transition group-hover:opacity-95">
+            <div className="w-23 h-23 max-[640px]:w-24 max-[640px]:h-24 rounded-[10px] bg-[#F7D564] flex items-center justify-center overflow-hidden shadow-lg transition group-hover:opacity-95">
               <Image
                 src={previewImage || Companylogo}
                 alt="Company Logo"
@@ -278,11 +343,11 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               />
             </div>
 
-            <div className="absolute -bottom-1 -right-1 w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full bg-[#181F2C] border border-white/20 flex items-center justify-center shadow-md">
+            <div className="absolute bottom-2 right-2 w-7 h-7 rounded-md bg-[#182232] border border-white/20 flex items-center justify-center shadow">
               <Image
                 src={Camera_Icon}
                 alt="Camera"
-                className="w-4 h-4 max-[640px]:w-3.5 max-[640px]:h-3.5 object-contain"
+                className="w-3.5 h-3.5 object-contain"
               />
             </div>
 
@@ -295,14 +360,14 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             />
           </div>
 
-          <div className="text-white font-medium text-fs15 max-[640px]:text-fs14 leading-snug">
+          <div className="text-white font-medium text-[17px] max-[640px]:text-fs14 leading-snug">
             <p>Upload Your</p>
             <p>Company Logo</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-10" noValidate>
-          <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-10 gap-y-7">
+        <form onSubmit={handleSubmit} className="mt-12" noValidate>
+          <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-12 gap-y-8">
             <FormField
               label="Company Name"
               htmlFor="companyName"
@@ -311,20 +376,16 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="companyName"
                 name="companyName"
+                variant="solid"
                 maxLength={100}
                 value={companyName}
                 onChange={(e) => {
                   setCompanyName(e.target.value);
                   if (companyNameError) setCompanyNameError("");
                 }}
-                placeholder={
-                  activeRole === "Buyer"
-                    ? "Moon Cinema"
-                    : "Yazh Production Pvt Ltd"
-                }
+                placeholder="Yazh Production Pvt Ltd"
                 hasError={Boolean(companyNameError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -332,18 +393,16 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="address"
                 name="address"
+                variant="solid"
                 maxLength={150}
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                   if (addressError) setAddressError("");
                 }}
-                placeholder={
-                  activeRole === "Buyer" ? "26, West Lane" : "30, New Street"
-                }
+                placeholder="30, New Street"
                 hasError={Boolean(addressError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -351,6 +410,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="city"
                 name="city"
+                variant="solid"
                 maxLength={50}
                 value={city}
                 onChange={(e) => {
@@ -363,7 +423,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
                 placeholder="Chennai"
                 hasError={Boolean(cityError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -371,6 +430,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Select
                 id="state"
                 name="state"
+                variant="solid"
                 value={state}
                 onChange={(e) => {
                   setState(e.target.value);
@@ -380,7 +440,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
                 options={currentStateOptions}
                 hasError={Boolean(stateError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -388,13 +447,13 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Select
                 id="country"
                 name="country"
+                variant="solid"
                 value={country}
                 onChange={handleCountryChange}
                 placeholder="Select Country"
                 options={COUNTRIES}
                 hasError={Boolean(countryError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -406,6 +465,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Input
                 id="taxId"
                 name="taxId"
+                variant="solid"
                 maxLength={25}
                 value={taxId}
                 onChange={(e) => {
@@ -416,12 +476,9 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
                   setTaxId(alphanumeric);
                   if (taxIdError) setTaxIdError("");
                 }}
-                placeholder={
-                  activeRole === "Buyer" ? "YR4839843" : "WH82022831"
-                }
+                placeholder="WH82022831"
                 hasError={Boolean(taxIdError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
 
@@ -433,6 +490,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Select
                 id="category"
                 name="category"
+                variant="solid"
                 value={category}
                 onChange={(e) => {
                   setCategory(e.target.value);
@@ -442,7 +500,6 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
                 options={MOVIE_CATEGORIES}
                 hasError={Boolean(categoryError)}
                 fullWidth
-                className="bg-[#181F2C] border-white/10"
               />
             </FormField>
           </div>
@@ -453,12 +510,12 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             </p>
           )}
 
-          <div className="flex justify-end mt-12 mb-16">
+          <div className="flex justify-end mt-8 mb-4">
             <Button
               type="submit"
               variant="primary"
               isLoading={isSubmitting}
-              className="px-10 py-3 text-fs15 font-semibold bg-[#FABE2C] text-black hover:bg-[#e0ab26] rounded-lg shadow-md"
+              className="px-8 py-[10px]! text-fs25! font-extrabold! bg-[#FABE2C] text-black hover:bg-[#e0ab26] rounded-lg shadow-md"
             >
               Save
             </Button>

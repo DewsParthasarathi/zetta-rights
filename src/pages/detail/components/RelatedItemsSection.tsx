@@ -45,7 +45,7 @@ const RelatedItemsSection = ({
       className={`w-full py-8 font-century select-none text-white ${className}`}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-fs22 max-[1440px]:text-fs20 max-[1024px]:text-fs18 font-bold text-white tracking-tight">
+        <h3 className="text-fs22 max-[1440px]:text-[18px] max-[640px]:text-[15px] font-bold text-white tracking-tight">
           Related Item
         </h3>
 
@@ -139,7 +139,7 @@ const RelatedItemsSection = ({
           {movies.map((movie, index) => (
             <SwiperSlide
               key={movie.id}
-              className="!h-auto flex pt-2 px-2 pb-6 hover:z-30 transition-all"
+              className="!h-auto flex pt-2 px-2 pb-6 lg:hover:z-30 transition-all"
             >
               <MovieCard
                 movie={movie}

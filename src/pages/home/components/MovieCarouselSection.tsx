@@ -52,7 +52,7 @@ const MovieCarouselSection = ({
     <section className="w-full py-5 select-none font-century">
       <div className=" mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-fs22 max-[1024px]:text-fs20 max-[640px]:text-fs18 font-bold text-white tracking-tight">
+          <h2 className="text-fs22 max-[1024px]:text-[16px] max-[640px]:text-[14px] font-bold text-white tracking-tight">
             {title}
           </h2>
 
@@ -162,7 +162,7 @@ const MovieCarouselSection = ({
             {movies.map((movie, index) => (
               <SwiperSlide
                 key={movie.id}
-                className="!h-auto flex pt-2 px-2 pb-8 hover:z-30 transition-all"
+                className="!h-auto flex pt-2 px-2 pb-8 lg:hover:z-30 transition-all"
               >
                 <MovieCard
                   movie={movie}

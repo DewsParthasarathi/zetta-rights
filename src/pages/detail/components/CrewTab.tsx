@@ -89,14 +89,14 @@ const CrewTab = ({ crew }: CrewTabProps) => {
                 </div>
 
                 <h4
-                  className="text-fs15 max-[1440px]:text-fs12 font-bold text-white tracking-tight truncate w-full"
+                  className="text-fs15 max-[1440px]:text-[12px] font-bold text-white tracking-tight truncate w-full"
                   title={member.name}
                 >
                   {member.name}
                 </h4>
 
                 <p
-                  className="text-fs13 max-[1440px]:text-fs10 text-gray-400 font-normal truncate w-full mt-0.5"
+                  className="text-[13px] max-[1440px]:text-[12px] text-gray-400 font-normal truncate w-full mt-0.5"
                   title={member.job}
                 >
                   {member.job}

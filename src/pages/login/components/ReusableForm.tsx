@@ -39,13 +39,22 @@ export interface FormFieldConfig {
   error?: string;
   helperText?: string;
   maxLength?: number;
-  inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+  inputMode?:
+    | "none"
+    | "text"
+    | "tel"
+    | "url"
+    | "email"
+    | "numeric"
+    | "decimal"
+    | "search";
   pattern?: string;
   digitsOnly?: boolean;
 }
 
 export interface ReusableFormProps {
   title: string;
+  titleClassName?: string;
   subtitle?: ReactNode;
   fields?: FormFieldConfig[];
   onSubmit: (e: FormEvent) => void;
@@ -61,6 +70,7 @@ export interface ReusableFormProps {
 
 const ReusableForm = ({
   title,
+  titleClassName = "",
   subtitle,
   fields = [],
   onSubmit,
@@ -68,7 +78,7 @@ const ReusableForm = ({
   submitButtonVariant = "primary",
   isSubmitting = false,
   isSubmitDisabled = false,
-  submitButtonClassName = "mt-4",
+  submitButtonClassName = "mt-4 text-fs23 font-extrabold! text-[#0f3051]! tracking-tight",
   children,
   footer,
   className = "space-y-4",
@@ -76,11 +86,16 @@ const ReusableForm = ({
   return (
     <form onSubmit={onSubmit} className={className} noValidate>
       <div className="space-y-0.5">
-        <h1 className="text-fs34 max-[1440px]:text-fs32 max-[1024px]:text-fs28 max-[640px]:text-fs24 font-bold text-white tracking-tight">
+        <h1
+          className={`${
+            titleClassName ||
+            "text-fs50! max-[1440px]:text-fs32 max-[1024px]:text-fs28 max-[640px]:text-fs24"
+          } font-bold text-white tracking-tight`}
+        >
           {title}
         </h1>
         {subtitle && (
-          <div className="text-white text-fs16 max-[1024px]:text-fs14 font-normal mt-0.5">
+          <div className="text-white text-fs20 mb-[10%]! max-[1024px]:text-fs18 font-normal mt-0.5">
             {subtitle}
           </div>
         )}
@@ -90,9 +105,7 @@ const ReusableForm = ({
         {fields.map((field) => {
           if (field.type === "custom" || field.render) {
             return (
-              <div key={field.name}>
-                {field.render ? field.render() : null}
-              </div>
+              <div key={field.name}>{field.render ? field.render() : null}</div>
             );
           }
 

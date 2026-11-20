@@ -1,8 +1,6 @@
 import { forwardRef, type SelectHTMLAttributes } from "react";
-import Image from "./Image";
-import Down_Arrow from "../../assets/images/login/Down_Arrow.png";
 
-export type SelectVariant = "default" | "ghost" | "bare";
+export type SelectVariant = "default" | "solid" | "ghost" | "bare";
 
 export interface SelectOption {
   label: string;
@@ -36,14 +34,17 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     ref,
   ) => {
     const isBareOrGhost = variant === "ghost" || variant === "bare";
+    const isSolid = variant === "solid";
 
     const baseClasses = isBareOrGhost
       ? "appearance-none bg-transparent focus:outline-none cursor-pointer transition font-century text-white disabled:opacity-50 disabled:cursor-not-allowed"
-      : "h-[42px] max-[640px]:h-[40px] rounded-[6px] px-3.5 pr-10 text-fs15 max-[1024px]:text-fs14 font-century text-white bg-black/30 appearance-none transition focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+      : isSolid
+        ? "h-[46px] max-[640px]:h-[42px] py-2 rounded-lg px-5 pr-12 text-fs16 font-century text-white bg-[#182232] appearance-none transition focus:outline-none cursor-pointer border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        : "h-[42px] max-[640px]:h-[40px] rounded-[6px] px-3.5 pr-10 text-fs15 max-[1024px]:text-fs14 font-century text-white bg-black/30 appearance-none transition focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
 
     const borderClass = hasError
       ? "border border-red-500 focus:border-red-400"
-      : isBareOrGhost
+      : isBareOrGhost || isSolid
         ? ""
         : "border border-white/70 focus:border-[#FABE2C]";
 
@@ -57,12 +58,12 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
           onChange={onChange}
           disabled={disabled}
           className={`${baseClasses} ${borderClass} ${widthClass} ${className} ${
-            !value ? "text-[#888888]" : "text-white"
+            !value ? "text-[#8E8E8E]" : "text-white"
           }`}
           {...props}
         >
           {placeholder && (
-            <option value="" disabled className="bg-[#1F1F1F] text-[#888888]">
+            <option value="" disabled className="bg-[#182232] text-[#8E8E8E]">
               {placeholder}
             </option>
           )}
@@ -70,19 +71,25 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             <option
               key={opt.value}
               value={opt.value}
-              className="bg-[#1F1F1F] text-white py-2"
+              className="bg-[#182232] text-white py-2"
             >
               {opt.label}
             </option>
           ))}
         </select>
         {!hideArrow && !isBareOrGhost && (
-          <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
-            <Image
-              src={Down_Arrow}
-              alt="select"
-              className="w-2.5 h-auto opacity-70"
-            />
+          <div className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 flex items-center justify-center">
+            <svg
+              className="w-4 h-4 text-white"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
           </div>
         )}
       </div>

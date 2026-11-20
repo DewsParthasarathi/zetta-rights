@@ -65,9 +65,11 @@ const GenreSwiper = ({
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
-  const activeIds = selectedGenreIds ?? (
-    selectedGenreId !== null && selectedGenreId !== undefined ? [selectedGenreId] : []
-  );
+  const activeIds =
+    selectedGenreIds ??
+    (selectedGenreId !== null && selectedGenreId !== undefined
+      ? [selectedGenreId]
+      : []);
 
   const updateNav = useCallback((swiper: SwiperClass) => {
     setIsBeginning(swiper.isBeginning);
@@ -127,14 +129,15 @@ const GenreSwiper = ({
           className="w-full flex items-center"
         >
           {GENRE_LIST.map((genre) => {
-            const isSelected = genre.id !== null && activeIds.includes(genre.id);
+            const isSelected =
+              genre.id !== null && activeIds.includes(genre.id);
             return (
               <SwiperSlide key={genre.label} className="!w-auto">
                 <Button
                   variant="unstyled"
                   type="button"
                   onClick={() => onSelectGenre(genre.id)}
-                  className={`inline-flex items-center justify-center gap-2.5 px-6 py-2.5 max-[1600px]:px-5 max-[1440px]:px-4.5 max-[1440px]:py-2 min-w-[130px] max-[1600px]:min-w-[120px] max-[1440px]:min-w-[110px] rounded-[8px] text-fs16 max-[1600px]:text-fs15 max-[1440px]:text-fs14 font-medium transition cursor-pointer border ${
+                  className={`inline-flex items-center justify-center gap-2.5 px-6 py-2.5 max-[1600px]:px-5 max-[1440px]:px-4.5 max-[1440px]:py-2 min-w-[130px] max-[1600px]:min-w-[120px] max-[1440px]:min-w-[110px] rounded-[8px] text-[16px] max-[1600px]:text-[15px] max-[1440px]:text-[14px] font-medium transition cursor-pointer border max-[640px]:text-[12px] ${
                     isSelected
                       ? "bg-[#141D2B] border-[#FABE2C] text-[#FABE2C] shadow-[0_0_14px_rgba(250,190,44,0.22)]"
                       : "bg-[#141D2B] border-white/10 text-white/90 hover:border-white/30 hover:text-white hover:bg-[#1A2536]"
