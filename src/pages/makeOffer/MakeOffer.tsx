@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../store/store";
 import { submitOffer, resetOfferState } from "../../store/slices/offerSlice";
 import tmdbService, { type TMDBMovieDetail } from "../../services/tmdbService";
+import { toInputDateFormat, calculateEndDate } from "./utils/offerDateUtils";
 
 import OfferStepper from "./components/OfferStepper";
 import Step1LicenseRegion, {
@@ -22,6 +23,7 @@ const MakeOffer = () => {
   const { id } = useParams<{ id: string }>();
   const movieId = id ? parseInt(id, 10) : 102;
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
 
   const { isSubmitting, isSuccess, submittedOffer } = useSelector(
@@ -32,13 +34,17 @@ const MakeOffer = () => {
   const [isLoadingMovie, setIsLoadingMovie] = useState(true);
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const [step1Data, setStep1Data] = useState<Step1Data>({
-    includedCountries: ["Global"],
-    excludedCountries: ["Sri Lanka", "India"],
-    startDate: "2022-08-20",
-    endDate: "2023-09-19",
-    years: 1,
-    months: 2,
+  const [step1Data, setStep1Data] = useState<Step1Data>(() => {
+    const today = new Date();
+    const defaultEnd = calculateEndDate(today, 1, 2);
+    return {
+      includedCountries: ["Global"],
+      excludedCountries: ["Sri Lanka", "India"],
+      startDate: toInputDateFormat(today),
+      endDate: toInputDateFormat(defaultEnd),
+      years: 1,
+      months: 2,
+    };
   });
 
   const [step2Data, setStep2Data] = useState<Step2Data>({
@@ -146,11 +152,37 @@ const MakeOffer = () => {
     );
   }
 
-  const movieTitle = movie?.title || "Kantara";
+  const navState = location.state as {
+    origin?: string;
+    from?: string;
+    movieTitle?: string;
+    direct?: boolean;
+  } | null;
+
+  const origin =
+    navState?.origin ||
+    (navState?.from?.includes("explore")
+      ? "explore"
+      : navState?.from === "/" || navState?.from?.includes("home")
+        ? "home"
+        : sessionStorage.getItem("nav_origin") === "explore"
+          ? "explore"
+          : "home");
+
+  const originPath = origin === "explore" ? "/explore" : "/";
+  const originLabel = origin === "explore" ? "Explore" : "Home";
+
+  const isDirect =
+    navState?.direct ??
+    (navState?.from === "/explore" ||
+      navState?.from === "/" ||
+      navState?.from === "/home");
+
+  const movieTitle = movie?.title || navState?.movieTitle || "Movie";
 
   return (
     <div className="w-full min-h-screen bg-[#111826] text-white font-century select-none pb-12 max-[1024px]:pb-8">
-      <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-2 max-[1440px]:px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2 mx-auto">
+      <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 mx-auto">
         <div className="pt-8 pb-6 flex items-center justify-between border-b border-white/5 mb-8 max-[1024px]:mb-6">
           <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             Make an Offer
@@ -160,16 +192,25 @@ const MakeOffer = () => {
             aria-label="Breadcrumb"
             className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]"
           >
-            <Link to="/" className="hover:text-white transition">
-              Home
-            </Link>
-            <span className="text-gray-600">&gt;</span>
             <Link
-              to={`/movie/${movieId}`}
-              className="hover:text-white transition truncate max-w-[150px] max-[640px]:max-w-[100px]"
+              to={originPath}
+              state={{ origin }}
+              className="hover:text-white transition"
             >
-              {movieTitle}
+              {originLabel}
             </Link>
+            {!isDirect && (
+              <>
+                <span className="text-gray-600">&gt;</span>
+                <Link
+                  to={`/movie/${movieId}`}
+                  state={{ origin, from: originPath }}
+                  className="hover:text-white transition truncate max-w-[150px] max-[640px]:max-w-[100px]"
+                >
+                  {movieTitle}
+                </Link>
+              </>
+            )}
             <span className="text-gray-600">&gt;</span>
             <span className="text-white font-medium">Make an Offer</span>
           </nav>
@@ -220,7 +261,7 @@ const MakeOffer = () => {
         offer={submittedOffer}
         onViewMovie={() => {
           dispatch(resetOfferState());
-          navigate(`/movie/${movieId}`);
+          navigate(`/movie/${movieId}`, { state: { origin } });
         }}
         onExplore={() => {
           dispatch(resetOfferState());

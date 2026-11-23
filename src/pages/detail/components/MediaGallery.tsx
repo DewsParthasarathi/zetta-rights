@@ -101,9 +101,9 @@ const MediaGallery = ({
 
   return (
     <div
-      className={`w-full flex items-start gap-4 max-[640px]:flex-col select-none ${className}`}
+      className={`w-full flex items-stretch gap-4 max-[640px]:flex-col select-none ${className}`}
     >
-      <div className="flex flex-col gap-3 w-[26%] max-[1440px]:w-[28%] max-[1024px]:w-[24%] max-[640px]:w-full max-[640px]:flex-row shrink-0">
+      <div className="flex flex-col justify-between gap-3 w-[26%] max-[1440px]:w-[28%] max-[1024px]:w-[24%] max-[640px]:w-full max-[640px]:flex-row shrink-0">
         {mediaItems.map((item, idx) => {
           const isSelected = activeIndex === idx;
           return (
@@ -112,7 +112,7 @@ const MediaGallery = ({
               variant="unstyled"
               type="button"
               onClick={() => handleThumbnailClick(idx)}
-              className={`relative aspect-[4/3] w-full rounded-[10px] overflow-hidden bg-black/60 border-2 transition-all duration-200 cursor-pointer group ${
+              className={`relative flex-1 min-h-0 w-full max-[640px]:aspect-[4/3] rounded-[10px] overflow-hidden bg-black/60 border-2 transition-all duration-200 cursor-pointer group flex items-center justify-center ${
                 isSelected
                   ? "border-[#FABE2C] shadow-[0_0_15px_rgba(250,190,44,0.4)] scale-[1.02]"
                   : "border-white/10 lg:hover:border-white/40 opacity-75 lg:hover:opacity-100"

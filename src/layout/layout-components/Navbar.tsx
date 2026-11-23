@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { logout } from "../../store/slices/authSlice";
@@ -9,6 +9,7 @@ import Button from "../../components/common/Button";
 import Input from "../../components/common/Input";
 
 import logo from "../../assets/images/Home/Header/logo.png";
+import logo_light from "../../assets/images/Home/Footer/footer_Logo_light.png";
 import search_Icon from "../../assets/images/Home/Header/search_Icon.png";
 import addcontent_Icon from "../../assets/images/Home/Header/addcontent_Icon.png";
 import lightMode_Icon from "../../assets/images/Home/Header/lightMode_Icon.png";
@@ -22,11 +23,14 @@ import Companylogo from "../../assets/images/Login/Companylogo.png";
 const Navbar = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth,
   );
 
-  const [isThemeLight, setIsThemeLight] = useState(false);
+  const [isThemeLight, setIsThemeLight] = useState(() => {
+    return localStorage.getItem("theme") === "light";
+  });
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,6 +39,51 @@ const Navbar = () => {
   const profileRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+
+  const isCurrentHome =
+    location.pathname === "/" || location.pathname === "/home";
+  const isCurrentExplore = location.pathname.startsWith("/explore");
+  const isNestedDetailOrOffer =
+    location.pathname.startsWith("/movie") ||
+    location.pathname.startsWith("/make-offer");
+
+  useEffect(() => {
+    if (isCurrentHome) {
+      sessionStorage.setItem("nav_origin", "home");
+    } else if (isCurrentExplore) {
+      sessionStorage.setItem("nav_origin", "explore");
+    }
+  }, [location.pathname, isCurrentHome, isCurrentExplore]);
+
+  const navState = location.state as { origin?: string; from?: string } | null;
+  const origin =
+    navState?.origin ||
+    (navState?.from?.includes("explore")
+      ? "explore"
+      : navState?.from === "/" || navState?.from?.includes("home")
+        ? "home"
+        : sessionStorage.getItem("nav_origin") || "home");
+
+  const isHomeActive =
+    isCurrentHome || (isNestedDetailOrOffer && origin === "home");
+  const isExploreActive =
+    isCurrentExplore || (isNestedDetailOrOffer && origin === "explore");
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem("theme") || "dark";
+    document.documentElement.setAttribute("data-theme", currentTheme);
+    document.documentElement.classList.toggle(
+      "light",
+      currentTheme === "light",
+    );
+    document.documentElement.classList.toggle("dark", currentTheme === "dark");
+
+    const handleThemeChange = () => {
+      setIsThemeLight(localStorage.getItem("theme") === "light");
+    };
+    window.addEventListener("themechange", handleThemeChange);
+    return () => window.removeEventListener("themechange", handleThemeChange);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -65,7 +114,7 @@ const Navbar = () => {
     dispatch(logout());
     setIsProfileOpen(false);
     toast.info("Logged out successfully");
-    navigate("/login");
+    navigate("/auth");
   };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -78,8 +127,14 @@ const Navbar = () => {
   };
 
   const toggleTheme = () => {
-    setIsThemeLight((prev) => !prev);
-    toast.info(isThemeLight ? "Dark theme active" : "Light mode coming soon");
+    const nextTheme = isThemeLight ? "dark" : "light";
+    setIsThemeLight(!isThemeLight);
+    localStorage.setItem("theme", nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    document.documentElement.classList.toggle("light", nextTheme === "light");
+    document.documentElement.classList.toggle("dark", nextTheme === "dark");
+    window.dispatchEvent(new Event("themechange"));
+    toast.info(`${nextTheme === "light" ? "Light" : "Dark"} mode active`);
   };
 
   const displayName =
@@ -105,36 +160,36 @@ const Navbar = () => {
             <Image
               src={logo}
               alt="ZettaRights"
-              className="h-9 max-[640px]:h-8 w-auto object-contain cursor-pointer"
+              className="h-9 max-[640px]:h-8 w-auto object-contain cursor-pointer navbar-logo-dark"
+            />
+            <Image
+              src={logo_light}
+              alt="ZettaRights"
+              className="h-9 max-[640px]:h-8 w-auto object-contain cursor-pointer navbar-logo-light"
             />
           </Link>
 
           <nav className="flex items-center gap-8 ml-auto max-[1024px]:gap-5 max-[768px]:hidden">
-            <NavLink
+            <Link
               to="/"
-              end
-              className={({ isActive }) =>
-                `text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
-                  isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:w-1/2 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
-                    : "text-[#8E8E8E] hover:text-white"
-                }`
-              }
+              className={`text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
+                isHomeActive
+                  ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:w-1/2 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
+                  : "text-[#8E8E8E] hover:text-white"
+              }`}
             >
               Home
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="/explore"
-              className={({ isActive }) =>
-                `text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
-                  isActive
-                    ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0  after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
-                    : "text-[#8E8E8E] hover:text-white"
-                }`
-              }
+              className={`text-fs20 max-[1024px]:text-[14px] font-medium transition relative py-1 ${
+                isExploreActive
+                  ? "text-[#FABE2C] font-semibold after:content-[''] after:absolute after:bottom-0 after:w-[50%] after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-[#FABE2C]"
+                  : "text-[#8E8E8E] hover:text-white"
+              }`}
             >
               Explore
-            </NavLink>
+            </Link>
             <span
               role="link"
               tabIndex={0}
@@ -162,7 +217,7 @@ const Navbar = () => {
               <Image
                 src={search_Icon}
                 alt="Search"
-                className="w-4 h-4 object-contain opacity-90 hover:opacity-100"
+                className="w-4 h-4 object-contain opacity-90 hover:opacity-100 theme-icon"
               />
             </Button>
 
@@ -205,13 +260,23 @@ const Navbar = () => {
             <Button
               variant="unstyled"
               type="button"
-              onClick={(e) => e.preventDefault()}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  navigate("/auth", { state: { from: location } });
+                  return;
+                }
+                const targetProfile =
+                  user?.role === "Seller"
+                    ? "/seller-profile"
+                    : "/buyer-profile";
+                navigate(targetProfile);
+              }}
               className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
             >
               <Image
                 src={addcontent_Icon}
                 alt="Add Content"
-                className="w-4 h-4 object-contain opacity-90 group-hover:opacity-100"
+                className="w-4 h-4 object-contain opacity-90 group-hover:opacity-100 theme-icon"
               />
             </Button>
 
@@ -233,7 +298,7 @@ const Navbar = () => {
               <Image
                 src={isThemeLight ? moon_Icon : lightMode_Icon}
                 alt="Toggle Theme"
-                className="w-4 h-4 object-contain opacity-90 hover:opacity-100"
+                className="w-4 h-4 object-contain opacity-90 hover:opacity-100 theme-icon"
               />
             </Button>
 
@@ -287,19 +352,33 @@ const Navbar = () => {
                     </div>
                   </div>
 
+                  <div className="py-1 border-b border-white/10">
+                    <Link
+                      to={
+                        user?.role === "Seller"
+                          ? "/seller-profile"
+                          : "/buyer-profile"
+                      }
+                      onClick={() => setIsProfileOpen(false)}
+                      className="w-full px-4 py-2 text-left text-[14px] max-[1366px]:text-[12px] text-white hover:bg-white/10 flex items-center gap-2.5 transition cursor-pointer"
+                    >
+                      <span className="font-medium">My Profile</span>
+                    </Link>
+                  </div>
+
                   <div className="py-1">
                     <Button
                       variant="ghost"
                       type="button"
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 text-left text-[14px] max-[1366px]:text-[12px] text-red-400 hover:bg-white/10 flex items-center gap-2.5 transition cursor-pointer justify-start"
+                      className="w-full px-4 py-2 text-left text-[14px] max-[1366px]:text-[12px] text-red-500 hover:bg-black/5 dark:hover:bg-white/10 flex items-center gap-2.5 transition cursor-pointer justify-start"
                     >
                       <Image
                         src={logoutIcon}
                         alt="Logout"
-                        className="w-4 h-4 object-contain brightness-0 invert sepia saturate-[500%] hue-rotate-[320deg]"
+                        className="logout-icon w-4 h-4 object-contain"
                       />
-                      <span>Logout</span>
+                      <span className="font-medium text-red-500">Logout</span>
                     </Button>
                   </div>
                 </div>
@@ -307,8 +386,9 @@ const Navbar = () => {
             </div>
           ) : (
             <Link
-              to="/login"
-              className="px-4 py-1.5 bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-semibold text-fs14 rounded-[6px] transition"
+              to="/auth"
+              state={{ from: location }}
+              className="px-4 py-1.5 bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-[14px] max-[1366px]:text-[12px] rounded-[6px] transition"
             >
               Login
             </Link>
@@ -323,7 +403,7 @@ const Navbar = () => {
             <Image
               src={isMobileMenuOpen ? close_Icon : hamburger}
               alt="Menu"
-              className="w-5 h-5 object-contain"
+              className="w-5 h-5 object-contain theme-icon"
             />
           </Button>
         </div>
@@ -338,33 +418,28 @@ const Navbar = () => {
       >
         <div className="overflow-hidden">
           <div className="w-full bg-[#111826] border-t border-white/10 px-6 py-4 space-y-3 shadow-2xl">
-            <NavLink
+            <Link
               to="/"
-              end
               onClick={() => setIsMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
-                  isActive
-                    ? "text-[#FABE2C] font-semibold"
-                    : "text-[#8E8E8E] hover:text-white"
-                }`
-              }
+              className={`block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
+                isHomeActive
+                  ? "text-[#FABE2C] font-semibold"
+                  : "text-[#8E8E8E] hover:text-white"
+              }`}
             >
               Home
-            </NavLink>
-            <NavLink
+            </Link>
+            <Link
               to="/explore"
               onClick={() => setIsMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
-                  isActive
-                    ? "text-[#FABE2C] font-semibold"
-                    : "text-[#8E8E8E] hover:text-white"
-                }`
-              }
+              className={`block text-fs15 max-[1024px]:text-[14px] py-1 transition-colors ${
+                isExploreActive
+                  ? "text-[#FABE2C] font-semibold"
+                  : "text-[#8E8E8E] hover:text-white"
+              }`}
             >
               Explore
-            </NavLink>
+            </Link>
             <span
               role="link"
               tabIndex={0}

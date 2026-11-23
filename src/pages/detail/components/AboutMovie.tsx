@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import type { AppDispatch, RootState } from "../../../store/store";
 import { toggleFavorite } from "../../../store/slices/movieSlice";
+import { useAuthGuard } from "../../../utils/authGuard";
 import type {
   TMDBMovieDetail,
   TMDBCastMember,
@@ -47,6 +48,7 @@ const AboutMovie = ({
   const dispatch = useDispatch<AppDispatch>();
   const favorites = useSelector((state: RootState) => state.movies.favorites);
   const isLiked = favorites.includes(movie.id);
+  const { requireAuth } = useAuthGuard();
 
   const [activeTab, setActiveTab] = useState<TabType>("Casts");
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,12 +75,40 @@ const AboutMovie = ({
   const likesDisplay = movie.likesCount || "5.5K +";
 
   const handleToggleLike = () => {
-    dispatch(toggleFavorite(movie.id));
-    if (!isLiked) {
-      toast.success(`Added "${movie.title}" to your favorites!`);
-    } else {
-      toast.info(`Removed "${movie.title}" from your favorites.`);
-    }
+    requireAuth(
+      () => {
+        dispatch(toggleFavorite(movie.id));
+        if (!isLiked) {
+          toast.success(`Added "${movie.title}" to your favorites!`);
+        } else {
+          toast.info(`Removed "${movie.title}" from your favorites.`);
+        }
+      },
+      {
+        redirectUrl: `/movie/${movie.id}`,
+        intendedAction: "like_movie",
+        meta: { movieId: movie.id },
+      },
+    );
+  };
+
+  const handleMakeOffer = () => {
+    requireAuth(
+      () => {
+        onOpenOffer();
+      },
+      {
+        redirectUrl: `/make-offer/${movie.id}`,
+        redirectState: {
+          origin: "movie",
+          from: `/movie/${movie.id}`,
+          movieTitle: movie.title,
+          direct: false,
+        },
+        intendedAction: "make_offer",
+        meta: { movieId: movie.id, movieTitle: movie.title },
+      },
+    );
   };
 
   const handleSocialShare = (platform: string) => {
@@ -130,7 +160,7 @@ const AboutMovie = ({
               <Image
                 src={Time_Icon}
                 alt="Time"
-                className="w-3.5 h-3.5 object-contain"
+                className="w-3.5 h-3.5 object-contain theme-icon"
               />
               <span>{durationText}</span>
             </span>
@@ -168,7 +198,7 @@ const AboutMovie = ({
               <Image
                 src={Comment_Icon}
                 alt="Comments"
-                className="w-4 h-4 object-contain"
+                className="w-4 h-4 object-contain theme-icon"
               />
               <span>Comments ({commentsCount})</span>
             </div>
@@ -179,7 +209,7 @@ const AboutMovie = ({
           <Button
             variant="primary"
             type="button"
-            onClick={onOpenOffer}
+            onClick={handleMakeOffer}
             className="px-8 py-2.5 rounded-[8px] font-bold text-black text-fs15 max-[1440px]:text-[14px] max-[1366px]:text-[14px] max-[1024px]:text-[14px]! max-[640px]:text-[12px] bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 shadow-md transition"
           >
             Make an Offer
@@ -217,7 +247,7 @@ const AboutMovie = ({
               <Image
                 src={shareIcon}
                 alt="Share"
-                className="w-4 h-4 object-contain pointer-events-none"
+                className="w-4 h-4 object-contain pointer-events-none theme-icon"
               />
             </Button>
 
@@ -231,7 +261,7 @@ const AboutMovie = ({
               <Image
                 src={Fb}
                 alt="Facebook"
-                className="w-4 h-4 object-contain pointer-events-none"
+                className="w-4 h-4 object-contain pointer-events-none theme-icon"
               />
             </Button>
 
@@ -245,7 +275,7 @@ const AboutMovie = ({
               <Image
                 src={instaIcon}
                 alt="Instagram"
-                className="w-4 h-4 object-contain pointer-events-none"
+                className="w-4 h-4 object-contain pointer-events-none theme-icon"
               />
             </Button>
 
@@ -259,7 +289,7 @@ const AboutMovie = ({
               <Image
                 src={twitter}
                 alt="Twitter"
-                className="w-4 h-4 object-contain pointer-events-none"
+                className="w-4 h-4 object-contain pointer-events-none theme-icon"
               />
             </Button>
 
@@ -279,7 +309,18 @@ const AboutMovie = ({
           </div>
         </div>
 
-        <div className="w-[70%] mx-auto bg-[#18202F] border border-white/10 rounded-[10px] p-1 flex items-center mb-5 select-none">
+        <div className="relative w-[70%] mx-auto bg-[#18202F] about-tab-container border border-white/10 rounded-[10px] p-1 flex items-center mb-5 select-none">
+          <div
+            className="absolute top-1 bottom-1 w-[calc((100%-8px)/3)] bg-white rounded-[8px] shadow-md transition-transform duration-300 ease-out pointer-events-none z-0"
+            style={{
+              transform:
+                activeTab === "Casts"
+                  ? "translateX(0%)"
+                  : activeTab === "Crew"
+                    ? "translateX(100%)"
+                    : "translateX(200%)",
+            }}
+          />
           {(["Casts", "Crew", "Rights"] as TabType[]).map((tab) => {
             const isActive = activeTab === tab;
             return (
@@ -288,10 +329,10 @@ const AboutMovie = ({
                 variant="unstyled"
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`flex-1 py-2 text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] font-bold rounded-[8px] transition-all cursor-pointer text-center ${
+                className={`relative z-10 flex-1 py-2 text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] font-bold rounded-[8px] transition-colors duration-200 cursor-pointer text-center ${
                   isActive
-                    ? "bg-white text-black shadow-md font-bold"
-                    : "text-white/80 hover:text-white hover:bg-white/5 font-semibold"
+                    ? "text-black font-bold"
+                    : "text-white/80 hover:text-white font-semibold"
                 }`}
               >
                 {tab}
@@ -310,7 +351,7 @@ const AboutMovie = ({
       <Button
         variant="primary"
         type="button"
-        onClick={onOpenOffer}
+        onClick={handleMakeOffer}
         fullWidth
         className="py-3.5 w-[70%]! mx-auto rounded-[10px] font-bold text-black text-fs16 max-[1440px]:text-[15px] max-[1366px]:text-[14px] max-[1024px]:text-[14px]! max-[640px]:text-[12px] bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-[0.99] shadow-lg transition mt-6"
       >

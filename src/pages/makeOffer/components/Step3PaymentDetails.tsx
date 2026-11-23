@@ -126,17 +126,17 @@ const Step3PaymentDetails = ({
           variant="unstyled"
           type="button"
           onClick={() => onChange({ pricingModel: "flat_rate" })}
-          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
+          className={`flex items-center gap-2.5 px-5 py-2 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
             data.pricingModel === "flat_rate"
               ? "bg-[#162D4A] border border-[#00B4D8]/40 text-white shadow-md"
-              : "border border-white/10 text-gray-400 hover:text-white"
+              : "bg-transparent text-white/90 hover:text-white"
           }`}
         >
           <span
             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
               data.pricingModel === "flat_rate"
                 ? "border-[#FABE2C]"
-                : "border-gray-500"
+                : "border-gray-400"
             }`}
           >
             {data.pricingModel === "flat_rate" && (
@@ -150,17 +150,17 @@ const Step3PaymentDetails = ({
           variant="unstyled"
           type="button"
           onClick={() => onChange({ pricingModel: "share_revenue" })}
-          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
+          className={`flex items-center gap-2.5 px-5 py-2 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
             data.pricingModel === "share_revenue"
               ? "bg-[#162D4A] border border-[#00B4D8]/40 text-white shadow-md"
-              : "border border-white/10 text-gray-400 hover:text-white"
+              : "bg-transparent text-white/90 hover:text-white"
           }`}
         >
           <span
             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
               data.pricingModel === "share_revenue"
                 ? "border-[#FABE2C]"
-                : "border-gray-500"
+                : "border-gray-400"
             }`}
           >
             {data.pricingModel === "share_revenue" && (
@@ -180,8 +180,8 @@ const Step3PaymentDetails = ({
             Licence (Buyer) will pay Licensor (Seller) a fixed amount of:
           </p>
 
-          <div className="flex items-center gap-4 max-[640px]:flex-col max-[640px]:items-stretch mb-8">
-            <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 max-w-[280px] max-[640px]:max-w-full">
+          <div className="flex items-center gap-4 max-[640px]:flex-col max-[640px]:items-stretch mb-8 w-full">
+            <div className="flex-1 min-w-[200px] flex items-center rounded-[8px] overflow-hidden bg-[#182232] h-[46px]">
               <Input
                 type="number"
                 min="1"
@@ -191,7 +191,7 @@ const Step3PaymentDetails = ({
                 }
                 className="w-full bg-transparent border-0 px-4 py-2.5 text-[14px] font-bold text-white focus:outline-none"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-4 py-3 text-[13px] shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-4 h-full flex items-center text-[13px] shrink-0">
                 {currencyBadgeText}
               </span>
             </div>
@@ -200,17 +200,19 @@ const Step3PaymentDetails = ({
               for the/a
             </span>
 
-            <div className="min-w-[200px]">
+            <div className="flex-1 min-w-[200px]">
               <Select
+                variant="solid"
                 options={PRICE_LISTING_UNITS}
                 value={data.priceListingUnit}
                 onChange={(e) => onChange({ priceListingUnit: e.target.value })}
-                className="bg-[#151D2A] border-white/10 rounded-[8px] h-11 text-[14px] font-medium"
+                fullWidth
+                className="text-[14px] font-medium"
               />
             </div>
           </div>
 
-          <div className="w-full bg-[#151D2A] border border-white/10 rounded-[12px] p-8 text-center my-2 shadow-lg">
+          <div className="w-full bg-[#182232] rounded-[12px] p-8 text-center my-2 shadow-lg">
             <p className="text-[13px] text-[#A0AEC0] mb-3">
               Total Amount to be paid by Licensee (Buyer) is:
             </p>
@@ -241,8 +243,8 @@ const Step3PaymentDetails = ({
             </p>
           </div>
 
-          <div className="flex items-center gap-3 max-[640px]:flex-wrap">
-            <div className="w-32 bg-[#151D2A] border border-white/10 rounded-[8px] overflow-hidden">
+          <div className="flex items-center gap-4 w-full max-[640px]:flex-wrap">
+            <div className="flex-1 min-w-[140px] h-[46px] flex items-center rounded-[8px] overflow-hidden bg-[#182232]">
               <Input
                 type="number"
                 min="0"
@@ -256,9 +258,9 @@ const Step3PaymentDetails = ({
               />
             </div>
 
-            <span className="text-[13px] text-gray-300">to</span>
+            <span className="text-[13px] text-gray-300 shrink-0">to</span>
 
-            <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-44">
+            <div className="flex-1 min-w-[160px] h-[46px] flex items-center rounded-[8px] overflow-hidden bg-[#182232]">
               <Input
                 type="number"
                 min="0"
@@ -270,11 +272,12 @@ const Step3PaymentDetails = ({
                 }
                 className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-4 h-full flex items-center text-[13px] shrink-0">
                 {currencyBadgeText}
               </span>
             </div>
           </div>
+
           <div className="flex flex-col">
             <span className="text-[14px] text-white font-bold mb-1">
               per T-VOD transaction
@@ -283,7 +286,7 @@ const Step3PaymentDetails = ({
               Share of transaction revenue Licensee (Buyer) shall pay to
               Licensor (Seller):
             </span>
-            <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-32">
+            <div className="flex items-center rounded-[8px] overflow-hidden bg-[#182232] w-36 max-[640px]:w-32 h-[46px]">
               <Input
                 type="number"
                 min="1"
@@ -296,7 +299,7 @@ const Step3PaymentDetails = ({
                 }
                 className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-bold"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-3.5 h-full flex items-center text-[13px] shrink-0">
                 %
               </span>
             </div>
@@ -307,8 +310,8 @@ const Step3PaymentDetails = ({
               The estimated monthly license fee by transaction revenue is
               between:
             </span>
-            <div className="flex items-center gap-3 max-[640px]:flex-wrap">
-              <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-48">
+            <div className="flex items-center gap-4 w-full max-[640px]:flex-wrap">
+              <div className="flex-1 min-w-[160px] h-[46px] flex items-center rounded-[8px] overflow-hidden bg-[#182232]">
                 <Input
                   type="number"
                   value={data.estimatedMonthlyMin || ""}
@@ -319,14 +322,14 @@ const Step3PaymentDetails = ({
                   }
                   className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                 />
-                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
+                <span className="bg-[#FABE2C] text-black font-bold px-4 h-full flex items-center text-[13px] shrink-0">
                   {currencyBadgeText}
                 </span>
               </div>
 
-              <span className="text-[13px] text-gray-300">and</span>
+              <span className="text-[13px] text-gray-300 shrink-0">and</span>
 
-              <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-48">
+              <div className="flex-1 min-w-[160px] h-[46px] flex items-center rounded-[8px] overflow-hidden bg-[#182232]">
                 <Input
                   type="number"
                   value={data.estimatedMonthlyMax || ""}
@@ -337,7 +340,7 @@ const Step3PaymentDetails = ({
                   }
                   className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                 />
-                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
+                <span className="bg-[#FABE2C] text-black font-bold px-4 h-full flex items-center text-[13px] shrink-0">
                   {currencyBadgeText}
                 </span>
               </div>
@@ -352,8 +355,8 @@ const Step3PaymentDetails = ({
             />
 
             {data.hasMinimumGuarantee && (
-              <div className="flex items-center gap-3 max-[640px]:flex-wrap pl-6">
-                <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-44">
+              <div className="flex items-center gap-4 w-full max-[640px]:flex-wrap">
+                <div className="flex-1 min-w-[140px] h-[46px] flex items-center rounded-[8px] overflow-hidden bg-[#182232]">
                   <Input
                     type="number"
                     value={data.minimumGuaranteeAmount || ""}
@@ -364,34 +367,40 @@ const Step3PaymentDetails = ({
                     }
                     className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                   />
-                  <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
+                  <span className="bg-[#FABE2C] text-black font-bold px-4 h-full flex items-center text-[13px] shrink-0">
                     {currencyBadgeText}
                   </span>
                 </div>
 
-                <span className="text-[13px] text-gray-300">for the/a</span>
+                <span className="text-[13px] text-gray-300 shrink-0">
+                  for the/a
+                </span>
 
-                <div className="w-36">
+                <div className="flex-1 min-w-[120px]">
                   <Select
+                    variant="solid"
                     options={GUARANTEE_PERIODS}
                     value={data.minimumGuaranteePeriod}
                     onChange={(e) =>
                       onChange({ minimumGuaranteePeriod: e.target.value })
                     }
-                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-[13px] font-medium"
+                    fullWidth
+                    className="text-[13px] font-medium"
                   />
                 </div>
 
-                <span className="text-[13px] text-gray-300">for</span>
+                <span className="text-[13px] text-gray-300 shrink-0">for</span>
 
-                <div className="w-44">
+                <div className="flex-1 min-w-[140px]">
                   <Select
+                    variant="solid"
                     options={GUARANTEE_SCOPES}
                     value={data.minimumGuaranteeScope}
                     onChange={(e) =>
                       onChange({ minimumGuaranteeScope: e.target.value })
                     }
-                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-[13px] font-medium"
+                    fullWidth
+                    className="text-[13px] font-medium"
                   />
                 </div>
               </div>
@@ -412,7 +421,7 @@ const Step3PaymentDetails = ({
           type="button"
           onClick={onPrevious}
           disabled={isSubmitting}
-          className="px-8 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-bold text-[15px] max-[1024px]:text-[14px] max-[640px]:text-[13px] transition active:scale-95"
+          className="px-8 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-extrabold text-[15px]! max-[1024px]:text-[14px]! max-[640px]:text-[13px]! transition active:scale-95"
         >
           Previous
         </Button>
@@ -422,7 +431,7 @@ const Step3PaymentDetails = ({
           type="submit"
           disabled={isSubmitting}
           isLoading={isSubmitting}
-          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-bold text-[15px] max-[1024px]:text-[14px] max-[640px]:text-[13px] transition active:scale-95 shadow-md"
+          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-[16px]! max-[1024px]:text-[15px]! max-[640px]:text-[14px]! transition active:scale-95 shadow-md cursor-pointer"
         >
           Send an Offer
         </Button>

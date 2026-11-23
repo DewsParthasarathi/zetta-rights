@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import ScrollToTopOnNavigate from "../components/common/ScrollToTopOnNavigate";
 import RootLayout from "../layout/RootLayout";
 import Home from "../pages/home/Home";
@@ -14,36 +14,45 @@ const router = createBrowserRouter([
     element: <ScrollToTopOnNavigate />,
     children: [
       {
-        path: "/login",
+        path: "/auth",
         element: <Login />,
       },
       {
-        path: "/buyer-profile",
-        element: <ProfileCompletion role="Buyer" />,
+        path: "/login",
+        element: <Navigate to="/auth" replace />,
       },
       {
-        path: "/seller-profile",
-        element: <ProfileCompletion role="Seller" />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/buyer-profile",
+            element: <ProfileCompletion role="Buyer" />,
+          },
+          {
+            path: "/seller-profile",
+            element: <ProfileCompletion role="Seller" />,
+          },
+        ],
       },
       {
         path: "/",
         element: <RootLayout />,
         children: [
           {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: "home",
+            element: <Home />,
+          },
+          {
+            path: "explore",
+            element: <Explore />,
+          },
+          {
             element: <ProtectedRoute />,
             children: [
-              {
-                index: true,
-                element: <Home />,
-              },
-              {
-                path: "home",
-                element: <Home />,
-              },
-              {
-                path: "explore",
-                element: <Explore />,
-              },
               {
                 path: "movie/:id",
                 element: <MovieDetail />,
@@ -63,6 +72,10 @@ const router = createBrowserRouter([
             ],
           },
         ],
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
       },
     ],
   },

@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store/store";
 import { toggleFavorite } from "../../../store/slices/movieSlice";
+import { useAuthGuard } from "../../../utils/authGuard";
 import {
   type TMDBMovie,
   TMDB_GENRES,
@@ -18,10 +19,11 @@ import StarOutline_Icon from "../../../assets/images/Home/LatestContent/StarOutl
 import Default_Img from "../../../assets/images/Home/LatestContent/Default_Img.png";
 
 export interface MovieCardProps {
-  movie: TMDBMovie;
+  movie?: TMDBMovie;
   isFeatured?: boolean;
   onOfferClick?: (movie: TMDBMovie) => void;
   className?: string;
+  isPlaceholder?: boolean;
 }
 
 const MovieCard = ({
@@ -29,23 +31,90 @@ const MovieCard = ({
   isFeatured = false,
   onOfferClick,
   className = "",
+  isPlaceholder = false,
 }: MovieCardProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const favorites = useSelector((state: RootState) => state.movies.favorites);
+  const { requireAuth } = useAuthGuard();
+
+  if (isPlaceholder || !movie) {
+    return (
+      <div
+        className={`relative select-none font-century w-full h-full pointer-events-none ${className}`}
+      >
+        <div className="relative z-10 flex flex-col justify-between h-full bg-[#18202F] border border-white/10 rounded-[10px] px-2 pt-2 pb-2.5 shadow-[0_10px_25px_rgba(0,0,0,0.5)] opacity-60">
+          <div className="relative aspect-[10/7] rounded-[4px] overflow-hidden bg-black/40 flex items-center justify-center">
+            <span className="text-fs14 font-semibold text-gray-400 font-sfpro">
+              Coming Soon
+            </span>
+          </div>
+
+          <div className="flex flex-col flex-1 mt-3.5">
+            <h3 className="text-fs18 max-[1024px]:text-[16px] max-[640px]:text-[14px] font-bold text-gray-300 truncate tracking-tight">
+              Upcoming Content
+            </h3>
+
+            <p className="font-sfpro text-[#8E8E8E] text-[12px]  line-clamp-3 mt-1.5 min-h-[3.8em]">
+              New movie titles and rights will be available for licensing soon.
+            </p>
+
+            <div className="flex items-center gap-1.5 mt-[10%] mb-2 text-fs12 overflow-hidden">
+              <span className="px-2 py-0.5 rounded-[6px] border border-white/10 text-[11px] text-gray-400 font-medium whitespace-nowrap">
+                Coming Soon
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-fs12">
+              <span className="text-gray-400 font-medium text-[12px]">
+                Licence TBA
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const isLiked = favorites.includes(movie.id);
 
   const handleCardClick = () => {
-    navigate(`/movie/${movie.id}`);
+    const navOrigin =
+      (location.state as { origin?: string })?.origin ||
+      (location.pathname.includes("explore")
+        ? "explore"
+        : sessionStorage.getItem("nav_origin") === "explore"
+          ? "explore"
+          : "home");
+    const targetUrl = `/movie/${movie.id}`;
+    const targetState = { origin: navOrigin, from: location.pathname };
+
+    requireAuth(
+      () => {
+        navigate(targetUrl, { state: targetState });
+      },
+      {
+        redirectUrl: targetUrl,
+        redirectState: targetState,
+        intendedAction: "view_movie",
+        meta: { movieId: movie.id, movieTitle: movie.title },
+      },
+    );
   };
 
   const imageUrl =
     getImageUrl(movie.backdrop_path || movie.poster_path, "w500") ||
     Default_Img;
 
-  const genreNames = (movie.genre_ids || [])
-    .slice(0, 3)
-    .map((gid) => TMDB_GENRES[gid] || "Movie");
+  const allGenres: string[] = (
+    movie.genre_ids && movie.genre_ids.length > 0
+      ? movie.genre_ids.map((gid) => TMDB_GENRES[gid] || "Movie")
+      : []
+  ).filter(Boolean);
+
+  const displayedGenres = allGenres.slice(0, 2);
+  const remainingCount = allGenres.length > 2 ? allGenres.length - 2 : 0;
 
   const normalizedRating = Math.max(
     1,
@@ -116,7 +185,17 @@ const MovieCard = ({
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(toggleFavorite(movie.id));
+              requireAuth(
+                () => {
+                  dispatch(toggleFavorite(movie.id));
+                },
+                {
+                  redirectUrl: location.pathname + location.search,
+                  redirectState: location.state,
+                  intendedAction: "like_movie",
+                  meta: { movieId: movie.id },
+                },
+              );
             }}
             className="absolute top-3 right-3 z-30 transition-transform duration-200 hover:scale-110 cursor-pointer drop-shadow-md p-0 h-auto"
             title={isLiked ? "Remove Favorite" : "Add to Favorites"}
@@ -150,13 +229,38 @@ const MovieCard = ({
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                if (onOfferClick) {
-                  onOfferClick(movie);
-                } else {
-                  navigate(`/make-offer/${movie.id}`);
-                }
+                const navOrigin =
+                  (location.state as { origin?: string })?.origin ||
+                  (location.pathname.includes("explore")
+                    ? "explore"
+                    : sessionStorage.getItem("nav_origin") === "explore"
+                      ? "explore"
+                      : "home");
+
+                const targetUrl = `/make-offer/${movie.id}`;
+                const targetState = {
+                  origin: navOrigin,
+                  from: location.pathname,
+                  direct: true,
+                };
+
+                requireAuth(
+                  () => {
+                    if (onOfferClick) {
+                      onOfferClick(movie);
+                    } else {
+                      navigate(targetUrl, { state: targetState });
+                    }
+                  },
+                  {
+                    redirectUrl: targetUrl,
+                    redirectState: targetState,
+                    intendedAction: "make_offer",
+                    meta: { movieId: movie.id, movieTitle: movie.title },
+                  },
+                );
               }}
-              className="bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 text-black font-bold text-fs16 max-[1024px]:text-[14px] px-7 py-2.5 rounded-[8px] shadow-[0_6px_20px_rgba(0,0,0,0.5)] cursor-pointer transition transform scale-95 lg:group-hover:scale-100 select-none h-auto"
+              className="bg-[#FABE2C] hover:bg-[#E5AD25] active:scale-95 text-black font-bold text-fs16 max-[1440px]:text-[14px]! max-[1281px]:text-[13px]! max-[1024px]:text-[14px]! px-7 py-2.5 rounded-[8px] shadow-[0_6px_20px_rgba(0,0,0,0.5)] cursor-pointer transition transform scale-95 lg:group-hover:scale-100 select-none h-auto"
             >
               Make an Offer
             </Button>
@@ -171,22 +275,22 @@ const MovieCard = ({
             {movie.title}
           </h3>
 
-          <p className="text-[#8E8E8E] text-[12px] leading-relaxed line-clamp-3 mt-1.5 min-h-[3.8em]">
+          <p className="font-sfpro leading-3 text-[#8E8E8E] text-[12px]  line-clamp-3 mt-1.5 min-h-[4em]">
             {movie.overview || "No description available for this content."}
           </p>
 
-          <div className="flex items-center gap-1.5 mt-3.5 pt-3 border-t border-white/10 text-fs12 overflow-hidden">
+          <div className="flex items-center gap-1.5 mt-[10%] mb-2 text-fs12 overflow-hidden">
             <div className="flex items-center gap-1 shrink-0 text-white">
               <Image
                 src={Time_Icon}
                 alt="Duration"
-                className="w-3.5 h-3.5 object-contain opacity-90"
+                className="w-3.5 h-3.5 object-contain opacity-90 theme-icon"
               />
               <span className="text-[12px] font-semibold">{durationText}</span>
             </div>
 
             <div className="flex items-center gap-1 overflow-hidden truncate">
-              {genreNames.map((genre, idx) => (
+              {displayedGenres.map((genre, idx) => (
                 <span
                   key={idx}
                   className="px-2 py-0.5 rounded-[6px] border border-white/20 text-[11px] text-gray-200 font-medium whitespace-nowrap shrink-0"
@@ -194,10 +298,15 @@ const MovieCard = ({
                   {genre}
                 </span>
               ))}
+              {remainingCount > 0 && (
+                <span className="px-2 py-0.5 rounded-[6px] border border-white/20 text-[11px] text-gray-200 font-medium whitespace-nowrap shrink-0">
+                  +{remainingCount}
+                </span>
+              )}
             </div>
           </div>
 
-          <div className="flex items-center justify-between mt-3 text-fs12">
+          <div className="flex items-center justify-between  text-fs12">
             <div className="flex items-center gap-1.5">
               <div className="flex items-center gap-0.5">
                 {[1, 2, 3, 4, 5].map((star) => (

@@ -16,9 +16,11 @@ import {
   TMDB_ID_TO_GENRE_NAMES,
   LANGUAGE_NAME_TO_CODE,
 } from "./filterConstants";
+import { useAuthGuard } from "../../utils/authGuard";
 
 const Explore = () => {
   const navigate = useNavigate();
+  const { requireAuth } = useAuthGuard();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const initialQuery = searchParams.get("q") || "";
@@ -255,7 +257,19 @@ const Explore = () => {
   };
 
   const handleOfferClick = (movie: TMDBMovie) => {
-    navigate(`/make-offer/${movie.id}`);
+    const targetUrl = `/make-offer/${movie.id}`;
+    const targetState = { origin: "explore", from: "/explore", direct: true };
+    requireAuth(
+      () => {
+        navigate(targetUrl, { state: targetState });
+      },
+      {
+        redirectUrl: targetUrl,
+        redirectState: targetState,
+        intendedAction: "make_offer",
+        meta: { movieId: movie.id, movieTitle: movie.title },
+      },
+    );
   };
 
   const getSectionTitle = () => {
@@ -336,6 +350,8 @@ const Explore = () => {
             movies={exploreMovies}
             isLoading={isExploreLoading}
             totalResults={totalResults}
+            currentPage={currentPage}
+            totalPages={totalPages}
             onOfferClick={handleOfferClick}
             onResetFilters={handleResetFilters}
           />

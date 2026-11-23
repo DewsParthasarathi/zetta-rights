@@ -27,7 +27,9 @@ const Home = () => {
   }, [dispatch]);
 
   const handleOfferClick = (movie: TMDBMovie) => {
-    navigate(`/make-offer/${movie.id}`);
+    navigate(`/make-offer/${movie.id}`, {
+      state: { origin: "home", from: "/", direct: true },
+    });
   };
 
   return (

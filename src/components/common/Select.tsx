@@ -44,7 +44,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
     const borderClass = hasError
       ? "border border-red-500 focus:border-red-400"
-      : isBareOrGhost || isSolid
+      : isBareOrGhost || isSolid || className.includes("border")
         ? ""
         : "border border-white/70 focus:border-[#FABE2C]";
 

@@ -63,6 +63,7 @@ const Step1LicenseRegion = ({
 
   const startDateObj = parseInputDate(data.startDate);
   const endDateObj = parseInputDate(data.endDate);
+  const todayStr = toInputDateFormat(new Date());
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -134,11 +135,42 @@ const Step1LicenseRegion = ({
 
   const handleStartDateChange = (newDateStr: string) => {
     if (!newDateStr) return;
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
     const newStart = parseInputDate(newDateStr);
-    const newEnd = calculateEndDate(newStart, data.years, data.months);
+    if (newStart < todayDate) {
+      setErrorMsg("Start Date cannot be in the past.");
+      return;
+    }
+
+    const currentEnd = parseInputDate(data.endDate);
+    let updatedEndDate: string;
+    let updatedYears: number;
+    let updatedMonths: number;
+
+    if (currentEnd <= newStart) {
+      const calculatedEnd = calculateEndDate(
+        newStart,
+        Math.max(1, data.years),
+        data.months,
+      );
+      updatedEndDate = toInputDateFormat(calculatedEnd);
+      const dur = calculateDuration(newStart, calculatedEnd);
+      updatedYears = dur.years;
+      updatedMonths = dur.months;
+    } else {
+      updatedEndDate = data.endDate;
+      const dur = calculateDuration(newStart, currentEnd);
+      updatedYears = dur.years;
+      updatedMonths = dur.months;
+    }
+
+    setErrorMsg("");
     onChange({
       startDate: newDateStr,
-      endDate: toInputDateFormat(newEnd),
+      endDate: updatedEndDate,
+      years: updatedYears,
+      months: updatedMonths,
     });
   };
 
@@ -146,6 +178,11 @@ const Step1LicenseRegion = ({
     if (!newDateStr) return;
     const newEnd = parseInputDate(newDateStr);
     const start = parseInputDate(data.startDate);
+    if (newEnd <= start) {
+      setErrorMsg("End Date must be after Start Date.");
+      return;
+    }
+    setErrorMsg("");
     const duration = calculateDuration(start, newEnd);
     onChange({
       endDate: newDateStr,
@@ -179,6 +216,13 @@ const Step1LicenseRegion = ({
       return;
     }
 
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    if (startDateObj < todayDate) {
+      setErrorMsg("Start Date cannot be in the past.");
+      return;
+    }
+
     if (endDateObj <= startDateObj) {
       setErrorMsg("End Date must be after Start Date.");
       return;
@@ -201,8 +245,8 @@ const Step1LicenseRegion = ({
                 License Region
               </h3>
               <p className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] leading-relaxed min-h-[44px] max-[768px]:min-h-0">
-                Specify the countries you wish to license this content in. If you
-                want Global rights, please select &quot;Global&quot;
+                Specify the countries you wish to license this content in. If
+                you want Global rights, please select &quot;Global&quot;
               </p>
             </div>
 
@@ -412,6 +456,7 @@ const Step1LicenseRegion = ({
               <Input
                 ref={startDateInputRef}
                 type="date"
+                min={todayStr}
                 value={data.startDate}
                 onChange={(e) => handleStartDateChange(e.target.value)}
                 className="absolute inset-0 opacity-0 pointer-events-none"
@@ -480,6 +525,7 @@ const Step1LicenseRegion = ({
               <Input
                 ref={endDateInputRef}
                 type="date"
+                min={data.startDate || todayStr}
                 value={data.endDate}
                 onChange={(e) => handleEndDateChange(e.target.value)}
                 className="absolute inset-0 opacity-0 pointer-events-none"
@@ -499,7 +545,7 @@ const Step1LicenseRegion = ({
         <Button
           variant="primary"
           type="submit"
-          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-[16px] max-[1024px]:text-[15px] max-[640px]:text-[14px] transition active:scale-95 shadow-md cursor-pointer"
+          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-[16px]! max-[1024px]:text-[15px]! max-[640px]:text-[14px]! transition active:scale-95 shadow-md cursor-pointer"
         >
           Next
         </Button>

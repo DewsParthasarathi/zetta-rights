@@ -1,3 +1,4 @@
+import { useState, useEffect, useMemo } from "react";
 import type { TMDBMovie } from "../../../services/tmdbService";
 import MovieCard from "../../home/components/MovieCard";
 import Button from "../../../components/common/Button";
@@ -7,20 +8,58 @@ export interface TopSearchSectionProps {
   movies: TMDBMovie[];
   isLoading?: boolean;
   totalResults?: number;
+  currentPage?: number;
+  totalPages?: number;
   onOfferClick?: (movie: TMDBMovie) => void;
   onResetFilters?: () => void;
   className?: string;
 }
+
+const getColumnCount = (width: number) => {
+  if (width < 640) return 1;
+  if (width < 1024) return 2;
+  if (width < 1280) return 3;
+  if (width <= 1600) return 4;
+  return 5;
+};
 
 const TopSearchSection = ({
   title = "Top Search",
   movies,
   isLoading = false,
   totalResults,
+  currentPage = 1,
+  totalPages = 1,
   onOfferClick,
   onResetFilters,
   className = "",
 }: TopSearchSectionProps) => {
+  const [columnCount, setColumnCount] = useState(() =>
+    typeof window !== "undefined" ? getColumnCount(window.innerWidth) : 5,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setColumnCount(getColumnCount(window.innerWidth));
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isLastPage = totalPages > 0 && currentPage >= totalPages;
+
+  const displayedMovies = useMemo(() => {
+    if (!movies || movies.length === 0) return [];
+    if (isLastPage || columnCount <= 1) {
+      return movies;
+    }
+    const fullRows = Math.floor(movies.length / columnCount);
+    if (fullRows === 0) {
+      return movies;
+    }
+    return movies.slice(0, fullRows * columnCount);
+  }, [movies, columnCount, isLastPage]);
+
   return (
     <section
       className={`w-full flex flex-col gap-5 font-century select-none ${className}`}
@@ -39,7 +78,7 @@ const TopSearchSection = ({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-5 max-[1600px]:grid-cols-4 max-[1280px]:grid-cols-3 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1 gap-5">
+        <div className="grid grid-cols-5 max-[1600px]:grid-cols-4 max-[1279px]:grid-cols-3 max-[1023px]:grid-cols-2 max-[639px]:grid-cols-1 gap-5">
           {Array.from({ length: 15 }).map((_, idx) => (
             <div
               key={idx}
@@ -52,7 +91,7 @@ const TopSearchSection = ({
             </div>
           ))}
         </div>
-      ) : movies.length === 0 ? (
+      ) : displayedMovies.length === 0 ? (
         <div className="w-full py-16 flex flex-col items-center justify-center text-center bg-[#18202F]/40 border border-white/10 rounded-[16px] p-8">
           <div className="text-fs48 text-gray-500 mb-2">🎬</div>
           <h3 className="text-fs20 font-bold text-white mb-2">
@@ -76,8 +115,8 @@ const TopSearchSection = ({
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-5 max-[1600px]:grid-cols-4 max-[1280px]:grid-cols-3 max-[1024px]:grid-cols-2 max-[640px]:grid-cols-1 gap-5">
-          {movies.map((movie, index) => (
+        <div className="grid grid-cols-5 max-[1600px]:grid-cols-4 max-[1279px]:grid-cols-3 max-[1023px]:grid-cols-2 max-[639px]:grid-cols-1 gap-5">
+          {displayedMovies.map((movie, index) => (
             <div
               key={`grid-${movie.id}-${index}`}
               className="h-full relative lg:hover:z-20 transition-all pb-3"

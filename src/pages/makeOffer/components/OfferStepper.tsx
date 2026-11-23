@@ -19,34 +19,42 @@ const OfferStepper = ({
 }: OfferStepperProps) => {
   return (
     <div
-      className={`w-full h-[290px] max-[1024px]:h-auto bg-[#1C2434] max-[1024px]:bg-transparent border border-white/5 max-[1024px]:border-0 py-7 px-6 max-[1024px]:py-0 max-[1024px]:px-0 select-none font-century ${className}`}
+      className={`w-full bg-[#182232] max-[1024px]:bg-transparent border border-white/5 max-[1024px]:border-0 p-6 max-[1024px]:p-0 select-none font-century  ${className}`}
     >
-      <div className="flex flex-col h-full max-[1024px]:hidden">
+      <div className="flex flex-col max-[1024px]:hidden">
         {STEPS.map((item, index) => {
           const isCompleted = item.step < currentStep;
           const isActive = item.step === currentStep;
           const isLast = index === STEPS.length - 1;
+
           return (
-            <div
-              key={item.step}
-              className={`flex ${isLast ? "flex-grow-0" : "flex-1"}`}
-            >
-              <div className="flex flex-col items-center self-stretch shrink-0 w-9">
+            <div key={item.step} className="flex items-start gap-4">
+              <div className="flex flex-col items-center">
                 <Button
                   variant="unstyled"
                   type="button"
                   onClick={() => isCompleted && onStepClick?.(item.step)}
                   disabled={!isCompleted}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-fs15 font-bold transition-all duration-200 shrink-0 ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold shrink-0 transition-colors ${
                     isCompleted
-                      ? "bg-[#2EA753] text-white shadow-[0_0_12px_rgba(46,167,83,0.4)] cursor-pointer"
+                      ? "bg-[#00E875] text-white cursor-pointer"
                       : isActive
-                        ? "bg-[#05D5FB] text-white shadow-[0_0_14px_rgba(5,213,251,0.5)]"
-                        : "border border-[#8D9199]/50 text-[#8D9199] bg-transparent"
+                        ? "bg-[#05D5FB] text-white"
+                        : "border border-white/20 text-[#8D9199] bg-transparent"
                   }`}
                 >
                   {isCompleted ? (
-                    <span className="text-[14px] leading-none">✓</span>
+                    <svg
+                      className="w-3.5 h-3.5 text-white"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
                   ) : (
                     item.step
                   )}
@@ -54,16 +62,16 @@ const OfferStepper = ({
 
                 {!isLast && (
                   <div
-                    className={`w-[2px] flex-1 transition-colors duration-200 ${
-                      item.step <= currentStep ? "bg-[#05D5FB]" : "bg-[#545A66]"
+                    className={`w-[2px] h-12 my-1.5 transition-colors ${
+                      item.step < currentStep ? "bg-[#05D5FB]" : "bg-[#3A4151]"
                     }`}
                   />
                 )}
               </div>
 
-              <div className="h-8 flex items-center ml-3.5">
+              <div className="flex flex-col pt-1">
                 <span
-                  className={`text-fs18 font-bold transition-colors ${
+                  className={`text-[15px] font-bold leading-tight transition-colors ${
                     isActive
                       ? "text-[#05D5FB]"
                       : isCompleted
@@ -73,6 +81,11 @@ const OfferStepper = ({
                 >
                   {item.title}
                 </span>
+                {isCompleted && (
+                  <span className="text-[11px] text-[#00E875] font-medium leading-tight mt-1">
+                    Completed
+                  </span>
+                )}
               </div>
             </div>
           );
@@ -97,40 +110,55 @@ const OfferStepper = ({
                   type="button"
                   onClick={() => isCompleted && onStepClick?.(item.step)}
                   disabled={!isCompleted}
-                  className={`w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 rounded-full flex items-center justify-center text-[14px] max-[640px]:text-[12px] font-bold transition-all duration-200 shrink-0 ${
+                  className={`w-7 h-7 max-[640px]:w-6 max-[640px]:h-6 rounded-full flex items-center justify-center text-[13px] max-[640px]:text-[11px] font-bold transition-all shrink-0 ${
                     isCompleted
-                      ? "bg-[#2EA753] text-white shadow-[0_0_12px_rgba(46,167,83,0.4)] cursor-pointer"
+                      ? "bg-[#00E875] text-white cursor-pointer"
                       : isActive
-                        ? "bg-[#05D5FB] text-white shadow-[0_0_14px_rgba(5,213,251,0.5)]"
-                        : "border border-[#8D9199]/50 text-[#8D9199] bg-transparent"
+                        ? "bg-[#05D5FB] text-white"
+                        : "border border-white/20 text-[#8D9199] bg-transparent"
                   }`}
                 >
                   {isCompleted ? (
-                    <span className="text-[13px] max-[640px]:text-[11px] leading-none">
-                      ✓
-                    </span>
+                    <svg
+                      className="w-3.5 h-3.5 max-[640px]:w-3 max-[640px]:h-3 text-white"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
                   ) : (
                     item.step
                   )}
                 </Button>
 
-                <span
-                  className={`text-[14px] max-[640px]:text-[13px] font-bold transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "text-[#05D5FB]"
-                      : isCompleted
-                        ? "text-white"
-                        : "text-[#8D9199]"
-                  }`}
-                >
-                  {item.title}
-                </span>
+                <div className="flex flex-col">
+                  <span
+                    className={`text-[14px] max-[640px]:text-[12px] font-bold transition-colors whitespace-nowrap leading-tight ${
+                      isActive
+                        ? "text-[#05D5FB]"
+                        : isCompleted
+                          ? "text-white"
+                          : "text-[#8D9199]"
+                    }`}
+                  >
+                    {item.title}
+                  </span>
+                  {isCompleted && (
+                    <span className="text-[10px] text-[#00E875] font-medium leading-tight">
+                      Completed
+                    </span>
+                  )}
+                </div>
               </div>
 
               {!isLast && (
                 <div
-                  className={`flex-1 h-[2px] mx-4 max-[640px]:mx-2 transition-colors duration-200 ${
-                    isLineActive ? "bg-[#05D5FB]" : "bg-[#545A66]"
+                  className={`flex-1 h-[2px] mx-4 max-[640px]:mx-2 transition-colors ${
+                    isLineActive ? "bg-[#05D5FB]" : "bg-[#3A4151]"
                   }`}
                 />
               )}

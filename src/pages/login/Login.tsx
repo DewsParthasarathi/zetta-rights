@@ -8,7 +8,7 @@ import {
   type ClipboardEvent,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   checkAccountByEmail,
@@ -16,6 +16,7 @@ import {
   setRegistrationDraft,
   type UserAccount,
 } from "../../store/slices/authSlice";
+import { toggleFavorite } from "../../store/slices/movieSlice";
 import type { AppDispatch, RootState } from "../../store/store";
 
 import Button from "../../components/common/Button";
@@ -35,12 +36,29 @@ import {
 
 import BackGround_Img from "../../assets/images/login/BackGround_Img.png";
 import loginLogo from "../../assets/images/login/loginLogo.png";
+import loginLogo_light from "../../assets/images/login/loginLogo_light.png";
 import Pattern from "../../assets/images/login/Pattern.png";
+import lightMode_Icon from "../../assets/images/Home/Header/lightMode_Icon.png";
+import moon_Icon from "../../assets/images/Home/Header/moon.png";
 
 type Step = "LOGIN" | "OTP_VERIFY" | "CREATE_ACCOUNT";
 
 const Login = () => {
   const [step, setStep] = useState<Step>("LOGIN");
+
+  const [isThemeLight, setIsThemeLight] = useState(() => {
+    return localStorage.getItem("theme") === "light";
+  });
+
+  const toggleTheme = () => {
+    const nextTheme = isThemeLight ? "dark" : "light";
+    setIsThemeLight(!isThemeLight);
+    localStorage.setItem("theme", nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    document.documentElement.classList.toggle("light", nextTheme === "light");
+    document.documentElement.classList.toggle("dark", nextTheme === "dark");
+    window.dispatchEvent(new Event("themechange"));
+  };
 
   const [countryCode, setCountryCode] = useState("+91");
   const [email, setEmail] = useState("");
@@ -65,6 +83,7 @@ const Login = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated,
   );
@@ -78,6 +97,21 @@ const Login = () => {
   }, [timer]);
 
   if (isAuthenticated) {
+    const redirectTarget = location.state?.from;
+    if (redirectTarget) {
+      if (typeof redirectTarget === "string") {
+        return <Navigate to={redirectTarget} replace />;
+      }
+      if (redirectTarget.pathname) {
+        return (
+          <Navigate
+            to={redirectTarget.pathname}
+            state={redirectTarget.state}
+            replace
+          />
+        );
+      }
+    }
     return <Navigate to="/" replace />;
   }
 
@@ -255,7 +289,30 @@ const Login = () => {
       const displayName =
         accountToLogin.companyName || accountToLogin.fullName || "User";
       toast.success(`Welcome back, ${displayName}!`);
-      navigate("/");
+
+      if (
+        location.state?.intendedAction === "like_movie" &&
+        location.state?.movieId
+      ) {
+        dispatch(toggleFavorite(location.state.movieId));
+        toast.success("Added movie to your favorites!");
+      }
+
+      const redirectTarget = location.state?.from;
+      if (redirectTarget) {
+        if (typeof redirectTarget === "string") {
+          navigate(redirectTarget, { replace: true });
+        } else if (redirectTarget.pathname) {
+          navigate(redirectTarget.pathname, {
+            state: redirectTarget.state,
+            replace: true,
+          });
+        } else {
+          navigate("/", { replace: true });
+        }
+      } else {
+        navigate("/", { replace: true });
+      }
     } else {
       toast.info(
         "Email verified! Please enter your details to create an account.",
@@ -314,11 +371,14 @@ const Login = () => {
       }),
     );
 
-    if (role === "Buyer") {
-      navigate("/buyer-profile");
-    } else {
-      navigate("/seller-profile");
-    }
+    const targetRoute = role === "Buyer" ? "/buyer-profile" : "/seller-profile";
+    navigate(targetRoute, {
+      state: {
+        from: location.state?.from,
+        intendedAction: location.state?.intendedAction,
+        movieId: location.state?.movieId,
+      },
+    });
   };
 
   return (
@@ -327,6 +387,20 @@ const Login = () => {
         className="relative min-h-screen w-full flex items-center justify-center p-4 max-[1024px]:p-3.5 max-[768px]:p-3 max-[480px]:p-2 max-[340px]:p-1.5 bg-cover bg-center bg-no-repeat font-century select-none"
         style={{ backgroundImage: `url(${BackGround_Img})` }}
       >
+        <div className="absolute top-6 right-6 z-20">
+          <Button
+            variant="unstyled"
+            type="button"
+            onClick={toggleTheme}
+            className="w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/20 flex items-center justify-center transition cursor-pointer"
+          >
+            <Image
+              src={isThemeLight ? moon_Icon : lightMode_Icon}
+              alt="Toggle Theme"
+              className="w-4 h-4 object-contain opacity-90 theme-icon"
+            />
+          </Button>
+        </div>
         <div className="relative z-10 w-[34%] max-[1600px]:w-[32%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[58%] max-[768px]:w-[78%] max-[480px]:w-[94%] max-[360px]:w-[96%] max-[340px]:w-full max-w-[96%] max-[340px]:max-w-full bg-black/50 border border-white/10 rounded-[20px] max-[340px]:rounded-[14px] py-[3%] px-[3.5%] max-[1024px]:px-5 max-[768px]:px-4 max-[340px]:px-2.5 max-[1024px]:py-5 max-[340px]:py-4 overflow-hidden shadow-2xl">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
@@ -338,7 +412,18 @@ const Login = () => {
               <Image
                 src={loginLogo}
                 alt="ZettaRights"
-                className="h-auto max-[1024px]:h-11 w-full cursor-pointer"
+                className="h-auto max-[1024px]:h-11 w-full cursor-pointer login-logo-dark"
+                onClick={() => {
+                  setEmailError("");
+                  setTermsError("");
+                  setOtpError("");
+                  setStep("LOGIN");
+                }}
+              />
+              <Image
+                src={loginLogo_light}
+                alt="ZettaRights"
+                className="h-auto max-[1024px]:h-11 w-full cursor-pointer login-logo-light"
                 onClick={() => {
                   setEmailError("");
                   setTermsError("");

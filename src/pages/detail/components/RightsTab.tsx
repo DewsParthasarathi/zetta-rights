@@ -16,7 +16,7 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
   return (
     <div className={`w-full flex flex-col gap-4 py-2 select-none ${className}`}>
       <div>
-        <h4 className="text-fs13 max-[1440px]:text-fs12 text-gray-300 font-medium mb-2.5">
+        <h4 className="text-[13px]! max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! text-gray-300 font-medium mb-2.5">
           Available Region
         </h4>
         <div className="flex flex-wrap items-center gap-3">
@@ -28,7 +28,7 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
                 variant="unstyled"
                 type="button"
                 onClick={() => setSelectedRegion(region)}
-                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-fs12 font-medium transition cursor-pointer ${
+                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
                   isSelected
                     ? "border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
                     : "border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"
@@ -42,7 +42,7 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
       </div>
 
       <div>
-        <h4 className="text-fs13 max-[1440px]:text-fs12 text-gray-300 font-medium mb-2.5">
+        <h4 className="text-[13px]! max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! text-gray-300 font-medium mb-2.5">
           Right Types
         </h4>
         <div className="flex flex-wrap items-center gap-3">
@@ -54,7 +54,7 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
                 variant="unstyled"
                 type="button"
                 onClick={() => setSelectedRightType(type)}
-                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-fs12 font-medium transition cursor-pointer ${
+                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
                   isSelected
                     ? "border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
                     : "border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"

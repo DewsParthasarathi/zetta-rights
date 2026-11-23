@@ -7,6 +7,7 @@ import {
   registerAccount,
   updateUserProfile,
 } from "../../store/slices/authSlice";
+import { toggleFavorite } from "../../store/slices/movieSlice";
 import api from "../../utils/api";
 
 import Input from "../../components/common/Input";
@@ -29,9 +30,12 @@ import {
 } from "../../utils/validation";
 
 import loginLogo from "../../assets/images/Home/Header/logo.png";
+import logo_light from "../../assets/images/Home/Header/logo_light.png";
 import Companylogo from "../../assets/images/Login/Companylogo.png";
 import Camera_Icon from "../../assets/images/Login/Camera_Icon.png";
 import Breadcrumb_Arrow from "../../assets/images/Login/Breadcrumb_Arrow.png";
+import lightMode_Icon from "../../assets/images/Home/Header/lightMode_Icon.png";
+import moon_Icon from "../../assets/images/Home/Header/moon.png";
 
 export interface ProfileCompletionProps {
   role?: "Buyer" | "Seller";
@@ -41,6 +45,20 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isThemeLight, setIsThemeLight] = useState(() => {
+    return localStorage.getItem("theme") === "light";
+  });
+
+  const toggleTheme = () => {
+    const nextTheme = isThemeLight ? "dark" : "light";
+    setIsThemeLight(!isThemeLight);
+    localStorage.setItem("theme", nextTheme);
+    document.documentElement.setAttribute("data-theme", nextTheme);
+    document.documentElement.classList.toggle("light", nextTheme === "light");
+    document.documentElement.classList.toggle("dark", nextTheme === "dark");
+    window.dispatchEvent(new Event("themechange"));
+  };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -110,6 +128,32 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
       setPreviewImage(reader.result as string);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleSuccessfulNavigation = () => {
+    if (
+      location.state?.intendedAction === "like_movie" &&
+      location.state?.movieId
+    ) {
+      dispatch(toggleFavorite(location.state.movieId));
+      toast.success("Added movie to your favorites!");
+    }
+
+    const redirectTarget = location.state?.from;
+    if (redirectTarget) {
+      if (typeof redirectTarget === "string") {
+        navigate(redirectTarget, { replace: true });
+      } else if (redirectTarget.pathname) {
+        navigate(redirectTarget.pathname, {
+          state: redirectTarget.state,
+          replace: true,
+        });
+      } else {
+        navigate("/", { replace: true });
+      }
+    } else {
+      navigate("/", { replace: true });
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -217,7 +261,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         );
         setIsSubmitting(false);
         toast.success("Profile updated successfully!");
-        navigate("/");
+        handleSuccessfulNavigation();
         return;
       } catch {
         dispatch(
@@ -236,7 +280,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         );
         setIsSubmitting(false);
         toast.success("Profile updated successfully!");
-        navigate("/");
+        handleSuccessfulNavigation();
         return;
       }
     }
@@ -276,7 +320,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
         toast.success(
           `Account successfully created! Welcome to ZettaRights, ${companyName.trim()}!`,
         );
-        navigate("/");
+        handleSuccessfulNavigation();
       } else {
         const errorMsg =
           (actionResult.payload as string) ||
@@ -299,9 +343,27 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             <Image
               src={loginLogo}
               alt="ZettaRights"
-              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto"
+              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto navbar-logo-dark"
+            />
+            <Image
+              src={logo_light}
+              alt="ZettaRights"
+              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto navbar-logo-light"
             />
           </Link>
+
+          <Button
+            variant="unstyled"
+            type="button"
+            onClick={toggleTheme}
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
+          >
+            <Image
+              src={isThemeLight ? moon_Icon : lightMode_Icon}
+              alt="Toggle Theme"
+              className="w-4 h-4 object-contain opacity-90 hover:opacity-100 theme-icon"
+            />
+          </Button>
         </div>
       </header>
 
@@ -313,7 +375,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
           <div className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]">
             <Link
-              to="/login"
+              to="/auth"
               className="text-[#8E8E8E] hover:text-white transition"
             >
               Create new Account
@@ -321,7 +383,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             <Image
               src={Breadcrumb_Arrow}
               alt=">"
-              className="w-1.5 h-auto opacity-70"
+              className="w-1.5 h-auto opacity-70 theme-icon"
             />
             <span className="text-white font-bold">{activeRole}</span>
           </div>
@@ -347,7 +409,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               <Image
                 src={Camera_Icon}
                 alt="Camera"
-                className="w-3.5 h-3.5 object-contain"
+                className="w-3.5 h-3.5 object-contain theme-icon"
               />
             </div>
 

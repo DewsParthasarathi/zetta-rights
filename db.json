@@ -227,6 +227,49 @@
           "companyName": "Red Giant Movies",
           "status": "Pending",
           "createdAt": "2026-11-19T08:03:22.854Z"
+        },
+        {
+          "movieId": 1726,
+          "movieTitle": "Iron Man",
+          "moviePoster": "/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",
+          "movieBackdrop": "/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
+          "movieYear": "2008",
+          "includedCountries": [
+            "Global"
+          ],
+          "excludedCountries": [
+            "Sri Lanka",
+            "India"
+          ],
+          "startDate": "2026-11-23",
+          "endDate": "2028-01-22",
+          "years": 1,
+          "months": 2,
+          "currency": "₹ - Indian Rupee",
+          "rightsType": "T-VOD (Rental)",
+          "exclusivity": "Exclusive",
+          "holdback": "1 Month",
+          "pricingModel": "flat_rate",
+          "flatRateAmount": 100,
+          "priceListingUnit": "Price Listing",
+          "totalAmount": 10000,
+          "transactionMinPrice": 10,
+          "transactionMaxPrice": 50,
+          "revenueSharePercentage": 70,
+          "estimatedMonthlyMin": 20000,
+          "estimatedMonthlyMax": 200000,
+          "hasMinimumGuarantee": true,
+          "minimumGuaranteeAmount": 20000,
+          "minimumGuaranteePeriod": "Month",
+          "minimumGuaranteeScope": "Entire Bundle",
+          "id": "OFFER-1795434342234",
+          "userId": "1794921557158",
+          "userEmail": "dewsparthasarathi@gmail.com",
+          "userName": "parthasarathi",
+          "userRole": "Seller",
+          "companyName": "Red Giant Movies",
+          "status": "Pending",
+          "createdAt": "2026-11-23T11:45:42.234Z"
         }
       ],
       "name": "parthasarathi"

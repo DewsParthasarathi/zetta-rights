@@ -98,7 +98,7 @@ const ExploreFiltersBar = ({
             <Image
               src={downarrowIcon}
               alt=""
-              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 ${
+              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 theme-icon ${
                 isContentTypeOpen ? "rotate-180" : ""
               }`}
             />
@@ -157,7 +157,7 @@ const ExploreFiltersBar = ({
               <Image
                 src={closeIcon}
                 alt="Clear"
-                className="w-3 h-3 object-contain"
+                className="w-3 h-3 object-contain theme-icon"
               />
             </Button>
           ) : (
@@ -165,7 +165,7 @@ const ExploreFiltersBar = ({
               <Image
                 src={searchIcon}
                 alt="Search"
-                className="w-4 h-4 object-contain"
+                className="w-4 h-4 object-contain theme-icon"
               />
             </div>
           )}
@@ -187,7 +187,7 @@ const ExploreFiltersBar = ({
           <Image
             src={filterIcon}
             alt="Filter"
-            className="w-3.5 h-3.5 object-contain"
+            className="w-3.5 h-3.5 object-contain theme-icon"
           />
           <span className="whitespace-nowrap">Filters By</span>
           {activeFilterCount > 0 && (
@@ -213,7 +213,7 @@ const ExploreFiltersBar = ({
             <Image
               src={downarrowIcon}
               alt=""
-              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 ${
+              className={`w-2.5 h-2.5 object-contain transition-transform duration-200 opacity-70 theme-icon ${
                 isYearOpen ? "rotate-180" : ""
               }`}
             />

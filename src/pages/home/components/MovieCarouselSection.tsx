@@ -62,7 +62,7 @@ const MovieCarouselSection = ({
               type="button"
               onClick={handlePrev}
               disabled={isBeginning}
-              className="w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 flex items-center justify-center transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-85 active:scale-95 shrink-0"
+              className="carousel-nav-btn w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 flex items-center justify-center transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-85 active:scale-95 shrink-0"
               title="Previous"
             >
               <Image
@@ -77,7 +77,7 @@ const MovieCarouselSection = ({
               type="button"
               onClick={handleNext}
               disabled={isEnd}
-              className="w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 flex items-center justify-center transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-85 active:scale-95 shrink-0"
+              className="carousel-nav-btn w-8 h-8 max-[640px]:w-7 max-[640px]:h-7 flex items-center justify-center transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-85 active:scale-95 shrink-0"
               title="Next"
             >
               <Image

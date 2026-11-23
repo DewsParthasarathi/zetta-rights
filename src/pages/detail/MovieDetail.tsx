@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import type {
   TMDBMovie,
   TMDBMovieDetail,
@@ -17,6 +17,7 @@ const MovieDetail = () => {
   const { id } = useParams<{ id: string }>();
   const movieId = id ? parseInt(id, 10) : 102;
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [movie, setMovie] = useState<TMDBMovieDetail | null>(null);
   const [cast, setCast] = useState<TMDBCastMember[]>([]);
@@ -78,9 +79,32 @@ const MovieDetail = () => {
     };
   }, [movieId]);
 
+  const originState = location.state as {
+    origin?: string;
+    from?: string;
+  } | null;
+  const origin =
+    originState?.origin ||
+    (originState?.from?.includes("explore")
+      ? "explore"
+      : originState?.from === "/" || originState?.from?.includes("home")
+        ? "home"
+        : sessionStorage.getItem("nav_origin") === "explore"
+          ? "explore"
+          : "home");
+  const originPath = origin === "explore" ? "/explore" : "/";
+  const originLabel = origin === "explore" ? "Explore" : "Home";
+
   const handleOpenOfferModal = (targetMovie?: TMDBMovie) => {
     const idToUse = targetMovie?.id || movieId;
-    navigate(`/make-offer/${idToUse}`);
+    navigate(`/make-offer/${idToUse}`, {
+      state: {
+        origin,
+        from: `/movie/${movieId}`,
+        movieTitle: targetMovie?.title || movie?.title || "Movie",
+        direct: false,
+      },
+    });
   };
 
   if (isLoading) {
@@ -131,8 +155,12 @@ const MovieDetail = () => {
             aria-label="Breadcrumb"
             className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]"
           >
-            <Link to="/" className="hover:text-white transition">
-              Home
+            <Link
+              to={originPath}
+              state={{ origin }}
+              className="hover:text-white transition"
+            >
+              {originLabel}
             </Link>
             <span className="text-gray-500 font-light">&gt;</span>
             <span className="text-white font-bold truncate max-w-[200px]">
