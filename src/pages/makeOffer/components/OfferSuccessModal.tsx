@@ -33,14 +33,14 @@ const OfferSuccessModal = ({
           />
         </div>
 
-        <h3 className="text-fs24 max-[640px]:text-fs20 font-bold text-white mb-2 tracking-tight">
+        <h3 className="text-fs22 max-[1440px]:text-[20px] max-[1024px]:text-[18px] max-[640px]:text-[16px] font-bold text-white mb-2 tracking-tight">
           Offer Submitted Successfully!
         </h3>
-        <p className="text-fs13 text-gray-300 mb-6 max-w-md leading-relaxed">
+        <p className="text-[13px] text-gray-300 mb-6 max-w-md leading-relaxed">
           Your offer for <span className="text-[#FABE2C] font-semibold">&quot;{offer.movieTitle}&quot;</span> has been recorded and associated with your account record ({offer.userEmail}).
         </p>
 
-        <div className="w-full bg-[#18202F] border border-white/10 rounded-[12px] p-4 text-left flex flex-col gap-2.5 mb-6 text-fs13">
+        <div className="w-full bg-[#18202F] border border-white/10 rounded-[12px] p-4 text-left flex flex-col gap-2.5 mb-6 text-[13px]">
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
             <span className="text-gray-400">Offer ID:</span>
             <span className="text-white font-mono font-semibold">{offer.id}</span>
@@ -76,7 +76,7 @@ const OfferSuccessModal = ({
             variant="outline"
             type="button"
             onClick={onExplore}
-            className="flex-1 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-bold text-fs14 transition"
+            className="flex-1 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-bold text-[14px] transition"
           >
             Explore Movies
           </Button>
@@ -85,7 +85,7 @@ const OfferSuccessModal = ({
             variant="primary"
             type="button"
             onClick={onViewMovie}
-            className="flex-1 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-bold text-fs14 transition shadow-md"
+            className="flex-1 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-bold text-[14px] transition shadow-md"
           >
             View Details
           </Button>

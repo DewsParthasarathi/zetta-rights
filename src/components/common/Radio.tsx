@@ -38,7 +38,7 @@ const Radio = ({
       >
         {checked && <span className="w-2 h-2 rounded-full bg-[#FABE2C]" />}
       </span>
-      <span className="text-white text-fs16 font-medium">{label}</span>
+      <span className="text-white text-fs16 max-[1024px]:text-[15px] max-[640px]:text-[14px] font-medium">{label}</span>
     </label>
   );
 };

@@ -50,9 +50,9 @@ const MovieCarouselSection = ({
 
   return (
     <section className="w-full py-5 select-none font-century">
-      <div className=" mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4">
+      <div className="mx-auto w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-fs22 max-[1024px]:text-[16px] max-[640px]:text-[14px] font-bold text-white tracking-tight">
+          <h2 className="text-fs32 mb-[1%] max-[1440px]:text-fs28 max-[1024px]:text-[22px] max-[640px]:text-[18px] max-[340px]:text-[16px] font-bold text-white tracking-tight">
             {title}
           </h2>
 

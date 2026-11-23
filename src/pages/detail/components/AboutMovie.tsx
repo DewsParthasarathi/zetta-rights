@@ -100,11 +100,11 @@ const AboutMovie = ({
       className={`w-full flex flex-col justify-between font-century select-none text-white ${className}`}
     >
       <div>
-        <h2 className="text-fs26 max-[1440px]:text-fs22 max-[1024px]:text-[20px] max-[640px]:text-[16px] font-bold text-white tracking-tight mb-3">
+        <h2 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white tracking-tight mb-3">
           About {movie.title}
         </h2>
 
-        <div className="text-[14px]  max-[640px]:text-[12px] text-[#A0AEC0] leading-relaxed mb-4">
+        <div className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#A0AEC0] leading-relaxed mb-4">
           <p className="inline">
             {isExpanded
               ? movie.overview
@@ -117,7 +117,7 @@ const AboutMovie = ({
               variant="unstyled"
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="inline text-[#FABE2C] hover:text-[#E5AD25] font-semibold text-[14px] max-[1440px]:text-[13px] max-[640px]:text-[12px] cursor-pointer ml-1 transition"
+              className="inline text-[#FABE2C] hover:text-[#E5AD25] font-semibold text-[13px] max-[640px]:text-[12px] cursor-pointer ml-1 transition"
             >
               {isExpanded ? "Read Less" : "Read More"}
             </Button>

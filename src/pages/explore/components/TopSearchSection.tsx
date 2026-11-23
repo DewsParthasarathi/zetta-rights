@@ -31,7 +31,7 @@ const TopSearchSection = ({
             {title}
           </h2>
           {totalResults !== undefined && totalResults > 0 && (
-            <span className="text-13px text-gray-400 font-normal">
+            <span className="text-fs13 max-[1024px]:text-[13px] text-gray-400 font-normal">
               ({totalResults} available)
             </span>
           )}

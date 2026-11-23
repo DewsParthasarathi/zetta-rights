@@ -117,7 +117,7 @@ const ExploreFiltersBar = ({
                       onContentTypeChange(opt.value);
                       setIsContentTypeOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2 text-[14px] max-[1440px]:text-[13px]  transition flex items-center justify-between cursor-pointer h-auto ${
+                    className={`w-full text-left px-4 py-2 text-[14px] max-[1440px]:text-[13px] transition flex items-center justify-between cursor-pointer h-auto ${
                       isSelected
                         ? "text-[#FABE2C] font-semibold bg-[#FABE2C]/10"
                         : "text-white/80 hover:text-white hover:bg-white/5"

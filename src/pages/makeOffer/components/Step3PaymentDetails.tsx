@@ -126,7 +126,7 @@ const Step3PaymentDetails = ({
           variant="unstyled"
           type="button"
           onClick={() => onChange({ pricingModel: "flat_rate" })}
-          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-fs14 font-bold ${
+          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
             data.pricingModel === "flat_rate"
               ? "bg-[#162D4A] border border-[#00B4D8]/40 text-white shadow-md"
               : "border border-white/10 text-gray-400 hover:text-white"
@@ -150,7 +150,7 @@ const Step3PaymentDetails = ({
           variant="unstyled"
           type="button"
           onClick={() => onChange({ pricingModel: "share_revenue" })}
-          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-fs14 font-bold ${
+          className={`flex items-center gap-2.5 px-6 py-2.5 rounded-[8px] transition cursor-pointer text-[14px] max-[640px]:text-[13px] font-bold ${
             data.pricingModel === "share_revenue"
               ? "bg-[#162D4A] border border-[#00B4D8]/40 text-white shadow-md"
               : "border border-white/10 text-gray-400 hover:text-white"
@@ -173,10 +173,10 @@ const Step3PaymentDetails = ({
 
       {data.pricingModel === "flat_rate" && (
         <div className="flex flex-col mb-6">
-          <p className="text-fs14 text-white font-semibold mb-1">
+          <p className="text-[14px] text-white font-semibold mb-1">
             Select this if you wish to make a fixed price Offer.
           </p>
-          <p className="text-fs13 text-[#A0AEC0] mb-6">
+          <p className="text-[13px] text-[#A0AEC0] mb-6">
             Licence (Buyer) will pay Licensor (Seller) a fixed amount of:
           </p>
 
@@ -189,14 +189,14 @@ const Step3PaymentDetails = ({
                 onChange={(e) =>
                   handleFlatRateAmountChange(parseFloat(e.target.value) || 0)
                 }
-                className="w-full bg-transparent border-0 px-4 py-2.5 text-fs15 font-bold text-white focus:outline-none"
+                className="w-full bg-transparent border-0 px-4 py-2.5 text-[14px] font-bold text-white focus:outline-none"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-4 py-3 text-fs13 shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-4 py-3 text-[13px] shrink-0">
                 {currencyBadgeText}
               </span>
             </div>
 
-            <span className="text-fs14 text-[#A0AEC0] font-medium shrink-0">
+            <span className="text-[13px] text-[#A0AEC0] font-medium shrink-0">
               for the/a
             </span>
 
@@ -205,16 +205,16 @@ const Step3PaymentDetails = ({
                 options={PRICE_LISTING_UNITS}
                 value={data.priceListingUnit}
                 onChange={(e) => onChange({ priceListingUnit: e.target.value })}
-                className="bg-[#151D2A] border-white/10 rounded-[8px] h-11 text-fs14 font-medium"
+                className="bg-[#151D2A] border-white/10 rounded-[8px] h-11 text-[14px] font-medium"
               />
             </div>
           </div>
 
           <div className="w-full bg-[#151D2A] border border-white/10 rounded-[12px] p-8 text-center my-2 shadow-lg">
-            <p className="text-fs13 text-[#A0AEC0] mb-3">
+            <p className="text-[13px] text-[#A0AEC0] mb-3">
               Total Amount to be paid by Licensee (Buyer) is:
             </p>
-            <h2 className="text-fs28 max-[1440px]:text-fs24 font-bold text-white tracking-tight">
+            <h2 className="text-fs28 max-[1440px]:text-fs24 max-[1024px]:text-[22px] max-[640px]:text-[18px] font-bold text-white tracking-tight">
               {currencySymbol}{" "}
               {(data.totalAmount || data.flatRateAmount * 100).toLocaleString(
                 "en-IN",
@@ -228,11 +228,11 @@ const Step3PaymentDetails = ({
       {data.pricingModel === "share_revenue" && (
         <div className="flex flex-col mb-6 gap-6">
           <div>
-            <p className="text-fs14 text-white font-semibold mb-1">
+            <p className="text-[14px] text-white font-semibold mb-1">
               Select this if you wish to pay by sharing the transaction revenue
               earned.
             </p>
-            <p className="text-fs13 text-[#A0AEC0] leading-relaxed">
+            <p className="text-[13px] text-[#A0AEC0] leading-relaxed">
               Select the Rights Types T-VOD and/or EST to enable this pricing
               model.
               <br />
@@ -252,11 +252,11 @@ const Step3PaymentDetails = ({
                     transactionMinPrice: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-medium"
+                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
               />
             </div>
 
-            <span className="text-fs14 text-gray-300">to</span>
+            <span className="text-[13px] text-gray-300">to</span>
 
             <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-44">
               <Input
@@ -268,18 +268,18 @@ const Step3PaymentDetails = ({
                     transactionMaxPrice: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-medium"
+                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-fs13 shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
                 {currencyBadgeText}
               </span>
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="text-fs14 text-white font-bold mb-1">
+            <span className="text-[14px] text-white font-bold mb-1">
               per T-VOD transaction
             </span>
-            <span className="text-fs12 text-[#A0AEC0] mb-2">
+            <span className="text-[13px] text-[#A0AEC0] mb-2">
               Share of transaction revenue Licensee (Buyer) shall pay to
               Licensor (Seller):
             </span>
@@ -294,16 +294,16 @@ const Step3PaymentDetails = ({
                     revenueSharePercentage: parseFloat(e.target.value) || 0,
                   })
                 }
-                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-bold"
+                className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-bold"
               />
-              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-fs13 shrink-0">
+              <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
                 %
               </span>
             </div>
           </div>
 
           <div className="flex flex-col">
-            <span className="text-fs13 text-white font-semibold mb-2">
+            <span className="text-[13px] text-white font-semibold mb-2">
               The estimated monthly license fee by transaction revenue is
               between:
             </span>
@@ -317,14 +317,14 @@ const Step3PaymentDetails = ({
                       estimatedMonthlyMin: parseFloat(e.target.value) || 0,
                     })
                   }
-                  className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-medium"
+                  className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                 />
-                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-fs13 shrink-0">
+                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
                   {currencyBadgeText}
                 </span>
               </div>
 
-              <span className="text-fs14 text-gray-300">and</span>
+              <span className="text-[13px] text-gray-300">and</span>
 
               <div className="flex items-center rounded-[8px] overflow-hidden bg-[#151D2A] border border-white/10 w-48">
                 <Input
@@ -335,9 +335,9 @@ const Step3PaymentDetails = ({
                       estimatedMonthlyMax: parseFloat(e.target.value) || 0,
                     })
                   }
-                  className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-medium"
+                  className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                 />
-                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-fs13 shrink-0">
+                <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
                   {currencyBadgeText}
                 </span>
               </div>
@@ -362,14 +362,14 @@ const Step3PaymentDetails = ({
                         minimumGuaranteeAmount: parseFloat(e.target.value) || 0,
                       })
                     }
-                    className="w-full bg-transparent border-0 px-3.5 py-2.5 text-fs14 text-white font-medium"
+                    className="w-full bg-transparent border-0 px-3.5 py-2.5 text-[14px] text-white font-medium"
                   />
-                  <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-fs13 shrink-0">
+                  <span className="bg-[#FABE2C] text-black font-bold px-3 py-2.5 text-[13px] shrink-0">
                     {currencyBadgeText}
                   </span>
                 </div>
 
-                <span className="text-fs14 text-gray-300">for the/a</span>
+                <span className="text-[13px] text-gray-300">for the/a</span>
 
                 <div className="w-36">
                   <Select
@@ -378,11 +378,11 @@ const Step3PaymentDetails = ({
                     onChange={(e) =>
                       onChange({ minimumGuaranteePeriod: e.target.value })
                     }
-                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-fs13 font-medium"
+                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-[13px] font-medium"
                   />
                 </div>
 
-                <span className="text-fs14 text-gray-300">for</span>
+                <span className="text-[13px] text-gray-300">for</span>
 
                 <div className="w-44">
                   <Select
@@ -391,7 +391,7 @@ const Step3PaymentDetails = ({
                     onChange={(e) =>
                       onChange({ minimumGuaranteeScope: e.target.value })
                     }
-                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-fs13 font-medium"
+                    className="bg-[#151D2A] border-white/10 rounded-[8px] h-10 text-[13px] font-medium"
                   />
                 </div>
               </div>
@@ -401,7 +401,7 @@ const Step3PaymentDetails = ({
       )}
 
       {errorMsg && (
-        <div className="mb-4 text-fs13 text-red-400 font-medium">
+        <div className="mb-4 text-[13px] text-red-400 font-medium">
           {errorMsg}
         </div>
       )}
@@ -412,7 +412,7 @@ const Step3PaymentDetails = ({
           type="button"
           onClick={onPrevious}
           disabled={isSubmitting}
-          className="px-8 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-bold text-fs14 transition active:scale-95"
+          className="px-8 py-2.5 rounded-[8px] border border-[#FABE2C] text-[#FABE2C] hover:bg-[#FABE2C]/10 font-bold text-[15px] max-[1024px]:text-[14px] max-[640px]:text-[13px] transition active:scale-95"
         >
           Previous
         </Button>
@@ -422,7 +422,7 @@ const Step3PaymentDetails = ({
           type="submit"
           disabled={isSubmitting}
           isLoading={isSubmitting}
-          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-bold text-fs14 transition active:scale-95 shadow-md"
+          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-bold text-[15px] max-[1024px]:text-[14px] max-[640px]:text-[13px] transition active:scale-95 shadow-md"
         >
           Send an Offer
         </Button>

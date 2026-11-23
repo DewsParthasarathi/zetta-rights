@@ -293,25 +293,25 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[#111826] text-white font-century">
-      <header className="w-full px-12 max-[640px]:px-6 py-5  bg-[#111826]">
-        <div className="w-[93%] mx-auto flex items-center justify-between">
+      <header className="w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 py-5 bg-[#111826]">
+        <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full mx-auto flex items-center justify-between">
           <Link to="/" className="inline-block">
             <Image
               src={loginLogo}
               alt="ZettaRights"
-              className="h-10 max-[640px]:h-9 w-auto"
+              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto"
             />
           </Link>
         </div>
       </header>
 
-      <main className="w-[93%]  mx-auto px-12 max-[640px]:px-6 py-6 max-[640px]:py-8 flex-1">
+      <main className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full mx-auto px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 py-6 max-[640px]:py-8 flex-1">
         <div className="flex items-center justify-between max-[640px]:flex-col max-[640px]:items-start gap-4 pb-6 border-b border-white/10">
-          <h1 className="text-fs36 max-[640px]:text-fs32 font-bold text-white tracking-tight">
+          <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             {activeRole}
           </h1>
 
-          <div className="flex items-center gap-2 text-fs24 font-medium">
+          <div className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]">
             <Link
               to="/login"
               className="text-[#8E8E8E] hover:text-white transition"
@@ -323,7 +323,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               alt=">"
               className="w-1.5 h-auto opacity-70"
             />
-            <span className="text-white font-semibold">{activeRole}</span>
+            <span className="text-white font-bold">{activeRole}</span>
           </div>
         </div>
 
@@ -360,14 +360,14 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
             />
           </div>
 
-          <div className="text-white font-medium text-[17px] max-[640px]:text-fs14 leading-snug">
+          <div className="text-white font-medium text-[17px] max-[1024px]:text-[15px] max-[640px]:text-[14px] max-[340px]:text-[13px] leading-snug">
             <p>Upload Your</p>
             <p>Company Logo</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-12" noValidate>
-          <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-12 gap-y-8">
+          <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-x-12 gap-y-8 max-[1024px]:gap-x-8 max-[1024px]:gap-y-6 max-[340px]:gap-y-4">
             <FormField
               label="Company Name"
               htmlFor="companyName"
@@ -505,7 +505,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
           </div>
 
           {generalError && (
-            <p className="text-red-400 text-fs14 font-medium font-century mt-6">
+            <p className="text-red-400 text-fs14 max-[1024px]:text-[13px] max-[640px]:text-[12px] font-medium font-century mt-6">
               {generalError}
             </p>
           )}
@@ -515,7 +515,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
               type="submit"
               variant="primary"
               isLoading={isSubmitting}
-              className="px-8 py-[10px]! text-fs25! font-extrabold! bg-[#FABE2C] text-black hover:bg-[#e0ab26] rounded-lg shadow-md"
+              className="px-8 py-[10px]! text-fs25! max-[1024px]:text-[18px]! max-[640px]:text-[16px]! font-extrabold! bg-[#FABE2C] text-black hover:bg-[#e0ab26] rounded-lg shadow-md"
             >
               Save
             </Button>

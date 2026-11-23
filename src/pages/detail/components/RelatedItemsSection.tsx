@@ -45,7 +45,7 @@ const RelatedItemsSection = ({
       className={`w-full py-8 font-century select-none text-white ${className}`}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-fs22 max-[1440px]:text-[18px] max-[640px]:text-[15px] font-bold text-white tracking-tight">
+        <h3 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white tracking-tight">
           Related Item
         </h3>
 

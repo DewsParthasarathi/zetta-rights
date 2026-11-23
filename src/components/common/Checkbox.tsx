@@ -56,7 +56,7 @@ const Checkbox = ({
         {label && (
           <div
             onClick={handleToggle}
-            className="text-fs13 max-[1024px]:text-fs12 text-white leading-tight cursor-pointer font-century"
+            className="text-fs14 max-[1024px]:text-[14px] max-[640px]:text-[13px] text-white leading-tight cursor-pointer font-century"
           >
             {label}
           </div>
@@ -64,7 +64,7 @@ const Checkbox = ({
       </div>
 
       {error && (
-        <p className="text-red-400 text-fs12 font-medium font-century pl-6">
+        <p className="text-red-400 text-fs12 max-[1024px]:text-[12px] max-[640px]:text-[11px] font-medium font-century pl-6">
           {error}
         </p>
       )}

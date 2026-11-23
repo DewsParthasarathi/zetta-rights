@@ -91,8 +91,8 @@ const MovieCard = ({
         </svg>
       </div>
 
-      <div className="relative z-10 flex flex-col justify-between h-full bg-[#18202F] border border-white/10 lg:group-hover:border-white/20 rounded-[10px] p-2 transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] lg:group-hover:-translate-y-1">
-        <div className="relative aspect-[16/10] rounded-[6px] overflow-hidden bg-black/60">
+      <div className="relative z-10 flex flex-col justify-between h-full bg-[#18202F] border border-white/10 lg:group-hover:border-white/20 rounded-[10px] px-2 pt-2 pb-2.5 transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] lg:group-hover:-translate-y-1">
+        <div className="relative aspect-[10/7] rounded-[4px] overflow-hidden bg-black/60">
           <Image
             src={imageUrl}
             alt={movie.title}

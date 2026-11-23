@@ -96,7 +96,7 @@ const Navbar = () => {
       ref={headerRef}
       className="sticky top-0 z-50 w-full bg-[#111826]/95 backdrop-blur-md font-century select-none transition-colors"
     >
-      <div className="mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 h-[72px] max-[640px]:h-[64px] flex items-center justify-between">
+      <div className="mx-auto w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 h-[72px] max-[640px]:h-[64px] flex items-center justify-between">
         <div className="flex items-center gap-12 max-[1024px]:w-[60%] max-[1024px]:gap-6">
           <Link
             to="/"
@@ -205,15 +205,7 @@ const Navbar = () => {
             <Button
               variant="unstyled"
               type="button"
-              onClick={() => {
-                if (user?.role === "Seller") {
-                  navigate("/seller-profile");
-                } else if (user?.role === "Buyer") {
-                  navigate("/buyer-profile");
-                } else {
-                  navigate("/seller-profile");
-                }
-              }}
+              onClick={(e) => e.preventDefault()}
               className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-white/10 transition cursor-pointer"
             >
               <Image

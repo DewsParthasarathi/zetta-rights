@@ -121,21 +121,21 @@ const MovieDetail = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#111826] text-white font-century select-none pb-20">
-      <div className="w-[88%] max-[1600px]:w-[90%] max-[1440px]:w-[92%] max-[1024px]:w-[95%] mx-auto">
+      <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 mx-auto">
         <div className="pt-8 pb-6 flex items-center justify-between border-b border-white/5 mb-8">
-          <h1 className="text-fs34 max-[1440px]:text-fs28 max-[1024px]:text-fs24 max-[640px]:text-[20px] font-bold text-white tracking-tight">
+          <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             {movie.title}
           </h1>
 
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-fs22 max-[1024px]:text-fs24 text-[#8E8E8E] font-normal"
+            className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]"
           >
             <Link to="/" className="hover:text-white transition">
               Home
             </Link>
             <span className="text-gray-500 font-light">&gt;</span>
-            <span className="text-white font-medium truncate max-w-[200px]">
+            <span className="text-white font-bold truncate max-w-[200px]">
               {movie.title}
             </span>
           </nav>

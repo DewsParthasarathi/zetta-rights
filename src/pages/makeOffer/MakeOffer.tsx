@@ -149,33 +149,33 @@ const MakeOffer = () => {
   const movieTitle = movie?.title || "Kantara";
 
   return (
-    <div className="w-full min-h-screen bg-[#111826] text-white font-century select-none pb-24">
-      <div className="w-[88%] max-[1600px]:w-[90%] max-[1440px]:w-[92%] max-[1024px]:w-[95%] mx-auto">
-        <div className="pt-8 pb-6 flex items-center justify-between border-b border-white/5 mb-8">
-          <h1 className="text-fs40 max-[1440px]:text-fs36 max-[1024px]:text-fs32 max-[640px]:text-fs28 font-bold text-white tracking-tight">
+    <div className="w-full min-h-screen bg-[#111826] text-white font-century select-none pb-12 max-[1024px]:pb-8">
+      <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full px-2 max-[1440px]:px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2 mx-auto">
+        <div className="pt-8 pb-6 flex items-center justify-between border-b border-white/5 mb-8 max-[1024px]:mb-6">
+          <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             Make an Offer
           </h1>
 
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-3 text-fs22 max-[1024px]:text-fs24 text-[#8E8E8E] font-normal"
+            className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]"
           >
             <Link to="/" className="hover:text-white transition">
               Home
             </Link>
-            <span className="text-gray-500 font-light">&gt;</span>
+            <span className="text-gray-600">&gt;</span>
             <Link
               to={`/movie/${movieId}`}
-              className="hover:text-white transition truncate max-w-[150px]"
+              className="hover:text-white transition truncate max-w-[150px] max-[640px]:max-w-[100px]"
             >
               {movieTitle}
             </Link>
-            <span className="text-gray-500 font-light">&gt;</span>
-            <span className="text-white font-bold">Make an Offer</span>
+            <span className="text-gray-600">&gt;</span>
+            <span className="text-white font-medium">Make an Offer</span>
           </nav>
         </div>
 
-        <div className="flex items-start gap-10 max-[1440px]:gap-8 max-[1024px]:flex-col">
+        <div className="flex items-start gap-10 max-[1440px]:gap-8 max-[1024px]:flex-col max-[1024px]:items-stretch max-[1024px]:gap-6 w-full">
           <div className="w-[240px] shrink-0 max-[1024px]:w-full">
             <OfferStepper
               currentStep={currentStep}
@@ -183,7 +183,7 @@ const MakeOffer = () => {
             />
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 w-full">
             {currentStep === 1 && (
               <Step1LicenseRegion
                 data={step1Data}

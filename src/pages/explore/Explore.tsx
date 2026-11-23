@@ -276,13 +276,16 @@ const Explore = () => {
 
   return (
     <div className="min-h-screen bg-[#111826] text-white font-century select-none pb-20">
-      <div className="w-[88%] max-[1024px]:w-[92%] mx-auto pt-6 flex flex-col gap-8">
+      <div className="w-[88%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full mx-auto px-0 max-[480px]:px-2.5 pt-6 flex flex-col gap-8 max-[1024px]:gap-6 max-[640px]:gap-5">
         <div className="flex items-center justify-between">
           <h1 className="text-fs32 max-[1440px]:text-fs28 max-[640px]:text-[20px] font-bold text-white tracking-tight">
             Explore
           </h1>
 
-          <nav className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-2 text-[14px] text-[#8E8E8E] max-[640px]:text-[12px]"
+          >
             <Link
               to="/"
               className="hover:text-white transition-colors cursor-pointer"

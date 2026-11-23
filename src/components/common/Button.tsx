@@ -35,9 +35,9 @@ const Button = ({
       : "font-semibold font-century transition select-none flex items-center justify-center cursor-pointer";
 
   const sizeClasses: Record<ButtonSize, string> = {
-    sm: "h-[34px] px-3 text-fs13 max-[1024px]:text-fs12 rounded-[6px]",
-    md: "h-[40px] px-4 text-fs14 max-[1024px]:text-fs13 rounded-[6px]",
-    lg: "h-[42px] max-[640px]:h-[40px] px-5 text-fs16 max-[1024px]:text-fs15 rounded-[6px]",
+    sm: "h-[34px] px-3 text-fs13 max-[1024px]:text-[12px] max-[640px]:text-[11px] rounded-[6px]",
+    md: "h-[40px] px-4 text-fs14 max-[1024px]:text-[13px] max-[640px]:text-[12px] rounded-[6px]",
+    lg: "h-[42px] max-[640px]:h-[40px] px-5 text-fs16 max-[1024px]:text-[15px] max-[640px]:text-[14px] rounded-[6px]",
   };
 
   const variantClasses: Record<ButtonVariant, string> = {

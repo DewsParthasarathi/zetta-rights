@@ -52,12 +52,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const variantClasses: Record<InputVariant, string> = {
       default:
-        "h-[42px] max-[640px]:h-[40px] rounded-[6px] px-3.5 text-fs15 max-[1024px]:text-fs14 placeholder:text-white/40",
+        "h-[42px] max-[640px]:h-[40px] max-[340px]:h-[38px] rounded-[6px] px-3.5 max-[340px]:px-2.5 text-fs15 max-[1024px]:text-[15px] max-[640px]:text-[14px] max-[340px]:text-[12px] placeholder:text-white/40 max-[340px]:placeholder:text-[12px]",
       solid:
-        "h-[46px] max-[640px]:h-[42px] py-2 rounded-lg px-5 text-fs16 placeholder:text-[#8E8E8E] placeholder:font-normal",
-      otp: "w-[15%] aspect-square  rounded-[6px] text-center text-fs32 max-[640px]:text-fs20 font-bold select-all",
+        "h-[46px] max-[640px]:h-[42px] max-[340px]:h-[38px] py-2 rounded-lg px-5 max-[340px]:px-3 text-fs16 max-[1024px]:text-[15px] max-[640px]:text-[14px] max-[340px]:text-[13px] placeholder:text-[#8E8E8E] placeholder:font-normal max-[340px]:placeholder:text-[12px]",
+      otp: "w-[15%] max-[340px]:w-[18%] aspect-square  rounded-[6px] text-center text-fs32 max-[1024px]:text-[24px] max-[640px]:text-[20px] max-[340px]:text-[18px] font-bold select-all",
       ghost:
-        "bg-transparent border-0 p-0 text-fs14 placeholder:text-gray-400 focus:outline-none",
+        "bg-transparent border-0 p-0 text-fs14 max-[1024px]:text-[14px] max-[640px]:text-[13px] max-[340px]:text-[12px] placeholder:text-gray-400 focus:outline-none",
       bare: "bg-transparent border-0 p-0 focus:outline-none",
     };
 

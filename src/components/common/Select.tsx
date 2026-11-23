@@ -39,8 +39,8 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
     const baseClasses = isBareOrGhost
       ? "appearance-none bg-transparent focus:outline-none cursor-pointer transition font-century text-white disabled:opacity-50 disabled:cursor-not-allowed"
       : isSolid
-        ? "h-[46px] max-[640px]:h-[42px] py-2 rounded-lg px-5 pr-12 text-fs16 font-century text-white bg-[#182232] appearance-none transition focus:outline-none cursor-pointer border-0 disabled:opacity-50 disabled:cursor-not-allowed"
-        : "h-[42px] max-[640px]:h-[40px] rounded-[6px] px-3.5 pr-10 text-fs15 max-[1024px]:text-fs14 font-century text-white bg-black/30 appearance-none transition focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
+        ? "h-[46px] max-[640px]:h-[42px] py-2 rounded-lg px-5 pr-12 text-fs16 max-[1024px]:text-[15px] max-[640px]:text-[14px] font-century text-white bg-[#182232] appearance-none transition focus:outline-none cursor-pointer border-0 disabled:opacity-50 disabled:cursor-not-allowed"
+        : "h-[42px] max-[640px]:h-[40px] rounded-[6px] px-3.5 pr-10 text-fs15 max-[1024px]:text-[15px] max-[640px]:text-[14px] font-century text-white bg-black/30 appearance-none transition focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
 
     const borderClass = hasError
       ? "border border-red-500 focus:border-red-400"

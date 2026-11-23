@@ -194,28 +194,19 @@ const Step1LicenseRegion = ({
       className={`w-full flex flex-col font-century select-none text-white ${className}`}
     >
       <div className="mb-6">
-        <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-8 items-end mb-2.5">
-          <div>
-            <h3 className="text-fs24 font-bold text-white mb-1.5 tracking-tight">
-              License Region
-            </h3>
-            <p className="text-fs16 text-[#8E8E8E] leading-relaxed">
-              Specify the countries you wish to license this content in. If you
-              want Global rights, please select &quot;Global&quot;
-            </p>
-          </div>
-
-          <div>
-            <p className="text-fs16 text-[#8E8E8E] leading-relaxed">
-              If you&apos;d like to exclude certain countries/regions, select
-              them here. This is optional. Leave it blank if you simply.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-8 mt-2">
+        <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-8 max-[1024px]:gap-6 w-full">
           <div className="flex flex-col" ref={includeRef}>
-            <div className="relative">
+            <div className="mb-2.5">
+              <h3 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white mb-2 tracking-tight">
+                License Region
+              </h3>
+              <p className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] leading-relaxed min-h-[44px] max-[768px]:min-h-0">
+                Specify the countries you wish to license this content in. If you
+                want Global rights, please select &quot;Global&quot;
+              </p>
+            </div>
+
+            <div className="relative mt-2">
               <div
                 onClick={() => {
                   setIsIncludeDropdownOpen((prev) => !prev);
@@ -223,7 +214,7 @@ const Step1LicenseRegion = ({
                 }}
                 className="w-full bg-[#151D2A] border border-white/10 rounded-[8px] px-4 h-12 flex items-center justify-between cursor-pointer hover:border-white/20 transition"
               >
-                <span className="text-[#64748B] text-fs14 font-normal">
+                <span className="text-[#64748B] text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] font-normal">
                   Select Countries
                 </span>
                 <Button
@@ -233,7 +224,7 @@ const Step1LicenseRegion = ({
                     e.stopPropagation();
                     handleClearAllIncluded();
                   }}
-                  className="text-fs12 text-white hover:text-[#FABE2C] font-semibold cursor-pointer transition"
+                  className="text-[12px] text-white hover:text-[#FABE2C] font-semibold cursor-pointer transition"
                 >
                   Clear All
                 </Button>
@@ -248,7 +239,7 @@ const Step1LicenseRegion = ({
                       placeholder="Search country..."
                       value={includeSearch}
                       onChange={(e) => setIncludeSearch(e.target.value)}
-                      className="w-full px-2 py-1 text-fs13 text-white placeholder:text-gray-500 bg-transparent border-0"
+                      className="w-full px-2 py-1 text-[13px] text-white placeholder:text-gray-500 bg-transparent border-0"
                     />
                   </div>
                   {availableIncludedCountries.length > 0 ? (
@@ -258,7 +249,7 @@ const Step1LicenseRegion = ({
                         variant="unstyled"
                         type="button"
                         onClick={() => handleSelectIncludedCountry(country)}
-                        className="w-full text-left px-4 py-2 text-fs13 text-white hover:bg-white/10 cursor-pointer flex items-center justify-between"
+                        className="w-full text-left px-4 py-2 text-[13px] text-white hover:bg-white/10 cursor-pointer flex items-center justify-between"
                       >
                         <span>{country}</span>
                         {data.includedCountries.includes(country) && (
@@ -267,7 +258,7 @@ const Step1LicenseRegion = ({
                       </Button>
                     ))
                   ) : (
-                    <div className="px-4 py-3 text-fs13 text-[#8E8E8E] text-center">
+                    <div className="px-4 py-3 text-[13px] text-[#8E8E8E] text-center">
                       No available countries
                     </div>
                   )}
@@ -279,7 +270,7 @@ const Step1LicenseRegion = ({
               {data.includedCountries.map((country) => (
                 <span
                   key={country}
-                  className="inline-flex items-center gap-1 border border-[#FABE2C] bg-transparent text-[#FABE2C] text-fs16 font-bold px-1.5 py-1.5 rounded-[6px]"
+                  className="inline-flex items-center gap-1 border border-[#FABE2C] bg-transparent text-[#FABE2C] text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] font-bold px-2 py-1 rounded-[6px]"
                 >
                   <span>{country}</span>
                   <Button
@@ -300,7 +291,17 @@ const Step1LicenseRegion = ({
           </div>
 
           <div className="flex flex-col" ref={excludeRef}>
-            <div className="relative">
+            <div className="mb-2.5">
+              <h3 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-transparent select-none max-[768px]:hidden mb-2 tracking-tight">
+                &nbsp;
+              </h3>
+              <p className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] leading-relaxed min-h-[44px] max-[768px]:min-h-0">
+                If you&apos;d like to exclude certain countries/regions, select
+                them here. This is optional. Leave it blank if you simply.
+              </p>
+            </div>
+
+            <div className="relative mt-2">
               <div
                 onClick={() => {
                   setIsExcludeDropdownOpen((prev) => !prev);
@@ -308,7 +309,7 @@ const Step1LicenseRegion = ({
                 }}
                 className="w-full bg-[#151D2A] border border-white/10 rounded-[8px] px-4 h-12 flex items-center justify-between cursor-pointer hover:border-white/20 transition"
               >
-                <span className="text-[#64748B] text-fs14 font-normal">
+                <span className="text-[#64748B] text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] font-normal">
                   Select Countries
                 </span>
                 <Button
@@ -318,7 +319,7 @@ const Step1LicenseRegion = ({
                     e.stopPropagation();
                     handleClearAllExcluded();
                   }}
-                  className="text-fs12 text-white hover:text-[#FABE2C] font-semibold cursor-pointer transition"
+                  className="text-[12px] text-white hover:text-[#FABE2C] font-semibold cursor-pointer transition"
                 >
                   Clear All
                 </Button>
@@ -333,7 +334,7 @@ const Step1LicenseRegion = ({
                       placeholder="Search country..."
                       value={excludeSearch}
                       onChange={(e) => setExcludeSearch(e.target.value)}
-                      className="w-full px-2 py-1 text-fs13 text-white placeholder:text-gray-500 bg-transparent border-0"
+                      className="w-full px-2 py-1 text-[13px] text-white placeholder:text-gray-500 bg-transparent border-0"
                     />
                   </div>
                   {availableExcludedCountries.length > 0 ? (
@@ -343,7 +344,7 @@ const Step1LicenseRegion = ({
                         variant="unstyled"
                         type="button"
                         onClick={() => handleSelectExcludedCountry(country)}
-                        className="w-full text-left px-4 py-2 text-fs13 text-white hover:bg-white/10 cursor-pointer flex items-center justify-between"
+                        className="w-full text-left px-4 py-2 text-[13px] text-white hover:bg-white/10 cursor-pointer flex items-center justify-between"
                       >
                         <span>{country}</span>
                         {data.excludedCountries.includes(country) && (
@@ -352,7 +353,7 @@ const Step1LicenseRegion = ({
                       </Button>
                     ))
                   ) : (
-                    <div className="px-4 py-3 text-fs13 text-[#8E8E8E] text-center">
+                    <div className="px-4 py-3 text-[13px] text-[#8E8E8E] text-center">
                       No countries found
                     </div>
                   )}
@@ -364,7 +365,7 @@ const Step1LicenseRegion = ({
               {data.excludedCountries.map((country) => (
                 <span
                   key={country}
-                  className="inline-flex items-center gap-1 border border-[#FABE2C] bg-transparent text-[#FABE2C] text-fs16 font-bold px-1.5 py-1.5 rounded-[6px]"
+                  className="inline-flex items-center gap-1 border border-[#FABE2C] bg-transparent text-[#FABE2C] text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] font-bold px-2 py-1 rounded-[6px]"
                 >
                   <span>{country}</span>
                   <Button
@@ -386,21 +387,21 @@ const Step1LicenseRegion = ({
         </div>
       </div>
 
-      <div className="mt-6 pb-6 border-b border-white/5">
-        <h3 className="text-fs24 font-bold text-white mb-5 tracking-tight">
+      <div className="mt-6 pb-5 border-b border-white/5">
+        <h3 className="text-fs22 max-[1440px]:text-[18px] max-[1024px]:text-[16px] max-[768px]:text-[14px] font-bold text-white mb-5 max-[1024px]:mb-3 tracking-tight">
           License Period
         </h3>
 
-        <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-8 mb-4">
+        <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-8 max-[1024px]:gap-6 mb-4">
           <div className="flex flex-col">
-            <label className="text-fs16 text-[#8E8E8E] mb-2 font-normal">
+            <label className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] mb-2 font-normal">
               Start Date
             </label>
             <div
               onClick={() => startDateInputRef.current?.showPicker?.()}
               className="relative w-full bg-[#151D2A] border border-white/10 rounded-[8px] px-4 h-12 flex items-center justify-between cursor-pointer hover:border-white/20 transition"
             >
-              <span className="text-fs14 text-white font-medium">
+              <span className="text-[14px] max-[1024px]:text-[13px] text-white font-medium">
                 {formatDateDisplay(startDateObj)}
               </span>
               <Image
@@ -420,7 +421,7 @@ const Step1LicenseRegion = ({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label className="text-fs16 text-[#8E8E8E] mb-2 font-normal text-center">
+              <label className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] mb-2 font-normal text-center">
                 Years
               </label>
               <div className="w-full bg-[#151D2A] border border-white/10 rounded-[8px] h-12 flex items-center justify-center">
@@ -433,13 +434,13 @@ const Step1LicenseRegion = ({
                   onChange={(e) =>
                     handleYearsChange(parseInt(e.target.value, 10) || 0)
                   }
-                  className="w-full text-center text-fs14 font-medium text-white bg-transparent border-0"
+                  className="w-full text-center text-[14px] max-[1024px]:text-[13px] font-semibold text-white bg-transparent border-0"
                 />
               </div>
             </div>
 
             <div className="flex flex-col">
-              <label className="text-fs16 text-[#8E8E8E] mb-2 font-normal text-center">
+              <label className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] mb-2 font-normal text-center">
                 Months
               </label>
               <div className="w-full bg-[#151D2A] border border-white/10 rounded-[8px] h-12 flex items-center justify-center">
@@ -452,23 +453,23 @@ const Step1LicenseRegion = ({
                   onChange={(e) =>
                     handleMonthsChange(parseInt(e.target.value, 10) || 0)
                   }
-                  className="w-full text-center text-fs14 font-medium text-white bg-transparent border-0"
+                  className="w-full text-center text-[14px] max-[1024px]:text-[13px] font-semibold text-white bg-transparent border-0"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 max-[1024px]:grid-cols-1 gap-8">
+        <div className="grid grid-cols-2 max-[768px]:grid-cols-1 gap-8 max-[1024px]:gap-6">
           <div className="flex flex-col">
-            <label className="text-fs16 text-[#8E8E8E] mb-2 font-normal">
+            <label className="text-[14px] max-[1024px]:text-[13px] max-[640px]:text-[12px] text-[#8E8E8E] mb-2 font-normal">
               End Date
             </label>
             <div
               onClick={() => endDateInputRef.current?.showPicker?.()}
               className="relative w-full bg-[#151D2A] border border-white/10 rounded-[8px] px-4 h-12 flex items-center justify-between cursor-pointer hover:border-white/20 transition"
             >
-              <span className="text-fs14 text-white font-medium">
+              <span className="text-[14px] max-[1024px]:text-[13px] text-white font-medium">
                 {formatDateDisplay(endDateObj)}
               </span>
               <Image
@@ -489,16 +490,16 @@ const Step1LicenseRegion = ({
       </div>
 
       {errorMsg && (
-        <div className="mb-4 text-fs13 text-red-400 font-medium">
+        <div className="mb-3 text-[14px] text-red-400 font-medium">
           {errorMsg}
         </div>
       )}
 
-      <div className="flex items-center justify-end pt-8 mt-4">
+      <div className="flex items-center justify-end pt-5 mt-2">
         <Button
           variant="primary"
           type="submit"
-          className="px-7 py-0.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-fs22 transition active:scale-95 shadow-md"
+          className="px-8 py-2.5 rounded-[8px] bg-[#FABE2C] hover:bg-[#E5AD25] text-black font-extrabold text-[16px] max-[1024px]:text-[15px] max-[640px]:text-[14px] transition active:scale-95 shadow-md cursor-pointer"
         >
           Next
         </Button>

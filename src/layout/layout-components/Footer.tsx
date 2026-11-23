@@ -10,7 +10,7 @@ import appstore_Icon from "../../assets/images/Home/Footer/appstore_Icon.png";
 
 const Footer = () => {
   return (
-    <footer className="relative w-full bg-[#111826]  text-white font-century overflow-hidden mt-auto select-none">
+    <footer className="relative w-full bg-[#111826] text-white font-century overflow-hidden mt-auto select-none">
       <div
         className="absolute inset-0 bg-center bg-repeat opacity-20 pointer-events-none"
         style={{
@@ -18,16 +18,16 @@ const Footer = () => {
         }}
       />
 
-      <div className="relative z-10 w-full mx-auto px-12 max-[1024px]:px-6 max-[640px]:px-4 pt-10 pb-6">
-        <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-12 max-[640px]:gap-8 w-full">
+      <div className="relative z-10 w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full mx-auto px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 pt-10 max-[1024px]:pt-8 pb-6 max-[1024px]:pb-5">
+        <div className="flex max-[1024px]:flex-col justify-between items-start gap-16 max-[1440px]:gap-12 max-[1024px]:gap-8 max-[640px]:gap-6 w-full">
           <div className="w-[32%] max-[1440px]:w-[34%] max-[1024px]:w-full max-[640px]:w-full flex flex-col items-start shrink-0">
             <Image
               src={footer_Logo}
               alt="ZettaRights"
-              className="h-9 max-[640px]:h-8 w-[33%] max-[1024px]:w-[28%] max-[640px]:w-auto object-contain"
+              className="h-9 max-[1024px]:h-7 max-[640px]:h-6 w-[33%] max-[1024px]:w-[120px] max-[640px]:w-[100px] object-contain object-left"
             />
 
-            <p className="text-[#fff] w-[65%] max-[640px]:w-full text-fs15 max-[1440px]:text-fs14 max-[1024px]:text-[13px] max-[640px]:text-[12px] max-[1024px]:max-w-2xl max-[640px]:max-w-full leading-relaxed mt-3 max-w-sm">
+            <p className="text-[#fff] w-[100%] max-[1024px]:w-full max-[640px]:w-full text-fs15 max-[1440px]:text-[12px] max-[1024px]:text-[13px] max-[640px]:text-[12px] leading-relaxed mt-3 max-w-sm">
               Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit, Sed Do
               Eiusmod Tempor Incididunt Ut Labore Et Dolore Magna Aliqua. Ut Sem
               Viverra Aliquet Eget Sit Amet Tellus.
@@ -36,24 +36,36 @@ const Footer = () => {
 
           <div className="w-[58%] max-[1440px]:w-[58%] max-[1024px]:w-full max-[640px]:w-full flex max-[640px]:flex-col justify-between items-start gap-8 max-[640px]:gap-6">
             <div className="flex-1 min-w-[120px] max-[640px]:w-full">
-              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-[16px] max-[640px]:w-full font-medium">
+              <ul className="space-y-3.5 max-[1024px]:space-y-2.5 max-[640px]:space-y-2 text-white text-fs16 max-[1440px]:text-fs15 max-[1366px]:text-[12px] max-[1024px]:text-[13px] max-[640px]:text-[12px] max-[640px]:w-full font-medium">
                 <li>
-                  <a href="#about" className="hover:text-white/80 transition block w-full">
+                  <a
+                    href="#about"
+                    className="hover:text-white/80 transition block w-full"
+                  >
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#terms" className="hover:text-white/80 transition block w-full">
+                  <a
+                    href="#terms"
+                    className="hover:text-white/80 transition block w-full"
+                  >
                     Terms Of Use
                   </a>
                 </li>
                 <li>
-                  <a href="#privacy" className="hover:text-white/80 transition block w-full">
+                  <a
+                    href="#privacy"
+                    className="hover:text-white/80 transition block w-full"
+                  >
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#faq" className="hover:text-white/80 transition block w-full">
+                  <a
+                    href="#faq"
+                    className="hover:text-white/80 transition block w-full"
+                  >
                     FAQ
                   </a>
                 </li>
@@ -61,12 +73,15 @@ const Footer = () => {
             </div>
 
             <div className="flex-1 min-w-[140px] max-[640px]:w-full">
-              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-[16px] font-semibold mb-4">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-[14px] max-[640px]:text-[13px] font-semibold mb-4 max-[1024px]:mb-3">
                 Need Help?
               </h4>
-              <ul className="space-y-3.5 text-white text-fs16 max-[1440px]:text-fs15 max-[1024px]:text-[16px] max-[640px]:w-full font-medium">
+              <ul className="space-y-3.5 max-[1024px]:space-y-2.5 max-[640px]:space-y-2 text-white text-fs16 max-[1440px]:text-fs15 max-[1366px]:text-[12px] max-[1024px]:text-[13px] max-[640px]:text-[12px] max-[640px]:w-full font-medium">
                 <li>
-                  <a href="#help" className="hover:text-white/80 transition block w-full">
+                  <a
+                    href="#help"
+                    className="hover:text-white/80 transition block w-full"
+                  >
                     Visit Help Center
                   </a>
                 </li>
@@ -82,14 +97,14 @@ const Footer = () => {
             </div>
 
             <div className="flex-1 min-w-[190px] max-[640px]:w-full flex flex-col items-start">
-              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1024px]:text-[16px] font-semibold mb-4">
+              <h4 className="text-white text-fs18 max-[1440px]:text-fs17 max-[1366px]:text-[12px] max-[1024px]:text-[14px] max-[640px]:text-[13px] font-semibold mb-4 max-[1024px]:mb-3">
                 Connect With Us
               </h4>
 
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4 max-[1024px]:gap-3 mb-4 max-[1024px]:mb-4">
                 <a
                   href="#facebook"
-                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  className="w-7 h-7 max-[1024px]:w-6 max-[1024px]:h-6 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
                   title="Facebook"
                 >
                   <Image
@@ -100,7 +115,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#instagram"
-                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  className="w-7 h-7 max-[1024px]:w-6 max-[1024px]:h-6 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
                   title="Instagram"
                 >
                   <Image
@@ -111,7 +126,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#twitter"
-                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  className="w-7 h-7 max-[1024px]:w-6 max-[1024px]:h-6 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
                   title="Twitter"
                 >
                   <Image
@@ -122,7 +137,7 @@ const Footer = () => {
                 </a>
                 <a
                   href="#youtube"
-                  className="w-7 h-7 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                  className="w-7 h-7 max-[1024px]:w-6 max-[1024px]:h-6 flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
                   title="YouTube"
                 >
                   <Image
@@ -133,7 +148,7 @@ const Footer = () => {
                 </a>
               </div>
 
-              <div className="flex items-center gap-3 pt-1 w-full max-w-[240px]">
+              <div className="flex items-center gap-3 max-[1024px]:gap-2.5 pt-1 w-full max-w-[240px] max-[1024px]:max-w-[200px]">
                 <Image
                   src={googleplay_Icon}
                   alt="Google Play"
@@ -149,7 +164,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/15 mt-10 pt-5 text-center text-[#8E8E8E] text-[14px] max-[1024px]:text-[12px] font-normal">
+        <div className="border-t border-white/15 mt-10 max-[1024px]:mt-8 pt-5 max-[1024px]:pt-4 text-center text-[#8E8E8E] text-[14px] max-[1024px]:text-[12px] max-[640px]:text-[11px] font-normal">
           Copyrights © ZettaRights 2024. All Rights Reserved.
         </div>
       </div>

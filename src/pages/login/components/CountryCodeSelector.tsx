@@ -76,20 +76,20 @@ const CountryCodeSelector = ({
         variant="ghost"
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="h-[42px] px-3 bg-black/30 border border-white/70 rounded-[6px] flex items-center gap-2 text-white text-fs14 focus:border-[#FABE2C] focus:outline-none cursor-pointer transition select-none shrink-0"
+        className="h-[42px] max-[640px]:h-[40px] max-[340px]:h-[38px] px-3 max-[360px]:px-2 max-[340px]:px-1.5 bg-black/30 border border-white/70 rounded-[6px] flex items-center gap-2 max-[360px]:gap-1.5 max-[340px]:gap-1 text-white text-fs14 max-[1024px]:text-[14px] max-[340px]:text-[12px] focus:border-[#FABE2C] focus:outline-none cursor-pointer transition select-none shrink-0"
       >
         <Image
           src={selectedCountry.flag}
           alt={selectedCountry.label}
-          className="w-4 h-4 object-contain rounded-xs"
+          className="w-4 h-4 max-[340px]:w-3.5 max-[340px]:h-3.5 object-contain rounded-xs"
         />
-        <span className="font-medium text-white text-fs14">
+        <span className="font-medium text-white text-fs14 max-[1024px]:text-[14px] max-[340px]:text-[12px]">
           {selectedCountry.code}
         </span>
         <Image
           src={Down_Arrow}
           alt="dropdown"
-          className={`w-2 h-auto opacity-80 transition-transform ${
+          className={`w-2 max-[340px]:w-1.5 h-auto opacity-80 transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -106,7 +106,7 @@ const CountryCodeSelector = ({
                 onSelectCode(item.code);
                 setIsOpen(false);
               }}
-              className="w-full px-3 py-1.5 text-left text-fs14 text-white hover:bg-[#2A2A2A] flex items-center gap-2 cursor-pointer transition justify-start"
+              className="w-full px-3 py-1.5 text-left text-fs14 max-[1024px]:text-[14px] text-white hover:bg-[#2A2A2A] flex items-center gap-2 cursor-pointer transition justify-start"
             >
               <Image
                 src={item.flag}
@@ -114,7 +114,7 @@ const CountryCodeSelector = ({
                 className="w-3.5 h-3.5 object-contain rounded-xs shrink-0"
               />
               <span className="font-medium">{item.code}</span>
-              <span className="text-fs12 text-gray-400">({item.label})</span>
+              <span className="text-fs12 max-[1024px]:text-[12px] text-gray-400">({item.label})</span>
             </Button>
           ))}
         </div>

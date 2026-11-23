@@ -324,10 +324,10 @@ const Login = () => {
   return (
     <div className="bg-white">
       <div
-        className="relative min-h-screen w-full flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat font-century select-none"
+        className="relative min-h-screen w-full flex items-center justify-center p-4 max-[1024px]:p-3.5 max-[768px]:p-3 max-[480px]:p-2 max-[340px]:p-1.5 bg-cover bg-center bg-no-repeat font-century select-none"
         style={{ backgroundImage: `url(${BackGround_Img})` }}
       >
-        <div className="relative z-10 w-[34%] max-[1600px]:w-[32%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[52%] max-[768px]:w-[75%] max-[480px]:w-[92%] max-w-[96%] bg-black/50 border border-white/10 rounded-[20px] py-[3%] px-[3.5%]  max-[1024px]:px-6 max-[1024px]:py-6 overflow-hidden shadow-2xl">
+        <div className="relative z-10 w-[34%] max-[1600px]:w-[32%] max-[1440px]:w-[32%] max-[1280px]:w-[38%] max-[1024px]:w-[58%] max-[768px]:w-[78%] max-[480px]:w-[94%] max-[360px]:w-[96%] max-[340px]:w-full max-w-[96%] max-[340px]:max-w-full bg-black/50 border border-white/10 rounded-[20px] max-[340px]:rounded-[14px] py-[3%] px-[3.5%] max-[1024px]:px-5 max-[768px]:px-4 max-[340px]:px-2.5 max-[1024px]:py-5 max-[340px]:py-4 overflow-hidden shadow-2xl">
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-90"
             style={{ backgroundImage: `url(${Pattern})` }}
@@ -361,7 +361,7 @@ const Login = () => {
                     type: "custom",
                     render: () => (
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2.5 relative">
+                        <div className="flex items-center gap-2.5 max-[360px]:gap-2 max-[340px]:gap-1.5 relative">
                           <CountryCodeSelector
                             selectedCode={countryCode}
                             onSelectCode={setCountryCode}
@@ -375,11 +375,11 @@ const Login = () => {
                               if (emailError) setEmailError("");
                             }}
                             placeholder="Enter Your Email"
-                            className="flex-1 text-fs20! max-[1024px]:text-fs18!"
+                            className="flex-1 min-w-0 text-fs20! max-[1024px]:text-[16px]! max-[640px]:text-[14px]! max-[340px]:text-[12px]!"
                           />
                         </div>
                         {emailError && (
-                          <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
+                          <p className="text-red-400 text-fs13 max-[1024px]:text-[12px] max-[640px]:text-[11px] font-medium font-century">
                             {emailError}
                           </p>
                         )}
@@ -396,7 +396,7 @@ const Login = () => {
                       if (termsError) setTermsError("");
                     },
                     label: (
-                      <span className="text-white py-[6%] text-fs15 max-[1024px]:text-fs14 leading-tight">
+                      <span className="text-white py-[6%] text-fs15 max-[1024px]:text-[14px] max-[640px]:text-[13px] max-[340px]:text-[11px] leading-tight">
                         By creating an account, you agree to ZettaRights{" "}
                         <span className="text-[#FABE2C] font-bold hover:underline cursor-pointer">
                           Terms and Conditions
@@ -420,7 +420,7 @@ const Login = () => {
                         setTermsError("");
                         setStep("CREATE_ACCOUNT");
                       }}
-                      className="text-fs20 mx-auto max-[1024px]:text-fs14 text-white hover:underline font-medium"
+                      className="text-fs20 mx-auto max-[1024px]:text-[15px] max-[640px]:text-[14px] max-[340px]:text-[13px] text-white hover:underline font-medium"
                     >
                       Create a new account?
                     </Button>
@@ -433,7 +433,7 @@ const Login = () => {
               <ReusableForm
                 title="OTP Verify"
                 subtitle={
-                  <span className="text-white text-fs18 max-[1024px]:text-fs16 font-normal">
+                  <span className="text-white text-fs18 max-[1024px]:text-[15px] max-[640px]:text-[14px] font-normal">
                     Enter the OTP sent to{" "}
                     <span className="text-white font-semibold break-all">
                       {email || "your email"}
@@ -442,7 +442,7 @@ const Login = () => {
                 }
                 submitButtonText={isProcessing ? "Verifying..." : "Verify"}
                 isSubmitting={isProcessing}
-                submitButtonClassName="mt-3 text-fs23 font-extrabold! text-[#0f3051]! tracking-tight"
+                submitButtonClassName="mt-3 text-fs23 max-[1024px]:text-[18px] max-[640px]:text-[16px] max-[340px]:text-[15px] font-extrabold! text-[#0f3051]! tracking-tight"
                 className="space-y-4"
                 onSubmit={handleVerifyOtp}
                 fields={[
@@ -460,7 +460,7 @@ const Login = () => {
                           onPaste={handleOtpPaste}
                         />
                         {otpError && (
-                          <p className="text-red-400 text-fs13 max-[1024px]:text-fs12 font-medium font-century">
+                          <p className="text-red-400 text-fs13 max-[1024px]:text-[12px] max-[640px]:text-[11px] font-medium font-century">
                             {otpError}
                           </p>
                         )}
@@ -470,19 +470,19 @@ const Login = () => {
                 ]}
                 footer={
                   <div className="text-center space-y-2 pt-2">
-                    <p className="text-fs18 max-[1024px]:text-fs16 text-white">
+                    <p className="text-fs18 max-[1024px]:text-[15px] max-[640px]:text-[14px] text-white">
                       Didn&apos;t receive the OTP?{" "}
                       <Button
                         type="button"
                         variant="link"
                         onClick={handleResendOtp}
                         disabled={timer > 0}
-                        className="text-[#FABE2C] font-semibold text-fs14 max-[1024px]:text-fs13 hover:underline inline-block"
+                        className="text-[#FABE2C] font-semibold text-fs14 max-[1024px]:text-[14px] max-[640px]:text-[13px] hover:underline inline-block"
                       >
                         Resend
                       </Button>
                     </p>
-                    <p className="text-fs18 max-[1024px]:text-fs16 text-white font-medium tracking-wide">
+                    <p className="text-fs18 max-[1024px]:text-[15px] max-[640px]:text-[14px] text-white font-medium tracking-wide">
                       {formatTimer(timer)}
                     </p>
                     <div className="pt-1">
@@ -493,7 +493,7 @@ const Login = () => {
                           setStep("LOGIN");
                           setOtpError("");
                         }}
-                        className="text-fs18 max-[1024px]:text-fs16 text-white hover:underline inline-block"
+                        className="text-fs18 max-[1024px]:text-[15px] max-[640px]:text-[14px] text-white hover:underline inline-block"
                       >
                         Change Email
                       </Button>
@@ -506,7 +506,7 @@ const Login = () => {
             {step === "CREATE_ACCOUNT" && (
               <ReusableForm
                 title="Create New Account"
-                titleClassName="text-fs35 max-[1440px]:text-fs30 max-[1024px]:text-fs26 max-[640px]:text-fs20"
+                titleClassName="text-fs35 max-[1440px]:text-fs30 max-[1024px]:text-[24px] max-[640px]:text-[20px] max-[340px]:text-[18px]"
                 submitButtonText="Next"
                 onSubmit={handleCreateAccountSubmit}
                 fields={[
@@ -518,7 +518,7 @@ const Login = () => {
                     required: true,
                     maxLength: 50,
                     value: fullName,
-                    className: "text-fs20! max-[1024px]:text-fs18!",
+                    className: "text-fs20! max-[1024px]:text-[16px]! max-[640px]:text-[14px]! max-[340px]:text-[12px]!",
                     error: fullNameError,
                     onChange: (e) => {
                       const lettersOnly = e.target.value
@@ -536,7 +536,7 @@ const Login = () => {
                     required: true,
                     maxLength: 10,
                     value: mobileNumber,
-                    className: "text-fs20! max-[1024px]:text-fs18!",
+                    className: "text-fs20! max-[1024px]:text-[16px]! max-[640px]:text-[14px]! max-[340px]:text-[12px]!",
                     error: mobileError,
                     onChange: (e) => {
                       const digitsOnly = e.target.value
@@ -567,7 +567,7 @@ const Login = () => {
                         setEmailError("");
                         setStep("LOGIN");
                       }}
-                      className="text-fs18 max-[1024px]:text-fs14 text-white hover:underline font-medium"
+                      className="text-fs18 max-[1024px]:text-[15px] max-[640px]:text-[14px] max-[340px]:text-[13px] text-white hover:underline font-medium"
                     >
                       Already have an account? Login
                     </Button>

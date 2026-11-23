@@ -78,7 +78,7 @@ const ReusableForm = ({
   submitButtonVariant = "primary",
   isSubmitting = false,
   isSubmitDisabled = false,
-  submitButtonClassName = "mt-4 text-fs23 font-extrabold! text-[#0f3051]! tracking-tight",
+  submitButtonClassName = "mt-4 text-fs23 max-[1024px]:text-[18px] max-[640px]:text-[16px] max-[340px]:text-[15px] font-extrabold! text-[#0f3051]! tracking-tight",
   children,
   footer,
   className = "space-y-4",
@@ -89,13 +89,13 @@ const ReusableForm = ({
         <h1
           className={`${
             titleClassName ||
-            "text-fs50! max-[1440px]:text-fs32 max-[1024px]:text-fs28 max-[640px]:text-fs24"
+            "text-fs50! max-[1440px]:text-fs32 max-[1024px]:text-[26px] max-[640px]:text-[22px] max-[340px]:text-[20px]"
           } font-bold text-white tracking-tight`}
         >
           {title}
         </h1>
         {subtitle && (
-          <div className="text-white text-fs20 mb-[10%]! max-[1024px]:text-fs18 font-normal mt-0.5">
+          <div className="text-white text-fs20 mb-[10%]! max-[1024px]:text-[16px] max-[640px]:text-[14px] max-[340px]:text-[13px] font-normal mt-0.5">
             {subtitle}
           </div>
         )}
