@@ -28,10 +28,10 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
                 variant="unstyled"
                 type="button"
                 onClick={() => setSelectedRegion(region)}
-                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
+                className={`rights-tab-pill px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
                   isSelected
-                    ? "border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
-                    : "border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"
+                    ? "rights-tab-pill-active border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
+                    : "rights-tab-pill-inactive border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"
                 }`}
               >
                 {region}
@@ -54,10 +54,10 @@ const RightsTab = ({ className = "" }: RightsTabProps) => {
                 variant="unstyled"
                 type="button"
                 onClick={() => setSelectedRightType(type)}
-                className={`px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
+                className={`rights-tab-pill px-4 py-1.5 rounded-[6px] text-fs13 max-[1440px]:text-[12px]! max-[1281px]:text-[12px]! max-[1024px]:text-[12px]! font-medium transition cursor-pointer ${
                   isSelected
-                    ? "border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
-                    : "border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"
+                    ? "rights-tab-pill-active border border-[#2EA753] text-[#2EA753] bg-[#2EA753]/10 font-semibold"
+                    : "rights-tab-pill-inactive border border-white/20 text-[#8E8E8E] hover:text-white hover:border-white/40 bg-white/5"
                 }`}
               >
                 {type}

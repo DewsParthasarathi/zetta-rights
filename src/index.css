@@ -481,13 +481,29 @@ body {
 
 [data-theme="light"] [class*="bg-[#00E875]"],
 [data-theme="light"] [class*="bg-[#00E875]"] *,
-[data-theme="light"] [class*="bg-[#2EA753]"],
-[data-theme="light"] [class*="bg-[#2EA753]"] *,
 [data-theme="light"] [class*="bg-[#05D5FB]"],
 [data-theme="light"] [class*="bg-[#05D5FB]"] *,
 [data-theme="light"] [class*="bg-blue-600"],
 [data-theme="light"] [class*="bg-blue-600"] * {
   color: #ffffff !important;
+}
+
+[data-theme="light"] .rights-tab-pill-active {
+  color: #2ea753 !important;
+  border-color: #2ea753 !important;
+  background-color: rgba(46, 167, 83, 0.12) !important;
+}
+
+[data-theme="light"] .rights-tab-pill-inactive {
+  color: #64748b !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-theme="light"] .rights-tab-pill-inactive:hover {
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.22) !important;
+  background-color: rgba(15, 23, 42, 0.07) !important;
 }
 
 [data-theme="light"] .bg-black\/50,
@@ -578,6 +594,7 @@ body {
 [data-theme="light"] img[alt="Facebook"],
 [data-theme="light"] img[alt="Instagram"],
 [data-theme="light"] img[alt="Twitter"],
+[data-theme="light"] img[alt="YouTube"],
 [data-theme="light"] img[alt="Comments"],
 [data-theme="light"] img[alt="Time"],
 [data-theme="light"] img[alt="Camera"],
@@ -591,7 +608,8 @@ body {
 [data-theme="light"] button:hover img[alt="Share"],
 [data-theme="light"] button:hover img[alt="Facebook"],
 [data-theme="light"] button:hover img[alt="Instagram"],
-[data-theme="light"] button:hover img[alt="Twitter"] {
+[data-theme="light"] button:hover img[alt="Twitter"],
+[data-theme="light"] button:hover img[alt="YouTube"] {
   filter: brightness(0) opacity(1);
 }
 

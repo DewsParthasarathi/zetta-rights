@@ -61,7 +61,7 @@ const Step2RightsCommercials = ({
           Rights &amp; Commercials
         </h3>
 
-        <div className="flex flex-col w-full max-w-[430px]">
+        <div className="flex flex-col w-full max-w-[60%]">
           <label className="text-[13px] text-[#A0AEC0] mb-2 font-medium">
             Offer Currency
           </label>
@@ -76,7 +76,7 @@ const Step2RightsCommercials = ({
         </div>
       </div>
 
-      <div className="flex flex-col mb-8 w-full max-w-[430px]">
+      <div className="flex flex-col mb-8 w-full max-w-[60%]">
         <h3 className="text-fs18 max-[1440px]:text-[16px] max-[1024px]:text-[15px] max-[768px]:text-[14px] font-bold text-white mb-3 tracking-tight">
           Rights Types
         </h3>
@@ -91,7 +91,7 @@ const Step2RightsCommercials = ({
       </div>
 
       <div className="flex items-center gap-8 mb-10 max-[768px]:flex-col max-[768px]:items-start">
-        <div className="w-[370px] max-[480px]:w-full bg-[#1C2434] border border-white/10 rounded-[8px] overflow-hidden flex">
+        <div className="w-[48%] max-[1366px]:w-[43%]! max-[480px]:w-full bg-[#1C2434] border border-white/10 rounded-[8px] overflow-hidden flex">
           <div className="flex flex-col flex-1">
             <h4 className="text-[16px] max-[1440px]:text-[15px] max-[1024px]:text-[14px] font-bold text-white py-3 border-b border-white/10 w-full text-center">
               Exclusivity

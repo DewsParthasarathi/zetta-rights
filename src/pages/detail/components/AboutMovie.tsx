@@ -303,7 +303,7 @@ const AboutMovie = ({
               <Image
                 src={youTube}
                 alt="YouTube"
-                className="w-4 h-4 object-contain pointer-events-none"
+                className="w-4 h-4 object-contain pointer-events-none theme-icon"
               />
             </Button>
           </div>

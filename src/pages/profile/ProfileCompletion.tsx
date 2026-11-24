@@ -30,7 +30,7 @@ import {
 } from "../../utils/validation";
 
 import loginLogo from "../../assets/images/Home/Header/logo.png";
-import logo_light from "../../assets/images/Home/Header/logo_light.png";
+import logo_light from "../../assets/images/Home/Footer/footer_Logo_light.png";
 import Companylogo from "../../assets/images/Login/Companylogo.png";
 import Camera_Icon from "../../assets/images/Login/Camera_Icon.png";
 import Breadcrumb_Arrow from "../../assets/images/Login/Breadcrumb_Arrow.png";
@@ -299,9 +299,7 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
           fullName: enteredName,
           name: enteredName,
           mobileNumber:
-            registrationDraft?.mobileNumber ||
-            currentUser?.mobileNumber ||
-            "",
+            registrationDraft?.mobileNumber || currentUser?.mobileNumber || "",
           role: activeRole,
           companyName: companyName.trim(),
           address: address.trim(),
@@ -339,16 +337,16 @@ const ProfileCompletion = ({ role: initialRole }: ProfileCompletionProps) => {
     <div className="min-h-screen w-full flex flex-col bg-[#111826] text-white font-century">
       <header className="w-full px-12 max-[1024px]:px-4 max-[768px]:px-3 max-[480px]:px-2.5 py-5 bg-[#111826]">
         <div className="w-[93%] max-[1024px]:w-[96%] max-[768px]:w-[98%] max-[480px]:w-full mx-auto flex items-center justify-between">
-          <Link to="/" className="inline-block">
+          <Link to="/" className="shrink-0 flex items-center">
             <Image
               src={loginLogo}
               alt="ZettaRights"
-              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto navbar-logo-dark"
+              className="h-9 max-[640px]:h-8 w-auto object-contain cursor-pointer navbar-logo-dark"
             />
             <Image
               src={logo_light}
               alt="ZettaRights"
-              className="h-10 max-[1024px]:h-8 max-[640px]:h-7 w-auto navbar-logo-light"
+              className="h-9 max-[640px]:h-8 w-auto object-contain cursor-pointer navbar-logo-light"
             />
           </Link>
 

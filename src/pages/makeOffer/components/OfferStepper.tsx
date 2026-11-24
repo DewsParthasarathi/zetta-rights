@@ -35,7 +35,7 @@ const OfferStepper = ({
                   type="button"
                   onClick={() => isCompleted && onStepClick?.(item.step)}
                   disabled={!isCompleted}
-                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold shrink-0 transition-colors ${
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold shrink-0 opacity-100! transition-colors ${
                     isCompleted
                       ? "bg-[#00E875] text-white cursor-pointer"
                       : isActive
